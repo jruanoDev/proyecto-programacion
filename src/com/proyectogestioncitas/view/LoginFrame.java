@@ -1,6 +1,5 @@
 package com.proyectogestioncitas.view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -13,7 +12,6 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
-import java.awt.Dimension;
 
 @SuppressWarnings("serial")
 public class LoginFrame extends JFrame {
