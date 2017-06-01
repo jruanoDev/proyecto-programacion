@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
-<user>
+<dbConfig>
 	<dburl>none</dburl>
 	<dbuser>none</dbuser>
 	<dbpassword>none</dbpassword>
-</user>
+</dbConfig>
