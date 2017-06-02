@@ -86,6 +86,7 @@ public class DataBaseConfigFrame extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(textArea_Db, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 								.addComponent(lblDbPassword)
@@ -94,11 +95,10 @@ public class DataBaseConfigFrame extends JFrame {
 									.addComponent(lblDbHostUrl)))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField_DbPassword, GroupLayout.PREFERRED_SIZE, 172, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField_DbUrl, GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-								.addComponent(textField_DbName, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblDatabaseConfiguration)))
-						.addComponent(textArea_Db, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField_DbUrl, GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+								.addComponent(lblDatabaseConfiguration)
+								.addComponent(textField_DbName, GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+								.addComponent(textField_DbPassword, GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)))
 						.addComponent(btnDbValidate, Alignment.TRAILING))
 					.addContainerGap())
 		);
@@ -123,7 +123,7 @@ public class DataBaseConfigFrame extends JFrame {
 					.addComponent(btnDbValidate)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(textArea_Db, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(84, Short.MAX_VALUE))
+					.addContainerGap(19, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}

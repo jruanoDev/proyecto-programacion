@@ -1,1 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><dbConfig><dbUrl>jdbc:mysql://sql8.freesqldatabase.com:3306/sql8177637</dbUrl><dbUser>sql8177637</dbUser><dbPassword>li94WcskFU</dbPassword></dbConfig>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><dbConfig>
+  <dbUrl>jdbc:mysql://sql8.freesqldatabase.com:3306/sql8177637</dbUrl>
+  <dbUser>sql8177637</dbUser>
+  <dbPassword>li94WcskFU</dbPassword>
+</dbConfig>
