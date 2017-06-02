@@ -12,10 +12,8 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
-<<<<<<< HEAD
+
 import javax.swing.JPasswordField;
-=======
->>>>>>> fc55b8446df2f55d6d1ca5e874aceef64cab34fd
 
 @SuppressWarnings("serial")
 public class LoginFrame extends JFrame {

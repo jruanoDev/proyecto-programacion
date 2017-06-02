@@ -24,10 +24,10 @@ import com.proyectogestioncitas.model.Conexion;
 
 public class App {
 	
-	private String dbUrl;
-	private String dbUser;
-	private String dbPassword;
-	private Connection dbConnection;
+	private String dbUrl = "";
+	private String dbUser = "";
+	private String dbPassword = "";
+	private Connection dbConnection = null;
 	
 	// Al iniciar la app primero comprobamos el archivo XML, lo almacenaremos en una carpeta llamada config
 	// donde estará el archivo de configuración, si no existe lo creamos nosotros de nuevo
@@ -38,6 +38,7 @@ public class App {
 	
 	public App() {
 		File xmlConfigFile = new File("config/dbConfig.xml");
+		
 		if(checkXMLFile(xmlConfigFile))
 			dbConnection = getConnectionWithXML(xmlConfigFile);
 		else
@@ -54,7 +55,6 @@ public class App {
 	}
 	
 	private Connection getConnectionWithXML(File xmlFile) {
-		Connection dbConection = null;
 		
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		
@@ -69,24 +69,37 @@ public class App {
 			if(nNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element element = (Element) nNode;
 				
-				dbUrl = element.getElementsByTagName("dburl").item(0).getTextContent();
-				dbUser = element.getElementsByTagName("dbuser").item(0).getTextContent();
-				dbPassword = element.getElementsByTagName("dbpassword").item(0).getTextContent();
+				dbUrl = element.getElementsByTagName("dbUrl").item(0).getTextContent();
+				dbUser = element.getElementsByTagName("dbUser").item(0).getTextContent();
+				dbPassword = element.getElementsByTagName("dbPassword").item(0).getTextContent();
 				
 				// Si todos los datos están correctos abriremos la conexión a la base de datos con todos
 				// estos datos recogidos del XML
 				
-				if(dbUrl == "none" || dbUser == "none" || dbPassword == "none") {
+				if(dbUrl.equals("none") || dbUser.equals("none") || dbPassword.equals("none")) {
+					System.out.println("Hemos entrado");
 					// Aquí abriremos la pantalla de configuración de la base de datos
 					// Recogemos los datos de la pantalla de configuracion y los guardamos en el XML
 					
-					element.getElementsByTagName("dburl").item(0).setTextContent("datos");
-					element.getElementsByTagName("dbuser").item(0).setTextContent("datos");
-					element.getElementsByTagName("dbpassword").item(0).setTextContent("datos");
+					element.getElementsByTagName("dbUrl").item(0).setTextContent("jdbc:mysql://sql8.freesqldatabase.com:3306/sql8177637");
+					element.getElementsByTagName("dbUser").item(0).setTextContent("sql8177637");
+					element.getElementsByTagName("dbPassword").item(0).setTextContent("li94WcskFU");
+					
+					TransformerFactory transformerFactory = TransformerFactory.newInstance();
+					Transformer transformer = null;
+					try {
+						transformer = transformerFactory.newTransformer();
+					} catch (TransformerConfigurationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					DOMSource source = new DOMSource(doc);
+					StreamResult result = new StreamResult(new File("config/dbConfig.xml"));
+					transformer.transform(source, result);
 				}
 				
 				// Establecemos la conexion con la base de datos
-				dbConection = Conexion.getInstanceConnection(dbUrl, dbUser, dbPassword);
+				dbConnection = Conexion.getInstanceConnection(dbUrl, dbUser, dbPassword);
 				
 			}
 			
@@ -99,65 +112,67 @@ public class App {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	
-		return dbConection;
+		return dbConnection;
 	
 	}
 	
 	private void createConfigXMLFile() {
-		File configFolder = new File("/config");
-		File configFile = new File("/config/dbConfig.xml");
+		File configFolder = new File("config");
+		File configFile = new File("config/dbConfig.xml");
+		System.out.println("Hemos entrado en crear");
 		
-		if(!configFolder.exists()) {
-			configFolder.mkdir();
+		if(!configFolder.exists())
+			System.out.println(configFolder.mkdir());
 			
-			if(configFile.exists())
-				configFile.delete();
+		if(configFile.exists())
+			configFile.delete();
+			
+		DocumentBuilderFactory dbFactoryCreate = DocumentBuilderFactory.newInstance();
+		try {
+			System.out.println("Hemos entrado en creacion del archivo");
+			DocumentBuilder dBuilderCreate = dbFactoryCreate.newDocumentBuilder();
+			Document docCreate = dBuilderCreate.newDocument();
+			
+			Element rootElement = docCreate.createElement("dbConfig");
+			docCreate.appendChild(rootElement);
+			
+			Element dbUrlElement = docCreate.createElement("dbUrl");
+			dbUrlElement.appendChild(docCreate.createTextNode("none"));
+			rootElement.appendChild(dbUrlElement);
+			
+			Element dbUserElement = docCreate.createElement("dbUser");
+			dbUserElement.appendChild(docCreate.createTextNode("none"));
+			rootElement.appendChild(dbUserElement);
+			
+			Element dbPasswordElement = docCreate.createElement("dbPassword");
+			dbPasswordElement.appendChild(docCreate.createTextNode("none"));
+			rootElement.appendChild(dbPasswordElement);
+			
+			// Escribimos el archivo
+			TransformerFactory tFactoryCreate = TransformerFactory.newInstance();
+			Transformer transformerCreate = tFactoryCreate.newTransformer();
+			DOMSource sourceCreate = new DOMSource(docCreate);
+			StreamResult resultCreate = new StreamResult(new File("config/dbConfig.xml"));
+			
+			transformerCreate.transform(sourceCreate, resultCreate);
+			
+			getConnectionWithXML(new File("/config/dbConfig.xml"));
 				
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			try {
-				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-				Document doc = dBuilder.newDocument();
-				
-				Element rootElement = doc.createElement("dbConfig");
-				doc.appendChild(rootElement);
-				
-				Element dbUrlElement = doc.createElement("dbUrl");
-				dbUrlElement.appendChild(doc.createTextNode("none"));
-				rootElement.appendChild(dbUrlElement);
-				
-				Element dbUserElement = doc.createElement("dbUser");
-				dbUserElement.appendChild(doc.createTextNode("none"));
-				rootElement.appendChild(dbUserElement);
-				
-				Element dbPasswordElement = doc.createElement("dbPassword");
-				dbPasswordElement.appendChild(doc.createTextNode("none"));
-				rootElement.appendChild(dbPasswordElement);
-				
-				// Escribimos el archivo
-				
-				TransformerFactory tFactory = TransformerFactory.newInstance();
-				Transformer transformer = tFactory.newTransformer();
-				DOMSource source = new DOMSource(doc);
-				StreamResult result = new StreamResult(new File("/config/dbConfig.xml"));
-				
-				transformer.transform(source, result);
-				
-				getConnectionWithXML(new File("/config/dbConfig.xml"));
-				
-			} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (TransformerConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (TransformerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-				
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-	
+				
 	}
 }

@@ -13,8 +13,7 @@ public class Conexion {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			//joseoski.heliohost.org
-			conexion = DriverManager.getConnection(dbUrl, 
-					dbUser, dbPassword);
+			conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 			
 			/* conexion = DriverManager.getConnection("jdbc:mysql://sql8.freesqldatabase.com:3306/sql8177637", 
 					"sql8177637", "li94WcskFU"); */
