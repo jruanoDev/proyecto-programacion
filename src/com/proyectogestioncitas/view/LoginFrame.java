@@ -10,10 +10,6 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
-<<<<<<< HEAD
-
-=======
->>>>>>> fedf75099dcf52bffe8a05f8e1ee881db783c840
 import javax.swing.JPasswordField;
 
 @SuppressWarnings("serial")
