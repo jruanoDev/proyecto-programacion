@@ -1,7 +1,5 @@
 package com.proyectogestioncitas.view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,16 +12,20 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 
+@SuppressWarnings("serial")
 public class CreateAdminFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField_CALogin;
 	private JPasswordField passwordField_CAPassword;
 	private JPasswordField passwordField_CARepeat;
+	private JButton btnCreate;
+	private JLabel lblCARepeat;
+	private JLabel lblCALogin;
 
 	/**
 	 * Launch the application.
-	 */
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -36,7 +38,7 @@ public class CreateAdminFrame extends JFrame {
 			}
 		});
 	}
-
+	 */
 	/**
 	 * Create the frame.
 	 */
@@ -54,16 +56,16 @@ public class CreateAdminFrame extends JFrame {
 		
 		JLabel lblCreatingAdminUser = new JLabel("CREATING ADMIN USER");
 		
-		JLabel lblCALogin = new JLabel("Login:");
+		lblCALogin = new JLabel("Login:");
 		
 		JLabel lblCAPassword = new JLabel("Password:");
 		
 		textField_CALogin = new JTextField();
 		textField_CALogin.setColumns(10);
 		
-		JButton btnCreate = new JButton("Create");
+		btnCreate = new JButton("Create");
 		
-		JLabel lblCARepeat = new JLabel("Repeat password:");
+		lblCARepeat = new JLabel("Repeat password:");
 		
 		passwordField_CAPassword = new JPasswordField();
 		
@@ -114,4 +116,22 @@ public class CreateAdminFrame extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
+	
+	//Getters and setters
+	public JTextField getTextField_CALogin() {
+		return textField_CALogin;
+	}
+
+	public JPasswordField getPasswordField_CAPassword() {
+		return passwordField_CAPassword;
+	}
+
+	public JPasswordField getPasswordField_CARepeat() {
+		return passwordField_CARepeat;
+	}
+
+	public JButton getBtnCreate() {
+		return btnCreate;
+	}
+
 }

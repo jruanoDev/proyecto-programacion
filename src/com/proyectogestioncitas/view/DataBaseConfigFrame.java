@@ -1,8 +1,5 @@
 package com.proyectogestioncitas.view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -14,16 +11,23 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 
+@SuppressWarnings("serial")
 public class DataBaseConfigFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField_DbUrl;
 	private JTextField textField_DbName;
 	private JTextField textField_DbPassword;
+	private JLabel lblDbPassword;
+	private JLabel lblDbUsername;
+	private JLabel lblDbHostUrl;
+	private JLabel lblDatabaseConfiguration;
+	private JTextArea textArea_Db;
+	private JButton btnDbValidate;
 
 	/**
 	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -36,7 +40,7 @@ public class DataBaseConfigFrame extends JFrame {
 			}
 		});
 	}
-
+	 */
 	/**
 	 * Create the frame.
 	 */
@@ -52,26 +56,26 @@ public class DataBaseConfigFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JLabel lblDatabaseConfiguration = new JLabel("DATABASE CONFIGURATION");
+		lblDatabaseConfiguration = new JLabel("DATABASE CONFIGURATION");
 		
-		JLabel lblDbHostUrl = new JLabel("Host URL:");
+		lblDbHostUrl = new JLabel("Host URL:");
 		
 		textField_DbUrl = new JTextField();
 		textField_DbUrl.setColumns(10);
 		
-		JLabel lblDbUsername = new JLabel("DB Name:");
+		lblDbUsername = new JLabel("DB Name:");
 		
 		textField_DbName = new JTextField();
 		textField_DbName.setColumns(10);
 		
-		JLabel lblDbPassword = new JLabel("DB Password:");
+		lblDbPassword = new JLabel("DB Password:");
 		
 		textField_DbPassword = new JTextField();
 		textField_DbPassword.setColumns(10);
 		
-		JButton btnDbValidate = new JButton("Validate");
+		btnDbValidate = new JButton("Validate");
 		
-		JTextArea textArea_Db = new JTextArea();
+		textArea_Db = new JTextArea();
 		textArea_Db.setEditable(false);
 		textArea_Db.setText("Example:\n" + "  Host URL:    sql.remotedatabasedomain.com \n" + 
 							"  Database name:    sql123456 \n" + "  Database password:    sqlpasswd123 \n" + 
@@ -122,6 +126,24 @@ public class DataBaseConfigFrame extends JFrame {
 					.addContainerGap(84, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	//Getters and setters
+	
+	public JTextField getTextField_DbUrl() {
+		return textField_DbUrl;
+	}
+
+	public JTextField getTextField_DbName() {
+		return textField_DbName;
+	}
+
+	public JTextField getTextField_DbPassword() {
+		return textField_DbPassword;
+	}
+
+	public JButton getBtnDbValidate() {
+		return btnDbValidate;
 	}
 
 }

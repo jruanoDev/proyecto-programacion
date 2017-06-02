@@ -1,7 +1,5 @@
 package com.proyectogestioncitas.view;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,7 +10,10 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JSplitPane;
 import javax.swing.JButton;
+<<<<<<< HEAD
 
+=======
+>>>>>>> fedf75099dcf52bffe8a05f8e1ee881db783c840
 import javax.swing.JPasswordField;
 
 @SuppressWarnings("serial")
@@ -27,10 +28,22 @@ public class LoginFrame extends JFrame {
 	private JPasswordField passwordField_LPassword;
 	private JPasswordField passwordField_RPassword;
 	private JPasswordField passwordField_RRepeat;
+	private JLabel lblLPassword;
+	private JButton btnLAccept;
+	private JLabel lblLUsername;
+	private JLabel lblLogin;
+	private JLabel lblRegistry;
+	private JButton btnRSend;
+	private JLabel lblRPassword;
+	private JLabel lblRID;
+	private JLabel lblRName;
+	private JLabel lblRRepeat;
+	private JLabel lblRBirthDate;
+	private JLabel lblREmail;
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -43,7 +56,7 @@ public class LoginFrame extends JFrame {
 			}
 		});
 	}
-	
+	*/
 
 	/**
 	 * Create the frame.
@@ -76,16 +89,16 @@ public class LoginFrame extends JFrame {
 		JPanel leftPanel = new JPanel();
 		splitPane.setLeftComponent(leftPanel);
 		
-		JLabel lblLogin = new JLabel("LOGIN");
+		lblLogin = new JLabel("LOGIN");
 		
-		JLabel lblLUsername = new JLabel("Username:");
+		lblLUsername = new JLabel("Username:");
 		
-		JLabel lblLPassword = new JLabel("Password:");
+		lblLPassword = new JLabel("Password:");
 		
 		textField_LUsername = new JTextField();
 		textField_LUsername.setColumns(10);
 		
-		JButton btnLAccept = new JButton("Accept");
+		btnLAccept = new JButton("Accept");
 		
 		passwordField_LPassword = new JPasswordField();
 		GroupLayout gl_leftPanel = new GroupLayout(leftPanel);
@@ -133,33 +146,33 @@ public class LoginFrame extends JFrame {
 		JPanel rightPanel = new JPanel();
 		splitPane.setRightComponent(rightPanel);
 		
-		JLabel lblRegistry = new JLabel("REGISTRY");
+		lblRegistry = new JLabel("REGISTRY");
 		
-		JLabel lblREmail = new JLabel("E-mail:");
+		lblREmail = new JLabel("E-mail:");
 		
 		textField_REmail = new JTextField();
 		textField_REmail.setColumns(10);
 		
-		JLabel lblRName = new JLabel("Name:");
+		lblRName = new JLabel("Name:");
 		
 		textField_RName = new JTextField();
 		textField_RName.setColumns(10);
 		
-		JLabel lblRID = new JLabel("ID number:");
+		lblRID = new JLabel("ID number:");
 		
 		textField_RID = new JTextField();
 		textField_RID.setColumns(10);
 		
-		JLabel lblRPassword = new JLabel("Password:");
+		lblRPassword = new JLabel("Password:");
 		
-		JLabel lblRRepeat = new JLabel("Repeat password:");
+		lblRRepeat = new JLabel("Repeat password:");
 		
-		JLabel lblRBirthDate = new JLabel("Birth date:");
+		lblRBirthDate = new JLabel("Birth date:");
 		
 		textField_RBirthDate = new JTextField();
 		textField_RBirthDate.setColumns(10);
 		
-		JButton btnRSend = new JButton("Send");
+		btnRSend = new JButton("Send");
 		
 		passwordField_RPassword = new JPasswordField();
 		
@@ -254,4 +267,56 @@ public class LoginFrame extends JFrame {
 		rightPanel.setLayout(gl_rightPanel);
 		contentPane.setLayout(gl_contentPane);
 	}
+	
+	//Getters and setters
+	
+	public JTextField getTextField_LUsername() {
+		return textField_LUsername;
+	}
+
+
+	public JTextField getTextField_REmail() {
+		return textField_REmail;
+	}
+
+
+	public JTextField getTextField_RName() {
+		return textField_RName;
+	}
+
+
+	public JTextField getTextField_RID() {
+		return textField_RID;
+	}
+
+
+	public JTextField getTextField_RBirthDate() {
+		return textField_RBirthDate;
+	}
+
+
+	public JPasswordField getPasswordField_LPassword() {
+		return passwordField_LPassword;
+	}
+
+
+	public JPasswordField getPasswordField_RPassword() {
+		return passwordField_RPassword;
+	}
+
+
+	public JPasswordField getPasswordField_RRepeat() {
+		return passwordField_RRepeat;
+	}
+
+	public JButton getBtnLAccept() {
+		return btnLAccept;
+	}
+
+
+	public JButton getBtnRSend() {
+		return btnRSend;
+	}
+	
+	
 }
