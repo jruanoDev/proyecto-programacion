@@ -21,6 +21,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
 
 public class XMLFile {
@@ -67,6 +68,7 @@ public class XMLFile {
 					
 					// Abrimos pantalla de configuración de BBDD
 					DataBaseConfigFrame dbConfigFrame = new DataBaseConfigFrame();
+					new Controller(dbConfigFrame);
 					dbConfigFrame.setVisible(true);
 					
 					/* Hay que crear un método específico para recoger los datos */

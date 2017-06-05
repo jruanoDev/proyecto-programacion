@@ -26,9 +26,4 @@ public class App {
 			xmlFile.createConfigXMLFile();
 	}
 	
-	
-	
-	
-	
-	
 }

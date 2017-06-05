@@ -12,12 +12,11 @@ public class Controller implements ActionListener {
 	private CreateAdminFrame createAdminFrame;
 	private DataBaseConfigFrame dbConfigFrame;
 	private LoginFrame loginFrame;
+	private String holder;
 	
-	public Controller(CreateAdminFrame createAdminFrame, DataBaseConfigFrame dbConfigFrame, LoginFrame loginFrame) {
+	public Controller(DataBaseConfigFrame dbConfigFrame) {
 		super();
-		this.createAdminFrame = createAdminFrame;
 		this.dbConfigFrame = dbConfigFrame;
-		this.loginFrame = loginFrame;
 		actionListener(this);
 		
 	}
@@ -27,15 +26,25 @@ public class Controller implements ActionListener {
 		getCreateAdminFrameAction(e);
 		getDBConfigFrameAction(e);
 		getLoginFrameAction(e);
+		
+		if(e.getActionCommand().equals("Validate")) {
+			System.out.println(dbConfigFrame.getTextField_DbName().getText());
+			
+			synchronized (holder) {
+				holder = dbConfigFrame.getTextField_DbName().getText();
+				System.out.println(holder);
+				
+			}
+		}
 
 	}
 	
 	public void actionListener(ActionListener escuchador){
 		//Create AdminFrameComponents
-		createAdminFrame.getBtnCreate().addActionListener(escuchador);
+		/*createAdminFrame.getBtnCreate().addActionListener(escuchador);
 		createAdminFrame.getTextField_CALogin().addActionListener(escuchador);
 		createAdminFrame.getPasswordField_CAPassword().addActionListener(escuchador);
-		createAdminFrame.getPasswordField_CARepeat().addActionListener(escuchador);
+		createAdminFrame.getPasswordField_CARepeat().addActionListener(escuchador);*/
 		
 		//Create DataBaseConfigComponents
 		dbConfigFrame.getBtnDbValidate().addActionListener(escuchador);
@@ -44,7 +53,7 @@ public class Controller implements ActionListener {
 		dbConfigFrame.getTextField_DbUrl().addActionListener(escuchador);
 		
 		//Create LoginFrameComponents
-		loginFrame.getBtnLAccept().addActionListener(escuchador);
+		/*loginFrame.getBtnLAccept().addActionListener(escuchador);
 		loginFrame.getBtnRSend().addActionListener(escuchador);
 		loginFrame.getTextField_LUsername().addActionListener(escuchador);
 		loginFrame.getTextField_RBirthDate().addActionListener(escuchador);
@@ -53,7 +62,7 @@ public class Controller implements ActionListener {
 		loginFrame.getTextField_RName().addActionListener(escuchador);
 		loginFrame.getPasswordField_LPassword().addActionListener(escuchador);
 		loginFrame.getPasswordField_RPassword().addActionListener(escuchador);
-		loginFrame.getPasswordField_RRepeat().addActionListener(escuchador);
+		loginFrame.getPasswordField_RRepeat().addActionListener(escuchador);*/
 		
 	}
 	
