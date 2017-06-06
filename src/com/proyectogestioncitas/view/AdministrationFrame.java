@@ -27,6 +27,11 @@ public class AdministrationFrame extends JFrame {
 	private JTextField textField_MCCenterName;
 	private JTextField textField_MCPostalCode;
 	private JTextField textField_MCPhone;
+	private JTable table;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTable table_1;
+	private JTextField textField_2;
 
 	/**
 	 * Launch the application.
@@ -116,6 +121,87 @@ public class AdministrationFrame extends JFrame {
 					.addContainerGap(178, Short.MAX_VALUE))
 		);
 		MainPanel.setLayout(gl_MainPanel);
+		
+		JPanel ClientConfiguration = new JPanel();
+		tabbedPane.addTab("Client configuration", null, ClientConfiguration, null);
+		
+		table = new JTable();
+		
+		JSeparator separator_1 = new JSeparator();
+		
+		JLabel lblDni = new JLabel("DNI:");
+		
+		textField = new JTextField();
+		textField.setEditable(false);
+		textField.setColumns(10);
+		
+		JLabel lblUserName = new JLabel("User name:");
+		
+		textField_1 = new JTextField();
+		textField_1.setEditable(false);
+		textField_1.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Birth date:");
+		
+		table_1 = new JTable();
+		
+		textField_2 = new JTextField();
+		textField_2.setEditable(false);
+		textField_2.setColumns(10);
+		GroupLayout gl_ClientConfiguration = new GroupLayout(ClientConfiguration);
+		gl_ClientConfiguration.setHorizontalGroup(
+			gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_ClientConfiguration.createSequentialGroup()
+					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_ClientConfiguration.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 587, Short.MAX_VALUE))
+						.addGroup(gl_ClientConfiguration.createSequentialGroup()
+							.addComponent(table, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(table_1, GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
+						.addGroup(gl_ClientConfiguration.createSequentialGroup()
+							.addGap(22)
+							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_ClientConfiguration.createSequentialGroup()
+									.addComponent(lblUserName)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 129, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_ClientConfiguration.createSequentialGroup()
+									.addComponent(lblDni)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(textField, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_ClientConfiguration.createSequentialGroup()
+									.addComponent(lblNewLabel)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(textField_2)))
+							.addPreferredGap(ComponentPlacement.RELATED, 355, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_ClientConfiguration.setVerticalGroup(
+			gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_ClientConfiguration.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.TRAILING)
+						.addComponent(table_1, GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+						.addComponent(table, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
+					.addGap(22)
+					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblDni)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblUserName)
+						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel)
+						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(108, Short.MAX_VALUE))
+		);
+		ClientConfiguration.setLayout(gl_ClientConfiguration);
 		
 		JPanel MedicalCenterCofig = new JPanel();
 		tabbedPane.addTab("Medical center cofiguration", null, MedicalCenterCofig, null);
@@ -241,22 +327,6 @@ public class AdministrationFrame extends JFrame {
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		MedicalCenterCofig.setLayout(gl_MedicalCenterCofig);
-		
-		JPanel ClientConfiguration = new JPanel();
-		tabbedPane.addTab("Client configuration", null, ClientConfiguration, null);
-		
-		JPanel AppointmentConfig = new JPanel();
-		tabbedPane.addTab("Appointment configuration", null, AppointmentConfig, null);
-		GroupLayout groupLayout = new GroupLayout(AppointmentConfig);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 611, Short.MAX_VALUE)
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 297, Short.MAX_VALUE)
-		);
-		AppointmentConfig.setLayout(groupLayout);
 		contentPane.setLayout(gl_contentPane);
 	}
 }
