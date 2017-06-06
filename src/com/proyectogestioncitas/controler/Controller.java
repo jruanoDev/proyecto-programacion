@@ -3,7 +3,9 @@ package com.proyectogestioncitas.controler;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.Connection;
 
+import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.XMLFile;
 import com.proyectogestioncitas.view.CreateAdminFrame;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
@@ -14,7 +16,7 @@ public class Controller implements ActionListener {
 	private CreateAdminFrame createAdminFrame;
 	private DataBaseConfigFrame dbConfigFrame;
 	private LoginFrame loginFrame;
-	private String holder;
+	private Connection dbConnection;
 	
 	public Controller(DataBaseConfigFrame dbConfigFrame) {
 		super();
@@ -25,9 +27,9 @@ public class Controller implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		getCreateAdminFrameAction(e);
+		/*getCreateAdminFrameAction(e);
 		getDBConfigFrameAction(e);
-		getLoginFrameAction(e);
+		getLoginFrameAction(e);*/
 		
 		if(e.getActionCommand().equals("Validate")) {
 			String dbUrl = dbConfigFrame.getTextField_DbUrl().getText();
@@ -35,8 +37,14 @@ public class Controller implements ActionListener {
 			String dbPassword = dbConfigFrame.getTextField_DbPassword().getText();
 			
 			XMLFile xmlFile = new XMLFile(new File("config/dbConfig.xml"));
-			xmlFile.modifyXMLFile(dbUrl, dbUser, dbPassword);
 			
+			dbConnection = Conexion.getInstanceConnection(dbUrl, dbUser, dbPassword);
+			
+			if(dbConnection != null) {
+				
+				xmlFile.modifyXMLFile(dbUrl, dbUser, dbPassword);
+				dbConfigFrame.dispose();
+			}
 		}
 
 	}
@@ -68,7 +76,7 @@ public class Controller implements ActionListener {
 		
 	}
 	
-	public void getCreateAdminFrameAction(ActionEvent e){
+	/*public void getCreateAdminFrameAction(ActionEvent e){
 		if(e.getActionCommand().equals("Create")){
 			
 		}
@@ -87,6 +95,10 @@ public class Controller implements ActionListener {
 		if(e.getActionCommand().equals("Send")){
 			
 		}
+	}*/
+	
+	public Connection getValidConnection() {
+		return dbConnection;
 	}
 	
 

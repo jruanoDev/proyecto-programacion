@@ -2,7 +2,6 @@ package com.proyectogestioncitas.model;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,7 +20,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
 
 public class XMLFile {
@@ -30,7 +28,6 @@ public class XMLFile {
 	private String dbUrl = "";
 	private String dbUser = "";
 	private String dbPassword = "";
-	private Connection dbConnection = null;
 	
 	public XMLFile(File xmlFile) {
 		this.xmlFile = xmlFile;
@@ -45,7 +42,7 @@ public class XMLFile {
 		return check;
 	}
 	
-	public void getConnectionWithXML() {
+	public void getConnectionWithXML(DataBaseConfigFrame dbConfigFrame) {
 		
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		
@@ -64,16 +61,8 @@ public class XMLFile {
 				dbUser = element.getElementsByTagName("dbUser").item(0).getTextContent();
 				dbPassword = element.getElementsByTagName("dbPassword").item(0).getTextContent();
 				
-				if(dbUrl.equals("none") || dbUser.equals("none") || dbPassword.equals("none")) {
-					
-					// Abrimos pantalla de configuración de BBDD
-					DataBaseConfigFrame dbConfigFrame = new DataBaseConfigFrame();
-					new Controller(dbConfigFrame);
+				if(dbUrl.equals("none") || dbUser.equals("none") || dbPassword.equals("none"))
 					dbConfigFrame.setVisible(true);
-					
-					
-					/* Hacer conexion en el evento */
-				}
 				
 			}
 			
@@ -134,7 +123,7 @@ public class XMLFile {
 			
 			transformerCreate.transform(sourceCreate, resultCreate);
 			
-			getConnectionWithXML();
+			//getConnectionWithXML();
 				
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block

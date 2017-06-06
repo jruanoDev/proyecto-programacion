@@ -3,6 +3,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 public class Conexion {
 
 	private static Connection conexion = null;
@@ -19,8 +21,10 @@ public class Conexion {
 					"sql8177637", "li94WcskFU"); */
 			
 		} catch (SQLException e) {
-			System.out.println("Error en la base de datos.");
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error en la conexión a la base de datos, por favor," + 
+					"compruebe que los parámetros están introducidos\ncorrectamente y que el servidor está operativo.",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
