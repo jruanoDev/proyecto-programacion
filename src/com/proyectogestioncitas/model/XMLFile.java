@@ -82,10 +82,14 @@ public class XMLFile {
 					DOMSource source = new DOMSource(doc);
 					StreamResult result = new StreamResult(new File("config/dbConfig.xml"));
 					transformer.transform(source, result);
+					
+					dbConnection = Conexion.getInstanceConnection(dbUrl, dbUser, dbPassword);
+				} else {
+					dbConnection = Conexion.getInstanceConnection(dbUrl, dbUser, dbPassword);
 				}
 				
 				// Establecemos la conexion con la base de datos
-				dbConnection = Conexion.getInstanceConnection(dbUrl, dbUser, dbPassword);
+				
 				
 			}
 			
@@ -164,6 +168,51 @@ public class XMLFile {
 			e.printStackTrace();
 		}
 				
+	}
+	
+	public void modifyXMLFile(String dbUrl, String dbUser, String dbPassword) {
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		
+		try {
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(xmlFile);
+			
+			NodeList nList = doc.getElementsByTagName("dbConfig");
+			
+			Node nNode = nList.item(0);
+			
+			if(nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element element = (Element) nNode;
+				
+				element.getElementsByTagName("dbUrl").item(0).setTextContent("jdbc:mysql://sql8.freesqldatabase.com:3306/sql8177637");
+				element.getElementsByTagName("dbUser").item(0).setTextContent("sql8177637");
+				element.getElementsByTagName("dbPassword").item(0).setTextContent("li94WcskFU");
+					
+				TransformerFactory transformerFactory = TransformerFactory.newInstance();
+				Transformer transformer = transformerFactory.newTransformer();
+				DOMSource source = new DOMSource(doc);
+				StreamResult result = new StreamResult(new File("config/dbConfig.xml"));
+				transformer.transform(source, result);
+					
+				dbConnection = Conexion.getInstanceConnection(dbUrl, dbUser, dbPassword);
+				
+			}
+
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		
 	}
 	
 }

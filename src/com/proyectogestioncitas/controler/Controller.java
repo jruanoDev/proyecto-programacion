@@ -2,7 +2,9 @@ package com.proyectogestioncitas.controler;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import com.proyectogestioncitas.model.XMLFile;
 import com.proyectogestioncitas.view.CreateAdminFrame;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
 import com.proyectogestioncitas.view.LoginFrame;
@@ -28,13 +30,13 @@ public class Controller implements ActionListener {
 		getLoginFrameAction(e);
 		
 		if(e.getActionCommand().equals("Validate")) {
-			System.out.println(dbConfigFrame.getTextField_DbName().getText());
+			String dbUrl = dbConfigFrame.getTextField_DbUrl().getText();
+			String dbUser = dbConfigFrame.getTextField_DbName().getText();
+			String dbPassword = dbConfigFrame.getTextField_DbPassword().getText();
 			
-			synchronized (holder) {
-				holder = dbConfigFrame.getTextField_DbName().getText();
-				System.out.println(holder);
-				
-			}
+			XMLFile xmlFile = new XMLFile(new File("config/dbConfig.xml"));
+			xmlFile.modifyXMLFile(dbUrl, dbUser, dbPassword);
+			
 		}
 
 	}
