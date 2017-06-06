@@ -45,7 +45,7 @@ public class XMLFile {
 		return check;
 	}
 	
-	public Connection getConnectionWithXML() {
+	public void getConnectionWithXML() {
 		
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		
@@ -71,25 +71,9 @@ public class XMLFile {
 					new Controller(dbConfigFrame);
 					dbConfigFrame.setVisible(true);
 					
-					/* Hay que crear un método específico para recoger los datos */
 					
-					element.getElementsByTagName("dbUrl").item(0).setTextContent("jdbc:mysql://sql8.freesqldatabase.com:3306/sql8177637");
-					element.getElementsByTagName("dbUser").item(0).setTextContent("sql8177637");
-					element.getElementsByTagName("dbPassword").item(0).setTextContent("li94WcskFU");
-					
-					TransformerFactory transformerFactory = TransformerFactory.newInstance();
-					Transformer transformer = transformerFactory.newTransformer();
-					DOMSource source = new DOMSource(doc);
-					StreamResult result = new StreamResult(new File("config/dbConfig.xml"));
-					transformer.transform(source, result);
-					
-					dbConnection = Conexion.getInstanceConnection(dbUrl, dbUser, dbPassword);
-				} else {
-					dbConnection = Conexion.getInstanceConnection(dbUrl, dbUser, dbPassword);
+					/* Hacer conexion en el evento */
 				}
-				
-				// Establecemos la conexion con la base de datos
-				
 				
 			}
 			
@@ -102,12 +86,7 @@ public class XMLFile {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-	
-		return dbConnection;
 	
 	}
 	
@@ -184,17 +163,15 @@ public class XMLFile {
 			if(nNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element element = (Element) nNode;
 				
-				element.getElementsByTagName("dbUrl").item(0).setTextContent("jdbc:mysql://sql8.freesqldatabase.com:3306/sql8177637");
-				element.getElementsByTagName("dbUser").item(0).setTextContent("sql8177637");
-				element.getElementsByTagName("dbPassword").item(0).setTextContent("li94WcskFU");
+				element.getElementsByTagName("dbUrl").item(0).setTextContent(dbUrl);
+				element.getElementsByTagName("dbUser").item(0).setTextContent(dbUser);
+				element.getElementsByTagName("dbPassword").item(0).setTextContent(dbPassword);
 					
 				TransformerFactory transformerFactory = TransformerFactory.newInstance();
 				Transformer transformer = transformerFactory.newTransformer();
 				DOMSource source = new DOMSource(doc);
 				StreamResult result = new StreamResult(new File("config/dbConfig.xml"));
 				transformer.transform(source, result);
-					
-				dbConnection = Conexion.getInstanceConnection(dbUrl, dbUser, dbPassword);
 				
 			}
 
@@ -214,5 +191,6 @@ public class XMLFile {
 	
 		
 	}
+
 	
 }
