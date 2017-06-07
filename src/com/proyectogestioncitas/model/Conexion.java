@@ -3,8 +3,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import javax.swing.JOptionPane;
-
 public class Conexion {
 
 	private static Connection conexion = null;
@@ -15,17 +13,13 @@ public class Conexion {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			//joseoski.heliohost.org
-			conexion = DriverManager.getConnection("jdbc:mysql://" + dbUrl, dbUser, dbPassword);
+			conexion = DriverManager.getConnection("jdbc:mysql://" + dbUrl + "?useSSL=false", dbUser, dbPassword);
 			
 			/* conexion = DriverManager.getConnection("jdbc:mysql://sql8.freesqldatabase.com:3306/sql8177637", 
 					"sql8177637", "li94WcskFU"); */
 			
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error en la conexión a la base de datos, por favor," + 
-					"compruebe que los parámetros están introducidos\ncorrectamente y que el servidor está operativo.",
-						"Error", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-			
+		
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

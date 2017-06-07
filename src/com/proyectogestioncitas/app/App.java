@@ -2,6 +2,9 @@ package com.proyectogestioncitas.app;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.model.DataBaseController;
@@ -13,12 +16,25 @@ public class App {
 	// donde estará el archivo de configuración, si no existe lo creamos nosotros de nuevo
 	
 	private XMLFile xmlFile = null;
-	private Connection dbConnection = null;
+	private static Connection dbConnection = null;
 	private DataBaseConfigFrame dbConfigFrame = new DataBaseConfigFrame();
 	private Controller dbConfigController = null;
 	
 	public static void main(String[] args) {
 		new App();
+		
+		try {
+			Statement statement = dbConnection.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM users");
+			
+			while(resultSet.next()) {
+				System.out.println(resultSet.getString("name"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		}
 		
 	}
 	
@@ -29,14 +45,16 @@ public class App {
 		
 		
 		if(xmlFile.checkXMLFile()) {
-			xmlFile.getConnectionWithXML(dbConfigFrame);
-			dbConnection = dbConfigController.getValidConnection();
+			dbConnection = xmlFile.getConnectionWithXML(dbConfigFrame);
 			DataBaseController dbController = new DataBaseController(dbConnection);
-			//dbController.deleteExistingDatabaseTables();
+			dbController.checkDatabaseTables();
 			
 
 		} else {
-			xmlFile.createConfigXMLFile();
+			if(xmlFile.createConfigXMLFile())
+				xmlFile.getConnectionWithXML(dbConfigFrame);
+			
+			
 		}
 		
 	}

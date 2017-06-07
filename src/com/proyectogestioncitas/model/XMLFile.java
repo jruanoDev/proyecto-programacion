@@ -2,7 +2,9 @@ package com.proyectogestioncitas.model;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 
+import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,6 +22,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.proyectogestioncitas.app.App;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
 
 public class XMLFile {
@@ -28,6 +31,7 @@ public class XMLFile {
 	private String dbUrl = "";
 	private String dbUser = "";
 	private String dbPassword = "";
+	private Connection connection = null;
 	
 	public XMLFile(File xmlFile) {
 		this.xmlFile = xmlFile;
@@ -42,7 +46,7 @@ public class XMLFile {
 		return check;
 	}
 	
-	public void getConnectionWithXML(DataBaseConfigFrame dbConfigFrame) {
+	public Connection getConnectionWithXML(DataBaseConfigFrame dbConfigFrame) {
 		
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		
@@ -61,8 +65,17 @@ public class XMLFile {
 				dbUser = element.getElementsByTagName("dbUser").item(0).getTextContent();
 				dbPassword = element.getElementsByTagName("dbPassword").item(0).getTextContent();
 				
-				if(dbUrl.equals("none") || dbUser.equals("none") || dbPassword.equals("none"))
+				connection = Conexion.getInstanceConnection(dbUrl, dbUser, dbPassword);
+				
+				if(connection != null) {
+					connection = Conexion.getInstanceConnection(dbUrl, dbUser, dbPassword);
+				} else {
+					JOptionPane.showMessageDialog(null, "Error en la conexión a la base de datos, por favor," + 
+							"compruebe que los parámetros están introducidos\ncorrectamente y que el servidor está operativo.",
+								"Error", JOptionPane.ERROR_MESSAGE);
 					dbConfigFrame.setVisible(true);
+					//new Controller(dbConfigFrame);
+				}
 				
 			}
 			
@@ -76,10 +89,13 @@ public class XMLFile {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return connection;
 	
 	}
 	
-	public void createConfigXMLFile() {
+	public boolean createConfigXMLFile() {
+		boolean valid = false;
 		File configFolder = new File("config");
 		File configFile = new File("config/dbConfig.xml");
 		System.out.println("Hemos entrado en crear");
@@ -123,7 +139,6 @@ public class XMLFile {
 			
 			transformerCreate.transform(sourceCreate, resultCreate);
 			
-			//getConnectionWithXML();
 				
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
@@ -135,6 +150,9 @@ public class XMLFile {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		valid = true;
+		return valid;
 				
 	}
 	
@@ -163,6 +181,8 @@ public class XMLFile {
 				transformer.transform(source, result);
 				
 			}
+			//PROVISIONAL
+			new App();
 
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
