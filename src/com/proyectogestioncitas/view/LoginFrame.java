@@ -20,8 +20,8 @@ public class LoginFrame extends JFrame {
 	private JTextField textField_LUsername;
 	private JTextField textField_REmail;
 	private JTextField textField_RName;
-	private JTextField textField_RID;
-	private JTextField textField_RBirthDate;
+	private JTextField textField_RSurnames;
+	private JTextField textField_RIDnumber;
 	private JPasswordField passwordField_LPassword;
 	private JPasswordField passwordField_RPassword;
 	private JPasswordField passwordField_RRepeat;
@@ -31,12 +31,13 @@ public class LoginFrame extends JFrame {
 	private JLabel lblLogin;
 	private JLabel lblRegistry;
 	private JButton btnRSend;
-	private JLabel lblRPassword;
-	private JLabel lblRID;
+	private JLabel lblRid;
+	private JLabel lblRSurnames;
 	private JLabel lblRName;
+	private JLabel lblRPassword;
 	private JLabel lblRRepeat;
-	private JLabel lblRBirthDate;
 	private JLabel lblREmail;
+	private JTextField textField_RBirthdate;
 
 	/**
 	 * Launch the application.
@@ -65,7 +66,7 @@ public class LoginFrame extends JFrame {
 	
 	public void inicialize(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 512, 401);
+		setBounds(100, 100, 515, 440);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -147,80 +148,75 @@ public class LoginFrame extends JFrame {
 		textField_RName = new JTextField();
 		textField_RName.setColumns(10);
 		
-		lblRID = new JLabel("ID number:");
+		lblRSurnames = new JLabel("Surnames:");
 		
-		textField_RID = new JTextField();
-		textField_RID.setColumns(10);
+		textField_RSurnames = new JTextField();
+		textField_RSurnames.setColumns(10);
+		
+		lblRid = new JLabel("ID number:");
 		
 		lblRPassword = new JLabel("Password:");
 		
 		lblRRepeat = new JLabel("Repeat password:");
 		
-		lblRBirthDate = new JLabel("Birth date:");
-		
-		textField_RBirthDate = new JTextField();
-		textField_RBirthDate.setColumns(10);
+		textField_RIDnumber = new JTextField();
+		textField_RIDnumber.setColumns(10);
 		
 		btnRSend = new JButton("Send");
 		
 		passwordField_RPassword = new JPasswordField();
 		
 		passwordField_RRepeat = new JPasswordField();
+		
+		JLabel lblBirthDate = new JLabel("Birth date:");
+		
+		textField_RBirthdate = new JTextField();
+		textField_RBirthdate.setColumns(10);
 		GroupLayout gl_rightPanel = new GroupLayout(rightPanel);
 		gl_rightPanel.setHorizontalGroup(
-			gl_rightPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_rightPanel.createSequentialGroup()
-					.addGroup(gl_rightPanel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_rightPanel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(textField_REmail, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE))
-						.addGroup(gl_rightPanel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(textField_RName, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE))
-						.addGroup(gl_rightPanel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(textField_RID, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE))
-						.addGroup(gl_rightPanel.createSequentialGroup()
-							.addContainerGap(200, Short.MAX_VALUE)
-							.addComponent(btnRSend))
-						.addGroup(gl_rightPanel.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_rightPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(passwordField_RPassword, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
-								.addComponent(textField_RBirthDate, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE))))
-					.addContainerGap())
+			gl_rightPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_rightPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(passwordField_RRepeat, GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-					.addGap(16))
-				.addGroup(gl_rightPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblRPassword)
-					.addContainerGap(195, Short.MAX_VALUE))
-				.addGroup(gl_rightPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblRID)
-					.addContainerGap(193, Short.MAX_VALUE))
-				.addGroup(gl_rightPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblRName)
-					.addContainerGap(225, Short.MAX_VALUE))
-				.addGroup(gl_rightPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblRRepeat)
-					.addContainerGap(140, Short.MAX_VALUE))
-				.addGroup(gl_rightPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblRBirthDate)
-					.addContainerGap(194, Short.MAX_VALUE))
-				.addGroup(gl_rightPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblREmail)
-					.addContainerGap(223, Short.MAX_VALUE))
-				.addGroup(gl_rightPanel.createSequentialGroup()
-					.addContainerGap(205, Short.MAX_VALUE)
-					.addComponent(lblRegistry)
-					.addContainerGap())
+					.addGroup(gl_rightPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_rightPanel.createSequentialGroup()
+							.addComponent(textField_RBirthdate, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(Alignment.TRAILING, gl_rightPanel.createSequentialGroup()
+							.addComponent(lblRid)
+							.addContainerGap(193, Short.MAX_VALUE))
+						.addGroup(Alignment.TRAILING, gl_rightPanel.createSequentialGroup()
+							.addComponent(lblRSurnames)
+							.addContainerGap(194, Short.MAX_VALUE))
+						.addGroup(Alignment.TRAILING, gl_rightPanel.createSequentialGroup()
+							.addComponent(lblRName)
+							.addContainerGap(225, Short.MAX_VALUE))
+						.addGroup(Alignment.TRAILING, gl_rightPanel.createSequentialGroup()
+							.addComponent(lblRPassword)
+							.addContainerGap(195, Short.MAX_VALUE))
+						.addGroup(Alignment.TRAILING, gl_rightPanel.createSequentialGroup()
+							.addComponent(lblRRepeat)
+							.addContainerGap(140, Short.MAX_VALUE))
+						.addGroup(Alignment.TRAILING, gl_rightPanel.createSequentialGroup()
+							.addComponent(lblREmail)
+							.addContainerGap(223, Short.MAX_VALUE))
+						.addGroup(Alignment.TRAILING, gl_rightPanel.createSequentialGroup()
+							.addComponent(lblRegistry)
+							.addContainerGap())
+						.addGroup(Alignment.TRAILING, gl_rightPanel.createSequentialGroup()
+							.addComponent(btnRSend)
+							.addContainerGap())
+						.addGroup(Alignment.TRAILING, gl_rightPanel.createSequentialGroup()
+							.addComponent(lblBirthDate)
+							.addContainerGap(194, Short.MAX_VALUE))
+						.addGroup(Alignment.TRAILING, gl_rightPanel.createSequentialGroup()
+							.addGroup(gl_rightPanel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(textField_RIDnumber, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+								.addComponent(textField_REmail, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+								.addComponent(textField_RName, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+								.addComponent(textField_RSurnames, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+								.addComponent(passwordField_RPassword, GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+								.addComponent(passwordField_RRepeat, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
+							.addContainerGap())))
 		);
 		gl_rightPanel.setVerticalGroup(
 			gl_rightPanel.createParallelGroup(Alignment.LEADING)
@@ -236,24 +232,28 @@ public class LoginFrame extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textField_RName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblRID)
+					.addComponent(lblRSurnames)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField_RID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(textField_RSurnames, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblRPassword)
+					.addComponent(lblRid)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(passwordField_RRepeat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(textField_RIDnumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(12)
-					.addComponent(lblRRepeat)
+					.addComponent(lblRPassword)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(passwordField_RPassword, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblRBirthDate)
+					.addComponent(lblRRepeat)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textField_RBirthDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(passwordField_RRepeat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblBirthDate)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(textField_RBirthdate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
 					.addComponent(btnRSend)
-					.addContainerGap(16, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		rightPanel.setLayout(gl_rightPanel);
 		contentPane.setLayout(gl_contentPane);
@@ -277,12 +277,12 @@ public class LoginFrame extends JFrame {
 
 
 	public JTextField getTextField_RID() {
-		return textField_RID;
+		return textField_RSurnames;
 	}
 
 
 	public JTextField getTextField_RBirthDate() {
-		return textField_RBirthDate;
+		return textField_RIDnumber;
 	}
 
 
@@ -308,6 +308,4 @@ public class LoginFrame extends JFrame {
 	public JButton getBtnRSend() {
 		return btnRSend;
 	}
-	
-	
 }

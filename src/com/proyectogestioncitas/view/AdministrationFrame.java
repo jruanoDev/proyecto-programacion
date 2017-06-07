@@ -138,7 +138,7 @@ public class AdministrationFrame extends JFrame {
 		
 		JSeparator separator_1 = new JSeparator();
 		
-		JLabel lblCCDni = new JLabel("DNI:");
+		JLabel lblCCid = new JLabel("ID:");
 		
 		textField_CCdni = new JTextField();
 		textField_CCdni.setEditable(false);
@@ -216,7 +216,7 @@ public class AdministrationFrame extends JFrame {
 										.addGroup(gl_ClientConfiguration.createSequentialGroup()
 											.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
 												.addComponent(lblCCName)
-												.addComponent(lblCCDni))
+												.addComponent(lblCCid))
 											.addPreferredGap(ComponentPlacement.UNRELATED)
 											.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING, false)
 												.addComponent(textField_CCdni)
@@ -270,7 +270,7 @@ public class AdministrationFrame extends JFrame {
 						.addComponent(lblAppointmentInformation))
 					.addGap(18)
 					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCCDni)
+						.addComponent(lblCCid)
 						.addComponent(textField_CCdni, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblCCADate)
 						.addComponent(textCCAField_Date, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
