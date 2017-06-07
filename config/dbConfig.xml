@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><dbConfig>
-  <dbUrl>none</dbUrl>
-  <dbUser>none</dbUser>
-  <dbPassword>none</dbPassword>
+  <dbUrl>localhost:3306/proyecto</dbUrl>
+  <dbUser>root</dbUser>
+  <dbPassword>ProyectoProgramacion</dbPassword>
 </dbConfig>

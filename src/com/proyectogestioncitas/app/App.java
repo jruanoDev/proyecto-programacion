@@ -2,8 +2,6 @@ package com.proyectogestioncitas.app;
 
 import java.io.File;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.model.DataBaseController;
@@ -20,7 +18,6 @@ public class App {
 	private Controller dbConfigController = null;
 	
 	public static void main(String[] args) {
-		System.out.println("Hol");
 		new App();
 		
 	}
@@ -42,20 +39,6 @@ public class App {
 			xmlFile.createConfigXMLFile();
 		}
 		
-	}
-	
-	private void checkForDatabaseTables() {
-		dbConnection = dbConfigController.getValidConnection();
-		System.out.println("Accediendo al método");
-		
-		try {
-			Statement checkStatement = dbConnection.createStatement();
-			checkStatement.executeUpdate("DROP TABLE IF EXISTS users");
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 }
