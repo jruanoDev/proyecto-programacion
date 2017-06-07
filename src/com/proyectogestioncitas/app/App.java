@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.proyectogestioncitas.controler.Controller;
+import com.proyectogestioncitas.model.DataBaseController;
 import com.proyectogestioncitas.model.XMLFile;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
 
@@ -19,17 +20,23 @@ public class App {
 	private Controller dbConfigController = null;
 	
 	public static void main(String[] args) {
+		System.out.println("Hol");
 		new App();
 		
 	}
 	
 	public App() {
+		
 		xmlFile = new XMLFile(new File("config/dbConfig.xml"));
 		dbConfigController = new Controller(dbConfigFrame);
 		
+		
 		if(xmlFile.checkXMLFile()) {
 			xmlFile.getConnectionWithXML(dbConfigFrame);
-			checkForDatabaseTables();
+			dbConnection = dbConfigController.getValidConnection();
+			DataBaseController dbController = new DataBaseController(dbConnection);
+			//dbController.deleteExistingDatabaseTables();
+			
 
 		} else {
 			xmlFile.createConfigXMLFile();

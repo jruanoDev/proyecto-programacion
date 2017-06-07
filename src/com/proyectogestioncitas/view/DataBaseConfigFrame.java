@@ -78,7 +78,7 @@ public class DataBaseConfigFrame extends JFrame {
 		textArea_Db = new JTextArea();
 		textArea_Db.setEditable(false);
 		textArea_Db.setText("Example:\n" + "  Host URL:    sql.remotedatabasedomain.com \n" + 
-							"  Database name:    sql123456 \n" + "  Database password:    sqlpasswd123 \n" + 
+							"  Database user:    yourUserName \n" + "  Database password:    yourPassword \n" + 
 							"  Database port:    3306 \n");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
