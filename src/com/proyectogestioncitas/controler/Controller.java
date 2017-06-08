@@ -8,6 +8,7 @@ import java.sql.Connection;
 import javax.swing.JOptionPane;
 
 import com.proyectogestioncitas.model.Conexion;
+import com.proyectogestioncitas.model.DataBaseController;
 import com.proyectogestioncitas.model.XMLFile;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
 import com.proyectogestioncitas.view.CreateAdminFrame;
@@ -27,14 +28,18 @@ public class Controller implements ActionListener {
 	public Controller(DataBaseConfigFrame dbConfigFrame) {
 		super();
 		this.dbConfigFrame = dbConfigFrame;
-		actionListener(this);
+		actionListenerConfigFrame(this);
 		
 	}
 	
-	public Controller(CheckTableErrorDialog chkTableDialog) {
+	
+	public Controller(CheckTableErrorDialog chkTableDialog, Connection dbConnection) {
 		this.chkTableDialog = chkTableDialog;
-		actionListener(this);
+		this.dbConnection = dbConnection;
+		actionListenerTableErrorDialog(this);
 	}
+
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -61,10 +66,24 @@ public class Controller implements ActionListener {
 							"Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
+		
+		if(e.getActionCommand().equals("OK")) {
+			if(dbConnection != null) {
+				DataBaseController dbController = new DataBaseController(dbConnection);
+				dbController.createDataBaseStructure();
+			}
+		}
+		
+		if(e.getActionCommand().equals("Cancel")) {
+			JOptionPane.showMessageDialog(null, "El programa se cerrará, por favor, compruebe la base de datos manualmente.",
+						"Información", JOptionPane.INFORMATION_MESSAGE);
+			
+			System.exit(1);
+		}
 
 	}
 	
-	public void actionListener(ActionListener escuchador){
+	public void actionListenerConfigFrame(ActionListener escuchador){
 		//Create AdminFrameComponents
 		/*createAdminFrame.getBtnCreate().addActionListener(escuchador);
 		createAdminFrame.getTextField_CALogin().addActionListener(escuchador);
@@ -89,10 +108,14 @@ public class Controller implements ActionListener {
 		loginFrame.getPasswordField_RPassword().addActionListener(escuchador);
 		loginFrame.getPasswordField_RRepeat().addActionListener(escuchador);*/
 		
-		//Create CheckTableErrorDialog
-		chkTableDialog.getCancelButton().addActionListener(escuchador);
-		chkTableDialog.getRepairTableButton().addActionListener(escuchador);
 		
+		
+	}
+	
+	public void actionListenerTableErrorDialog(ActionListener escuchador) {
+		//Create CheckTableErrorDialog
+				chkTableDialog.getCancelButton().addActionListener(escuchador);
+				chkTableDialog.getRepairTableButton().addActionListener(escuchador);
 	}
 	
 	/*public void getCreateAdminFrameAction(ActionEvent e){
@@ -115,6 +138,5 @@ public class Controller implements ActionListener {
 			
 		}
 	}*/
-	
 
 }

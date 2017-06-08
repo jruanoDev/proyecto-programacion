@@ -27,12 +27,8 @@ public class DataBaseController {
 			
 			if(checkUsers == 0 || checkAdmins == 0 || checkCenters == 0 || checkStaff == 0) {
 				chkTableDialog = new CheckTableErrorDialog();
-				new Controller(chkTableDialog);
+				new Controller(chkTableDialog, dbConnection);
 				chkTableDialog.setVisible(true);
-				
-				/* AÑADIR LA LÓGICA PARA EL DIALOGO DE LA COMPROBACIÓN
-				 * Y ESPERAR AL HILO DE ESTE DIALOGO PARA CONTINUAR CON
-				 * LAS OPERACIONES SOBRE LAS TABLAS*/
 			}
 			
 		} catch (SQLException e) {
@@ -42,9 +38,8 @@ public class DataBaseController {
 		
 		
 	}
-
-	public boolean deleteExistingDatabaseTables() {
-		
+	
+	public void createDataBaseStructure() {
 		StatusBarDialog statusBarDialog = new StatusBarDialog();
 		statusBarDialog.setVisible(true);
 		
@@ -53,7 +48,7 @@ public class DataBaseController {
 			int usersCheck = statement.executeUpdate("DROP TABLE IF EXISTS users");
 			int adminCheck = statement.executeUpdate("DROP TABLE IF EXISTS admins");
 			int centerCheck = statement.executeUpdate("DROP TABLE IF EXISTS centers");
-			int datesCheck = statement.executeUpdate("DROP TABLE IF EXISTS dates");
+			int datesCheck = statement.executeUpdate("DROP TABLE IF EXISTS staff");
 			
 			System.out.println(usersCheck);
 			
@@ -61,9 +56,6 @@ public class DataBaseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		return false;
 	}
 
 }

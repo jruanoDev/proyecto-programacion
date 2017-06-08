@@ -68,4 +68,8 @@ public class StatusBarDialog extends JDialog {
 	public JProgressBar getDbLoadingBar() {
 		return dbLoadingBar;
 	}
+	
+	public void setDbLoadingBarValue(int value) {
+		dbLoadingBar.setValue(value);
+	}
 }
