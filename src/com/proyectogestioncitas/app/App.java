@@ -47,6 +47,7 @@ public class App {
 			if(dbConnection != null) {
 				DataBaseController dbController = new DataBaseController(dbConnection);
 				dbController.checkDatabaseTables();
+				
 			}
 			
 

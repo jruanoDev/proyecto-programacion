@@ -43,6 +43,7 @@ public class StatusBarDialog extends JDialog {
 		lblLoadingDatabase = new JLabel("Estamos preparando la aplicación para el primer uso");
 		
 		dbLoadingBar = new JProgressBar();
+		dbLoadingBar.setStringPainted(true);
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)

@@ -14,15 +14,13 @@ import com.proyectogestioncitas.view.CheckTableErrorDialog;
 import com.proyectogestioncitas.view.CreateAdminFrame;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
 import com.proyectogestioncitas.view.LoginFrame;
-import com.proyectogestioncitas.view.StatusBarDialog;
 
 public class Controller implements ActionListener {
 
+	private Connection dbConnection;
 	private CreateAdminFrame createAdminFrame;
 	private DataBaseConfigFrame dbConfigFrame;
 	private LoginFrame loginFrame;
-	private StatusBarDialog statusBarDialog;
-	private Connection dbConnection;
 	private CheckTableErrorDialog chkTableDialog;
 	
 	public Controller(DataBaseConfigFrame dbConfigFrame) {
@@ -70,7 +68,9 @@ public class Controller implements ActionListener {
 		if(e.getActionCommand().equals("OK")) {
 			if(dbConnection != null) {
 				DataBaseController dbController = new DataBaseController(dbConnection);
+				chkTableDialog.dispose();
 				dbController.createDataBaseStructure();
+				
 			}
 		}
 		

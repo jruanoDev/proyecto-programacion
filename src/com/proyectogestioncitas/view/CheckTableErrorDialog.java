@@ -13,8 +13,6 @@ import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class CheckTableErrorDialog extends JDialog {
@@ -26,7 +24,7 @@ public class CheckTableErrorDialog extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		try {
 			CheckTableErrorDialog dialog = new CheckTableErrorDialog();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -34,7 +32,7 @@ public class CheckTableErrorDialog extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	/**
 	 * Create the dialog.
