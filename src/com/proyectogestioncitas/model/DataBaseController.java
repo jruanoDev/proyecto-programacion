@@ -1,8 +1,10 @@
 package com.proyectogestioncitas.model;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
@@ -128,6 +130,19 @@ public class DataBaseController {
 			int createDatesCheck = statement.executeUpdate(createDates);
 			
 			statusBarDialog.setDbLoadingBarValue(60);
+			
+			String createCurrentDay = "CREATE TABLE currentday (" + 
+									"day VARCHAR(10) NOT NULL" + 
+									");";
+			
+			int createCurrentDayCheck = statement.executeUpdate(createCurrentDay);
+			
+			String setTime = "INSERT INTO currentday VALUES(?);";
+			PreparedStatement statementTime = dbConnection.prepareStatement(setTime);
+			LocalDate currentDate = TimeController.getCurrentTime();
+			
+			statementTime.setString(1, currentDate.toString());
+			statementTime.executeUpdate();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
