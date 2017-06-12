@@ -5,9 +5,9 @@ import java.util.List;
 import com.proyectogestioncitas.model.pojo.Client;
 
 public interface IClientDAO {
-	void createNewClient(Client client);
+	boolean createNewClient(Client client);
 	Client getClientByID(int id);
 	List<Client> getAllClients();
-	void deleteClientByID(int id);
-	void updateClient(Client client);
+	boolean deleteClientByID(int id);
+	boolean updateClient(Client client);
 }
