@@ -12,9 +12,9 @@ public interface IAppointmentDAO {
 	 * Necesitamos una relacion entre la cita y el cliente para poder obtener todas las citas dependiendo del cliente
 	 * 
 	 */
-	void createNewAppointment(Appointment appointment);
-	//Client getAppointmentByID(int id);
+	boolean createNewAppointment(Appointment appointment);
+	//Appointment getAppointmentByID(int id);
 	List<Appointment> getAllAppointments();
-	//void deleteAppointmentByID(int id);
-	void updateAppointment(Appointment appointment);
+	//boolean deleteAppointmentByID(int id);
+	boolean updateAppointment(Appointment appointment);
 }
