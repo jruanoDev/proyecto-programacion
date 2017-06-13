@@ -112,14 +112,14 @@ public class DoctorDAO implements IDoctorDAO{
 	public boolean updateDoctor(Doctor doctor) {
 		success = false;
 		
-		sql = "UPDATE doctors SET name=?, surnames=?, id=?, birthdate=?, associatedCenter=? WHERE id=?";
+		sql = "UPDATE doctors SET name=?, surnames=?, birthdate=?, associatedCenter=? WHERE id=?";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, doctor.getName());
 			preparedStatement.setString(2, doctor.getSurnames());
-			preparedStatement.setString(3, doctor.getId());
-			//preparedStatement.setString(4, doctor.getBirthDate());
-			preparedStatement.setInt(5, doctor.getAssociatedCenter());
+			//preparedStatement.setString(3, doctor.getBirthDate());
+			preparedStatement.setInt(4, doctor.getAssociatedCenter());
+			preparedStatement.setString(5, doctor.getId());
 			rows = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			System.err.println("Error al ejecutar la consulta de actualizar un Doctor.");

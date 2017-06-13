@@ -11,6 +11,8 @@ public interface IAppointmentDAO {
 	/**
 	 * Necesitamos una relacion entre la cita y el cliente para poder obtener todas las citas dependiendo del cliente
 	 * 
+	 * ¡IMPORTANTE! Revisar AppointmentDAO para un correcto código en las sentencias y métodos implementados.
+	 * 
 	 */
 	boolean createNewAppointment(Appointment appointment);
 	//Appointment getAppointmentByID(int id);
