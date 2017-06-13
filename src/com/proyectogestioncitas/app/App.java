@@ -2,9 +2,13 @@ package com.proyectogestioncitas.app;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.model.DataBaseController;
+import com.proyectogestioncitas.model.TimeController;
 import com.proyectogestioncitas.model.XMLFile;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
 
@@ -57,6 +61,30 @@ public class App {
 			
 			
 		}
+		
+		try {
+			Statement statement = dbConnection.createStatement();
+			ResultSet timeResultSet = statement.executeQuery("SELECT * FROM currentday");
+			
+			while(timeResultSet.next()) {
+				String currentDay = timeResultSet.getString("day");
+				
+				if(!currentDay.equals(TimeController.getCurrentTime().toString())) {
+					// HACER UN BORRADO DE LAS FILAS DE LA TABLA CURRENT DAY
+					// Y INSERTAR UNA NUEVA CON LA FECHA ACTUAL, DE ESTA MANERA PODEMOS
+					// ACTUALIZAR LA FECHA Y COMPROBAR SI LAS CITAS SON VÁLIDAS, MIRAR
+					// SI LO HACEMOS DIRECTAMENTE AQUÍ (NO RECOMENDABLE), O EN DATABASECONTROLLER
+					// O EN TIMECONTROLLER
+				}
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		//if(TimeController.getCurrentTime().equals(obj));
 		
 	}
 	

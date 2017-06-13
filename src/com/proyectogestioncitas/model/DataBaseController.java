@@ -129,6 +129,10 @@ public class DataBaseController {
 			
 			int createDatesCheck = statement.executeUpdate(createDates);
 			
+			/* FALTAN POR CREAR LA TABLA DE LAS CITAS CONCEDIDAS, QUE SE LIMPIARÁ EN CASO DE
+			 * QUE EL DÍA HAYA CAMBIADO Y SE AÑADIRAN NUEVOS CAMPOS CON LOS HORARIOS ESCOGIDOS.
+			 */
+			
 			statusBarDialog.setDbLoadingBarValue(60);
 			
 			String createCurrentDay = "CREATE TABLE currentday (" + 
