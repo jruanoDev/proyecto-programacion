@@ -1,23 +1,70 @@
 package com.proyectogestioncitas.model.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.List;
 
+import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.interfaces.IDoctorDAO;
+import com.proyectogestioncitas.model.pojo.Administrator;
 import com.proyectogestioncitas.model.pojo.Doctor;
 
 public class DoctorDAO implements IDoctorDAO{
+	
+	Connection connection = Conexion.getInstanceConnection("urlexample", "userexample", "passwordexample");
+	Statement statement = null;
+	PreparedStatement preparedStatement = null;
+	String sql = "";
+	int rows = 0;
+	ResultSet resultSet = null;
+	boolean success;	
+	Doctor doctor;
 
 	@Override
 	public boolean createNewDoctor(Doctor doctor) {
-		boolean success = false;
-		//TO-DO
+		success = false;
+		
+		sql = "INSERT INTO doctors (name, surname, id, birthdate, associatedCenter) VALUES(?,?,?,?,?)";
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, doctor.getName());
+			preparedStatement.setString(2, doctor.getSurnames());
+			preparedStatement.setString(3, doctor.getId());
+			preparedStatement.setString(4, doctor.getBirthDate().toString());
+			preparedStatement.setInt(5, doctor.getAssociatedCenter());
+			rows = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.err.println("Error al ejecutar la consulta de crear nuevo Doctor.");
+		}		
+		
+		if(rows != 0)
+			success = true;
 		return success;
 	}
 
 	@Override
-	public Doctor getDoctorByID(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Doctor getDoctorByID(String id) {		
+		sql = "SELECT * FROM doctors WHERE id=?";
+		
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, id);
+			resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()){
+				doctor.setName(resultSet.getString(1));
+				doctor.setSurnames(resultSet.getString(2));
+				doctor.setId(resultSet.getString(3));
+				//doctor.setBirthDate(resultSet.getDate(4));
+			}
+		} catch (SQLException e) {
+			System.err.println("Error al ejecutar la consulta de obtener un Doctor.");
+		}
+		
+		return doctor;
 	}
 
 	@Override
@@ -27,16 +74,18 @@ public class DoctorDAO implements IDoctorDAO{
 	}
 
 	@Override
-	public boolean deleteDoctorByID(int id) {
-		boolean success = false;
+	public boolean deleteDoctorByID(String id) {
+		success = false;
 		//TO-DO
 		return success;
 	}
 
 	@Override
 	public boolean updateDoctor(Doctor doctor) {
-		boolean success = false;
-		//TO-DO
+		success = false;
+		
+		
+		
 		return success;
 	}
 

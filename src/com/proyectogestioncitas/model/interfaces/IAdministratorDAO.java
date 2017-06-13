@@ -6,7 +6,7 @@ import com.proyectogestioncitas.model.pojo.Administrator;
 
 public interface IAdministratorDAO {
 	boolean createNewAdministrator(Administrator administrator);
-	Administrator getAdministratorByID();
+	Administrator getAdministratorByID(int id);
 	List<Administrator> getAllAdministrators();
 	boolean deleteAdministratorByID(int id);
 	boolean updateAdministrator(Administrator administrator);
