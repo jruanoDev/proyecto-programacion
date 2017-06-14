@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
 import com.proyectogestioncitas.view.CreateAdminFrame;
-import com.proyectogestioncitas.view.StatusBarDialog;
 
 public class DataBaseController {
 	private Statement statement = null;
@@ -48,8 +47,6 @@ public class DataBaseController {
 	}
 	
 	public void createDataBaseStructure() {
-		StatusBarDialog statusBarDialog = new StatusBarDialog();
-		statusBarDialog.setVisible(true);
 		
 		try {
 			statement = dbConnection.createStatement();
@@ -60,8 +57,7 @@ public class DataBaseController {
 			int deleteDates = statement.executeUpdate("DROP TABLE IF EXISTS dates");
 			int deleteCurrentDay = statement.executeUpdate("DROP TABLE IF EXISTS currentday");
 			int deleteCenters = statement.executeUpdate("DROP TABLE IF EXISTS centers");
-			
-			statusBarDialog.setDbLoadingBarValue(10);
+						
 			
 			String createAdmins = "CREATE TABLE admins (" + 
 								"id MEDIUMINT NOT NULL AUTO_INCREMENT," +
@@ -72,7 +68,6 @@ public class DataBaseController {
 			
 			int createAdminsCheck = statement.executeUpdate(createAdmins);
 			
-			statusBarDialog.setDbLoadingBarValue(20);
 			
 			String createCenters = "CREATE TABLE centers (" + 
 								"id VARCHAR(10) NOT NULL UNIQUE," + 
@@ -85,7 +80,6 @@ public class DataBaseController {
 			
 			int createCentersCheck = statement.executeUpdate(createCenters);
 			
-			statusBarDialog.setDbLoadingBarValue(30);
 			
 			String createClients = "CREATE TABLE clients (" + 
 								"email VARCHAR(20) NOT NULL UNIQUE," + 
@@ -102,7 +96,6 @@ public class DataBaseController {
 			
 			int createClientsCheck = statement.executeUpdate(createClients);
 			
-			statusBarDialog.setDbLoadingBarValue(40);
 			
 			String createMedicians = "CREATE TABLE medicians (" + 
 									"associated_centre VARCHAR(10) NOT NULL," + 
@@ -117,7 +110,6 @@ public class DataBaseController {
 			
 			int createMediciansCheck = statement.executeUpdate(createMedicians);
 			
-			statusBarDialog.setDbLoadingBarValue(50);
 			
 			String createDates = "CREATE TABLE dates (" + 
 								"day DATE NOT NULL," + 
@@ -135,7 +127,6 @@ public class DataBaseController {
 			 * QUE EL DÍA HAYA CAMBIADO Y SE AÑADIRAN NUEVOS CAMPOS CON LOS HORARIOS ESCOGIDOS.
 			 */
 			
-			statusBarDialog.setDbLoadingBarValue(60);
 			
 			String createCurrentDay = "CREATE TABLE currentday (" + 
 									"day VARCHAR(10) NOT NULL" + 
@@ -143,12 +134,13 @@ public class DataBaseController {
 			
 			int createCurrentDayCheck = statement.executeUpdate(createCurrentDay);
 			
-			String setTime = "INSERT INTO currentday VALUES(?);";
+			/*String setTime = "INSERT INTO currentday VALUES(?);";
 			PreparedStatement statementTime = dbConnection.prepareStatement(setTime);
 			LocalDate currentDate = TimeController.getCurrentTime();
 			
 			statementTime.setString(1, currentDate.toString());
-			statementTime.executeUpdate();
+			statementTime.executeUpdate();*/
+			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -166,7 +158,7 @@ public class DataBaseController {
 			if(!adminResultSet.next()) {
 				CreateAdminFrame newAdmin = new CreateAdminFrame();
 				newAdmin.setVisible(true);
-				new Controller(newAdmin);
+				new Controller(newAdmin, dbConnection);
 				
 			}
 			
@@ -205,9 +197,11 @@ public class DataBaseController {
 			
 			while(logins.next()) {
 				String dbLogin = logins.getString("login");
+				System.out.println(login);
 				
-				if(dbLogin.equals(login)) {
+				if(dbLogin == login) {
 					break;
+					
 				} else {
 					check = true;
 					break;
