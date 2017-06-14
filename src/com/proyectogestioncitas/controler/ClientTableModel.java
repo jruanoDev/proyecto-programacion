@@ -21,6 +21,7 @@ import javax.swing.ListSelectionModel;
 @SuppressWarnings("serial")
 public class ClientTableModel extends AbstractTableModel implements TableModelListener, ListSelectionListener{
 
+	AdministrationFrame adminFrame;
 	
 	private static String[] columnNames = {
 			"Name",
@@ -36,7 +37,7 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 	
 	
 	public ClientTableModel(){
-		//addTableModelListener(this);
+		addTableModelListener(this);
 		addClientsToTableData(new ClientDAO());
 		setJTableClientConfiguration();
 	}
@@ -80,7 +81,7 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 				
 		
 	}
-		
+	
 	public Object[][] addClientsToTableData(ClientDAO clientDAO){
 		
 		//List<Client> clientList= clientDAO.getAllClients();		
@@ -112,7 +113,6 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 	}
 	
 	public void setJTableClientConfiguration(){
-		AdministrationFrame adminFrame = new AdministrationFrame();
 		JTable adminCCTable = adminFrame.getTableCCClient();
 		adminCCTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		adminCCTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
