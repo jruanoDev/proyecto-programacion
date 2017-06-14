@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 
 import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
@@ -195,9 +194,12 @@ public class DataBaseController {
 			statement = dbConnection.createStatement();
 			ResultSet logins = statement.executeQuery("SELECT login FROM admins;");
 			
+			if(!logins.next()) 
+				check = true;
+			
 			while(logins.next()) {
 				String dbLogin = logins.getString("login");
-				System.out.println(login);
+				System.out.println(dbLogin);
 				
 				if(dbLogin == login) {
 					break;
@@ -214,6 +216,24 @@ public class DataBaseController {
 		}
 		
 		return check;
+		
+	}
+	
+	public void checkMedicalCenters() {
+		
+		try {
+			statement = dbConnection.createStatement();
+			ResultSet medicalCenters = statement.executeQuery("SELECT * FROM centers;");
+			
+			if(!medicalCenters.next()) {
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 

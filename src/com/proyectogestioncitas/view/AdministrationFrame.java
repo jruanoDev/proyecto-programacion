@@ -1,17 +1,12 @@
 package com.proyectogestioncitas.view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.ScrollPane;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import com.proyectogestioncitas.controler.ClientTableModel;
-import com.proyectogestioncitas.controler.Controller;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -22,9 +17,6 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTable;
 import javax.swing.JSeparator;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import javax.swing.ListSelectionModel;
 
 public class AdministrationFrame extends JFrame {
 

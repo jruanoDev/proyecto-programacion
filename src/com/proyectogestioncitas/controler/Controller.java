@@ -102,11 +102,16 @@ public class Controller implements ActionListener {
 				if(password.equals(repPassword)) {
 					DataBaseController dbController = new DataBaseController(dbConnection);
 					
-					if(dbController.checkLogins(login)) 
+					if(dbController.checkLogins(login)) {
 						dbController.createNewAdmin(login, password);
-					else
+						createAdminFrame.dispose();
+						
+					} else {
 						JOptionPane.showMessageDialog(null, "El login introducido ya existe", "Error",
 								JOptionPane.ERROR_MESSAGE);
+						
+					}
+						
 					
 				} else {
 					JOptionPane.showMessageDialog(null, "Las contraseñas deben coincidir.", "Error",
