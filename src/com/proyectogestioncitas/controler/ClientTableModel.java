@@ -4,9 +4,10 @@ import java.time.LocalDate;
 
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
+import javax.swing.table.AbstractTableModel;import javax.swing.table.TableModel;
 
 import com.proyectogestioncitas.model.pojo.Client;
+import com.proyectogestioncitas.view.AdministrationFrame;
 
 @SuppressWarnings("serial")
 public class ClientTableModel extends AbstractTableModel implements TableModelListener {
@@ -23,7 +24,9 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 	
 	private static Object[][] tableData = {
 			{"ExampleName", "ExampleSurnames", "idExample", LocalDate.now(),
-				"email@example.com", "examplePwd", new Integer(1)}			
+				"email@example.com", "examplePwd", new Integer(1)},
+			{"ExampleName", "ExampleSurnames", "idExample", LocalDate.now(),
+					"email@example.com", "examplePwd", new Integer(1)}	
 	};
 	
 	public ClientTableModel(){
@@ -41,12 +44,25 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 		
 		return columnNames.length;
 	}
+	
+	@Override
+	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+		tableData[rowIndex][columnIndex] = aValue;
+		fireTableCellUpdated(rowIndex, columnIndex);
+	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		
 		return tableData[rowIndex][columnIndex];
 	}
+	
+	@Override
+	public String getColumnName(int column) {
+		// TODO Auto-generated method stub
+		return columnNames[column];
+	}
+
 	/**
 	 * We use this method to change values directly in the JTable saving the 
 	 * changes.
@@ -54,7 +70,8 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 	@Override
 	public void tableChanged(TableModelEvent e) {
 		getClientInformation(e);
-
+		
+		
 	}
 	
 	public Object getClientInformation(TableModelEvent e){
@@ -68,8 +85,10 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 		String password = (String) model.getValueAt(row, 5);
 		int associatedCenter = (int) model.getValueAt(row, 6);
 		Client client = new Client(name, surnames, id, birthDate, email, password, associatedCenter);
-		
+		//new AdministrationFrame().
 		return client;
 	}
+	
+	
 
 }
