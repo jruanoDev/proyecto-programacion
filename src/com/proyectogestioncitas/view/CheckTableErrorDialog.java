@@ -42,6 +42,8 @@ public class CheckTableErrorDialog extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		
 		JTextPane txtpnEl = new JTextPane();
 		txtpnEl.setText("Las tablas contenidas en la base de datos no son correctas, por favor, revise manualmente estas tablas o pulse el botón reparar para que se haga automáticamente.");

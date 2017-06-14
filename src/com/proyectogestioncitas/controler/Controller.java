@@ -37,8 +37,9 @@ public class Controller implements ActionListener {
 		actionListenerTableErrorDialog(this);
 	}
 	
-	public Controller(CreateAdminFrame createAdminFrame) {
+	public Controller(CreateAdminFrame createAdminFrame, Connection dbConnection) {
 		this.createAdminFrame = createAdminFrame;
+		this.dbConnection = dbConnection;
 		actionListenerCreateAdminFrame(this);
 	}
 
