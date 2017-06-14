@@ -152,6 +152,20 @@ public class Controller implements ActionListener {
 	}
 	
 	public void actionListenerAdministrationFrame(ActionListener escuchador){
+		adminFrame.getTextCCAField_Date().addActionListener(escuchador);
+		adminFrame.getTextCCAField_Hour().addActionListener(escuchador);
+		adminFrame.getTextField_CCBirthDate().addActionListener(escuchador);
+		adminFrame.getTextField_CCdni().addActionListener(escuchador);
+		adminFrame.getTextField_CCName().addActionListener(escuchador);
+		adminFrame.getTextField_CCSurname().addActionListener(escuchador);
+		
+	}
+	
+	public void setTextCCAdministrationFrame(String name, String surnames, String dni, String Birthdate){
+		adminFrame.getTextField_CCBirthDate().setText(Birthdate);
+		adminFrame.getTextField_CCName().setText(name);
+		adminFrame.getTextField_CCSurname().setText(surnames);
+		adminFrame.getTextField_CCdni().setText(dni);
 		
 	}
 

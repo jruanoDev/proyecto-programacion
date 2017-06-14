@@ -1,17 +1,24 @@
 package com.proyectogestioncitas.controler;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;import javax.swing.table.TableModel;
 
+import com.proyectogestioncitas.model.dao.ClientDAO;
 import com.proyectogestioncitas.model.pojo.Client;
 import com.proyectogestioncitas.view.AdministrationFrame;
+import com.proyectogestioncitas.model.pojo.Client;
 
 @SuppressWarnings("serial")
-public class ClientTableModel extends AbstractTableModel implements TableModelListener {
+public class ClientTableModel extends AbstractTableModel implements TableModelListener, ListSelectionListener{
 
+	
 	private static String[] columnNames = {
 			"Name",
 			"Surnames",
@@ -22,15 +29,11 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 			"Associated center"
 	};
 	
-	private static Object[][] tableData = {
-			{"ExampleName", "ExampleSurnames", "idExample", LocalDate.now(),
-				"email@example.com", "examplePwd", new Integer(1)},
-			{"ExampleName", "ExampleSurnames", "idExample", LocalDate.now(),
-					"email@example.com", "examplePwd", new Integer(1)}	
-	};
+	private static Object[][] tableData = new ClientTableModel().addClientsToTableData(new ClientDAO());
 	
 	public ClientTableModel(){
-		addTableModelListener(this);
+		//addTableModelListener(this);
+		addClientsToTableData(new ClientDAO());
 	}
 	
 	@Override
@@ -74,6 +77,8 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 		
 	}
 	
+	
+	
 	public Object getClientInformation(TableModelEvent e){
 		int row = e.getFirstRow();
 		ClientTableModel model = (ClientTableModel) e.getSource();
@@ -85,10 +90,41 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 		String password = (String) model.getValueAt(row, 5);
 		int associatedCenter = (int) model.getValueAt(row, 6);
 		Client client = new Client(name, surnames, id, birthDate, email, password, associatedCenter);
-		//new AdministrationFrame().
+		new Controller(new AdministrationFrame()).setTextCCAdministrationFrame(name, surnames, id, birthDate.toString());
 		return client;
 	}
 	
+	public Object[][] addClientsToTableData(ClientDAO clientDAO){
+		
+		//List<Client> clientList= clientDAO.getAllClients();		
+		
+		List<Client> clientList = new ArrayList<>();
+		clientList.add(new Client("asdf", "asdf", "", LocalDate.now(), "", "", 1));
+		clientList.add(new Client("fasd", "qwer", "", LocalDate.now(), "", "", 1));
+		clientList.add(new Client("oscar", "caca", "", LocalDate.now(), "", "", 1));
+		
+		int rowCount = clientList.size();
+		int columnCount = columnNames.length;
+		Object dataTable[][] = new Object[rowCount][columnCount];
+		System.out.println(rowCount + "," + columnCount);
+		for(int i=0; i<rowCount; i++){
+			Client client = clientList.get(i);
+			 dataTable[i] = new Object[]{
+					client.getName(), client.getSurnames(), client.getId(), client.getBirthDate(),
+						client.getEmail(), client.getPassword(), client.getAssociatedCenter()};				
+			System.out.println(dataTable.toString());
+		}
+		
+		System.out.println(dataTable.toString());
+		return dataTable;
+	}
 	
 
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		System.out.println(e.getFirstIndex() + e.getLastIndex());
+		
+		
+	}
+	
 }

@@ -7,6 +7,8 @@ import java.awt.ScrollPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import com.proyectogestioncitas.controler.ClientTableModel;
 import com.proyectogestioncitas.controler.Controller;
@@ -20,6 +22,9 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTable;
 import javax.swing.JSeparator;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import javax.swing.ListSelectionModel;
 
 public class AdministrationFrame extends JFrame {
 
@@ -140,7 +145,17 @@ public class AdministrationFrame extends JFrame {
 		JPanel ClientConfiguration = new JPanel();
 		tabbedPane.addTab("Client configuration", null, ClientConfiguration, null);
 		
-		tableCCClient = new JTable(new ClientTableModel());
+		ClientTableModel ccTableModel = new ClientTableModel();
+		tableCCClient = new JTable(ccTableModel);
+		tableCCClient.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableCCClient.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println(tableCCClient.getSelectedRow());
+			}
+		});
 		
 		
 		JSeparator separator_1 = new JSeparator();
