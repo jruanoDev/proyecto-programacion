@@ -17,6 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTable;
 import javax.swing.JSeparator;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class AdministrationFrame extends JFrame {
 
@@ -139,9 +141,6 @@ public class AdministrationFrame extends JFrame {
 		
 		ClientTableModel ccTableModel = new ClientTableModel();
 		tableCCClient = new JTable(ccTableModel);
-		
-		
-		
 		
 		JSeparator separator_1 = new JSeparator();
 		

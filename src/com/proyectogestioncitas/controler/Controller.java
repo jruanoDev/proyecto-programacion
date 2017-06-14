@@ -2,10 +2,20 @@ package com.proyectogestioncitas.controler;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 import java.sql.Connection;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
 
 import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.DataBaseController;
@@ -16,6 +26,7 @@ import com.proyectogestioncitas.view.CreateAdminFrame;
 import com.proyectogestioncitas.view.CreateCenterDialog;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
 import com.proyectogestioncitas.view.LoginFrame;
+import com.proyectogestioncitas.model.pojo.Client;
 
 public class Controller implements ActionListener {
 
@@ -47,7 +58,7 @@ public class Controller implements ActionListener {
 
 	public Controller(AdministrationFrame adminFrame){
 		this.adminFrame = adminFrame;
-		//actionListenerAdministrationFrame(this);
+		actionListenerAdministrationFrame(this);
 	}
 	
 	public Controller(CreateCenterDialog cCenterDialog) {
@@ -169,25 +180,40 @@ public class Controller implements ActionListener {
 		cCenterDialog.getBtnCancel().addActionListener(escuchador);
 		
 	}
-	/*
+	
 	public void actionListenerAdministrationFrame(ActionListener escuchador){
-		adminFrame.getTextCCAField_Date().addActionListener(escuchador);
-		adminFrame.getTextCCAField_Hour().addActionListener(escuchador);
-		adminFrame.getTextField_CCBirthDate().addActionListener(escuchador);
-		adminFrame.getTextField_CCdni().addActionListener(escuchador);
-		adminFrame.getTextField_CCName().addActionListener(escuchador);
-		adminFrame.getTextField_CCSurname().addActionListener(escuchador);
-		
+		setTextCCAdministrationFrame();
 	}
-	*/
-	/**
-	public void setTextCCAdministrationFrame(String name, String surnames, String dni, String Birthdate){
-		adminFrame.getTextField_CCBirthDate().setText(Birthdate);
-		adminFrame.getTextField_CCName().setText(name);
-		adminFrame.getTextField_CCSurname().setText(surnames);
-		adminFrame.getTextField_CCdni().setText(dni);
+	
+	
+	public void setTextCCAdministrationFrame(){
+		System.out.println("Has entrado");
+		JTable adminCCTable = adminFrame.getTableCCClient();
+	    adminCCTable.setModel(new ClientTableModel());
+		adminCCTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
+		//adminCCTable.getSelectionModel().addListSelectionListener(e -> {
+
+				System.out.println("Ahora has entrado al selection listener");
+				int selectedRow = adminCCTable.getSelectedRow();
+				System.out.println(selectedRow);
+				/*
+					Object name = adminCCTable.getValueAt(selectedRow, 0);
+					Object surnames = adminCCTable.getValueAt(selectedRow, 1);
+					Object id = adminCCTable.getValueAt(selectedRow, 1);
+					Object birthDate = adminCCTable.getValueAt(selectedRow, 1);
+					
+					adminFrame.getTextField_CCBirthDate().setText(birthDate.toString());
+					adminFrame.getTextField_CCName().setText(name.toString());
+					adminFrame.getTextField_CCSurname().setText(surnames.toString());
+					adminFrame.getTextField_CCdni().setText(id.toString());
+*/
+		//});
+		
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
+        adminCCTable.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
 	}
-	*/
+	
 
 }

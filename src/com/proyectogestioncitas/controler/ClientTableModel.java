@@ -21,7 +21,7 @@ import javax.swing.ListSelectionModel;
 @SuppressWarnings("serial")
 public class ClientTableModel extends AbstractTableModel implements TableModelListener, ListSelectionListener{
 
-	AdministrationFrame adminFrame;
+	
 	
 	private static String[] columnNames = {
 			"Name",
@@ -37,9 +37,12 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 	
 	
 	public ClientTableModel(){
+		
 		addTableModelListener(this);
-		addClientsToTableData(new ClientDAO());
-		setJTableClientConfiguration();
+		
+		//new Controller(new AdministrationFrame());
+		//setJTableClientConfiguration();
+		
 	}
 	
 	@Override
@@ -102,7 +105,7 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 						client.getEmail(), client.getPassword(), client.getAssociatedCenter()};				
 			//System.out.println(dataTable.toString());
 		}
-		
+		new Controller(new AdministrationFrame());
 		return dataTable;
 	}
 	
@@ -111,31 +114,10 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 	public void valueChanged(ListSelectionEvent e) {
 		System.out.println(e.getFirstIndex() + e.getLastIndex());		
 	}
-	
+	/**
 	public void setJTableClientConfiguration(){
-		JTable adminCCTable = adminFrame.getTableCCClient();
-		adminCCTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		adminCCTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				int selectedRow = adminCCTable.getSelectedRow();
-				if(selectedRow >= 0){
-					Object name = adminCCTable.getValueAt(selectedRow, 0);
-					Object surnames = adminCCTable.getValueAt(selectedRow, 1);
-					Object id = adminCCTable.getValueAt(selectedRow, 1);
-					Object birthDate = adminCCTable.getValueAt(selectedRow, 1);
-					
-					adminFrame.getTextField_CCBirthDate().setText(birthDate.toString());
-					adminFrame.getTextField_CCName().setText(name.toString());
-					adminFrame.getTextField_CCSurname().setText(surnames.toString());
-					adminFrame.getTextField_CCdni().setText(id.toString());
-					
-				}
-				
-			}
-		});
+		
 	}
-	
+	*/
 	
 }
