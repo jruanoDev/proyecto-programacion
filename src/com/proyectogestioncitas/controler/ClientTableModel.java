@@ -36,7 +36,7 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 	public ClientTableModel(){
 		//addTableModelListener(this);
 		addClientsToTableData(new ClientDAO());
-		//setJTableClientConfiguration();
+		setJTableClientConfiguration();
 	}
 	
 	@Override
@@ -109,7 +109,7 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 	public void valueChanged(ListSelectionEvent e) {
 		System.out.println(e.getFirstIndex() + e.getLastIndex());		
 	}
-	/**
+	
 	public void setJTableClientConfiguration(){
 		AdministrationFrame adminFrame = new AdministrationFrame();
 		JTable adminCCTable = adminFrame.getTableCCClient();
@@ -135,5 +135,5 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 			}
 		});
 	}
-	*/
+	
 }
