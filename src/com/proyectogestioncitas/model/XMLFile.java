@@ -69,12 +69,13 @@ public class XMLFile {
 				
 				if(connection != null) {
 					connection = Conexion.getInstanceConnection(dbUrl, dbUser, dbPassword);
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "Error en la conexión a la base de datos, por favor," + 
 							"compruebe que los parámetros están introducidos\ncorrectamente y que el servidor está operativo.",
 								"Error", JOptionPane.ERROR_MESSAGE);
 					dbConfigFrame.setVisible(true);
-					//new Controller(dbConfigFrame);
+					
 				}
 				
 			}

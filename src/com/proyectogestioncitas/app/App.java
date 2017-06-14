@@ -2,6 +2,7 @@ package com.proyectogestioncitas.app;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,6 +21,7 @@ public class App {
 	private static Connection dbConnection = null;
 	private DataBaseConfigFrame dbConfigFrame = new DataBaseConfigFrame();
 	private Controller dbConfigController = null;
+	private DataBaseController dbController = null;
 	
 	public static void main(String[] args) {
 		new App();
@@ -49,8 +51,10 @@ public class App {
 			dbConnection = xmlFile.getConnectionWithXML(dbConfigFrame);
 			
 			if(dbConnection != null) {
-				DataBaseController dbController = new DataBaseController(dbConnection);
+				dbController = new DataBaseController(dbConnection);
 				dbController.checkDatabaseTables();
+				
+				dbController.checkAdminOnDB();
 				
 			}
 			
@@ -59,12 +63,21 @@ public class App {
 			if(xmlFile.createConfigXMLFile())
 				xmlFile.getConnectionWithXML(dbConfigFrame);
 			
-			
 		}
 		
-		try {
+		//VAMOS A DEJAR ESTO PARA LUEGO, PRIMERO CREAMOS UN ADMINISTRADOR Y CONFIGURAMOS CENTROS
+		
+		/*try {
 			Statement statement = dbConnection.createStatement();
-			ResultSet timeResultSet = statement.executeQuery("SELECT * FROM currentday");
+			ResultSet timeResultSet = statement.executeQuery("SELECT * FROM currentday;");
+			
+			String setTime = "INSERT INTO currentday VALUES(?);";
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(setTime);
+			
+			preparedStatement.setString(1, TimeController.getCurrentTime().toString());
+			
+			if(!timeResultSet.next())
+				preparedStatement.execute();
 			
 			while(timeResultSet.next()) {
 				String currentDay = timeResultSet.getString("day");
@@ -75,13 +88,21 @@ public class App {
 					// ACTUALIZAR LA FECHA Y COMPROBAR SI LAS CITAS SON VÁLIDAS, MIRAR
 					// SI LO HACEMOS DIRECTAMENTE AQUÍ (NO RECOMENDABLE), O EN DATABASECONTROLLER
 					// O EN TIMECONTROLLER
+					
+					int deletedRows = statement.executeUpdate("DELETE FROM currentday;");
+					preparedStatement.execute();
+					
+					dbController = new DataBaseController(dbConnection);
+					
+					
+					
 				}
 			}
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		
 		//if(TimeController.getCurrentTime().equals(obj));

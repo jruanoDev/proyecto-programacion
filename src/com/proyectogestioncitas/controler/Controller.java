@@ -36,6 +36,11 @@ public class Controller implements ActionListener {
 		this.dbConnection = dbConnection;
 		actionListenerTableErrorDialog(this);
 	}
+	
+	public Controller(CreateAdminFrame createAdminFrame) {
+		this.createAdminFrame = createAdminFrame;
+		actionListenerCreateAdminFrame(this);
+	}
 
 
 
@@ -80,17 +85,36 @@ public class Controller implements ActionListener {
 			
 			System.exit(1);
 		}
+		
+		if(e.getActionCommand().equals("Create")) {
+			String login = createAdminFrame.getTextField_CALogin().getText();
+			String password = new String(createAdminFrame.getPasswordField_CAPassword().getPassword());
+			String repPassword = new String(createAdminFrame.getPasswordField_CARepeat().getPassword());
+			
+			if(login.length() > 20 || password.length() > 20 || repPassword.length() > 20) {
+				JOptionPane.showMessageDialog(null, "Los datos introducidos deben ser de menos de 20 caracteres.",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			} else {
+				if(password.equals(repPassword)) {
+					DataBaseController dbController = new DataBaseController(dbConnection);
+					
+					if(dbController.checkLogins(login)) 
+						dbController.createNewAdmin(login, password);
+					else
+						JOptionPane.showMessageDialog(null, "El login introducido ya existe", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					
+				} else {
+					JOptionPane.showMessageDialog(null, "Las contraseñas deben coincidir.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		}
 
 	}
 	
 	public void actionListenerConfigFrame(ActionListener escuchador){
-		//Create AdminFrameComponents
-		/*createAdminFrame.getBtnCreate().addActionListener(escuchador);
-		createAdminFrame.getTextField_CALogin().addActionListener(escuchador);
-		createAdminFrame.getPasswordField_CAPassword().addActionListener(escuchador);
-		createAdminFrame.getPasswordField_CARepeat().addActionListener(escuchador);*/
-		
-		//Create DataBaseConfigComponents
 		dbConfigFrame.getBtnDbValidate().addActionListener(escuchador);
 		dbConfigFrame.getTextField_DbName().addActionListener(escuchador);
 		dbConfigFrame.getTextField_DbPassword().addActionListener(escuchador);
@@ -108,35 +132,20 @@ public class Controller implements ActionListener {
 		loginFrame.getPasswordField_RPassword().addActionListener(escuchador);
 		loginFrame.getPasswordField_RRepeat().addActionListener(escuchador);*/
 		
-		
-		
 	}
 	
 	public void actionListenerTableErrorDialog(ActionListener escuchador) {
-		//Create CheckTableErrorDialog
-				chkTableDialog.getCancelButton().addActionListener(escuchador);
-				chkTableDialog.getRepairTableButton().addActionListener(escuchador);
+		chkTableDialog.getCancelButton().addActionListener(escuchador);
+		chkTableDialog.getRepairTableButton().addActionListener(escuchador);
+		
 	}
 	
-	/*public void getCreateAdminFrameAction(ActionEvent e){
-		if(e.getActionCommand().equals("Create")){
-			
-		}
+	public void actionListenerCreateAdminFrame(ActionListener escuchador) {
+		createAdminFrame.getBtnCreate().addActionListener(escuchador);
+		createAdminFrame.getTextField_CALogin().addActionListener(escuchador);
+		createAdminFrame.getPasswordField_CAPassword().addActionListener(escuchador);
+		createAdminFrame.getPasswordField_CARepeat().addActionListener(escuchador);
+		
 	}
-	
-	public void getDBConfigFrameAction(ActionEvent e){
-		if(e.getActionCommand().equals("Validate")){
-			
-		}
-	}
-	
-	public void getLoginFrameAction(ActionEvent e){
-		if(e.getActionCommand().equals("Accept")){
-			
-		}
-		if(e.getActionCommand().equals("Send")){
-			
-		}
-	}*/
 
 }

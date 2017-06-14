@@ -2,12 +2,14 @@ package com.proyectogestioncitas.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 
 import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
+import com.proyectogestioncitas.view.CreateAdminFrame;
 import com.proyectogestioncitas.view.StatusBarDialog;
 
 public class DataBaseController {
@@ -152,6 +154,73 @@ public class DataBaseController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean checkAdminOnDB() {
+		boolean check = false;
+		
+		try {
+			statement = dbConnection.createStatement();
+			ResultSet adminResultSet = statement.executeQuery("SELECT * FROM admins;");
+			
+			if(!adminResultSet.next()) {
+				CreateAdminFrame newAdmin = new CreateAdminFrame();
+				newAdmin.setVisible(true);
+				new Controller(newAdmin);
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return check;
+		
+	}
+	
+	public void createNewAdmin(String login, String password) {
+		String newAdminSentence = "INSERT INTO admins(login, password) VALUES (?, ?);";
+		
+		try {
+			PreparedStatement caPreparedStatement = dbConnection.prepareStatement(newAdminSentence);
+			caPreparedStatement.setString(1, login);
+			caPreparedStatement.setString(2, password);
+			
+			caPreparedStatement.execute();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public boolean checkLogins(String login) {
+		boolean check = false;
+		
+		try {
+			statement = dbConnection.createStatement();
+			ResultSet logins = statement.executeQuery("SELECT login FROM admins;");
+			
+			while(logins.next()) {
+				String dbLogin = logins.getString("login");
+				
+				if(dbLogin.equals(login)) {
+					break;
+				} else {
+					check = true;
+					break;
+				}
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return check;
+		
 	}
 
 }
