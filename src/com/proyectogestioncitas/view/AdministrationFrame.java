@@ -2,10 +2,15 @@ package com.proyectogestioncitas.view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.ScrollPane;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.proyectogestioncitas.controler.ClientTableModel;
+import com.proyectogestioncitas.controler.Controller;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTabbedPane;
@@ -51,6 +56,7 @@ public class AdministrationFrame extends JFrame {
 				try {
 					AdministrationFrame frame = new AdministrationFrame();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -134,7 +140,8 @@ public class AdministrationFrame extends JFrame {
 		JPanel ClientConfiguration = new JPanel();
 		tabbedPane.addTab("Client configuration", null, ClientConfiguration, null);
 		
-		tableCCClient = new JTable();
+		tableCCClient = new JTable(new ClientTableModel());
+		
 		
 		JSeparator separator_1 = new JSeparator();
 		
@@ -426,4 +433,37 @@ public class AdministrationFrame extends JFrame {
 		MedicalCenterConfig.setLayout(gl_MedicalCenterConfig);
 		contentPane.setLayout(gl_contentPane);
 	}
+
+	public JTable getTableCCClient() {
+		return tableCCClient;
+	}
+
+	public JTextField getTextField_CCdni() {
+		return textField_CCdni;
+	}
+
+	public JTextField getTextField_CCName() {
+		return textField_CCName;
+	}
+
+	public JTable getTableCCAAppointment() {
+		return tableCCAAppointment;
+	}
+
+	public JTextField getTextField_CCBirthDate() {
+		return textField_CCBirthDate;
+	}
+
+	public JTextField getTextField_CCSurname() {
+		return textField_CCSurname;
+	}
+
+	public JTextField getTextCCAField_Date() {
+		return textCCAField_Date;
+	}
+
+	public JTextField getTextCCAField_Hour() {
+		return textCCAField_Hour;
+	}
+
 }

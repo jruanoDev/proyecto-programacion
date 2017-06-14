@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.DataBaseController;
 import com.proyectogestioncitas.model.XMLFile;
+import com.proyectogestioncitas.view.AdministrationFrame;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
 import com.proyectogestioncitas.view.CreateAdminFrame;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
@@ -22,14 +23,13 @@ public class Controller implements ActionListener {
 	private DataBaseConfigFrame dbConfigFrame;
 	private LoginFrame loginFrame;
 	private CheckTableErrorDialog chkTableDialog;
+	private AdministrationFrame adminFrame;
 	
 	public Controller(DataBaseConfigFrame dbConfigFrame) {
-		super();
 		this.dbConfigFrame = dbConfigFrame;
 		actionListenerConfigFrame(this);
 		
 	}
-	
 	
 	public Controller(CheckTableErrorDialog chkTableDialog, Connection dbConnection) {
 		this.chkTableDialog = chkTableDialog;
@@ -42,7 +42,10 @@ public class Controller implements ActionListener {
 		actionListenerCreateAdminFrame(this);
 	}
 
-
+	public Controller(AdministrationFrame adminFrame){
+		this.adminFrame = adminFrame;
+		//actionListenerAdministrationFrame(this);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -145,6 +148,10 @@ public class Controller implements ActionListener {
 		createAdminFrame.getTextField_CALogin().addActionListener(escuchador);
 		createAdminFrame.getPasswordField_CAPassword().addActionListener(escuchador);
 		createAdminFrame.getPasswordField_CARepeat().addActionListener(escuchador);
+		
+	}
+	
+	public void actionListenerAdministrationFrame(ActionListener escuchador){
 		
 	}
 
