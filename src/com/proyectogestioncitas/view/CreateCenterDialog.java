@@ -17,8 +17,13 @@ import javax.swing.JTextField;
 public class CreateCenterDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
+	private JTextField textFieldID;
+	private JTextField textFieldName;
+	private JTextField textFieldAddress;
+	private JTextField textFieldPCode;
 	private JTextField textFieldPNumber;
+	private JButton btnCreate;
+	private JButton btnCancel;
 
 	/**
 	 * Launch the application.
@@ -46,57 +51,67 @@ public class CreateCenterDialog extends JDialog {
 		
 		JLabel lblId = new JLabel("ID");
 		
-		JTextField textFieldID = new JTextField();
+		textFieldID = new JTextField();
 		textFieldID.setColumns(10);
 		
 		JLabel lblName = new JLabel("Name");
 		
-		JTextField textFieldName = new JTextField();
+		textFieldName = new JTextField();
 		textFieldName.setColumns(10);
 		
 		JLabel lblAddress = new JLabel("Address");
 		
-		JTextField textFieldAddress = new JTextField();
+		textFieldAddress = new JTextField();
 		textFieldAddress.setColumns(10);
 		
 		JLabel lblPostalCode = new JLabel("Postal Code");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		textFieldPCode = new JTextField();
+		textFieldPCode.setColumns(10);
 		
 		JLabel lblPhoneNumber = new JLabel("Phone number");
 		
+		btnCancel = new JButton("Cancel");
+		
 		textFieldPNumber = new JTextField();
 		textFieldPNumber.setColumns(10);
+		
+		btnCreate = new JButton("Create");
 		
 		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(lblNoSeHa, GroupLayout.PREFERRED_SIZE, 779, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
-						.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
-							.addComponent(lblPhoneNumber)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(textFieldPNumber))
-						.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblId)
-								.addComponent(lblName)
-								.addComponent(lblAddress)
-								.addComponent(lblPostalCode))
-							.addGap(28)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addContainerGap()
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(textField)
-								.addComponent(textFieldID)
-								.addComponent(textFieldAddress)
-								.addComponent(textFieldName, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))))
-					.addContainerGap(421, Short.MAX_VALUE))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(lblPhoneNumber)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(textFieldPNumber))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblId)
+										.addComponent(lblName)
+										.addComponent(lblAddress)
+										.addComponent(lblPostalCode))
+									.addGap(28)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(textFieldPCode)
+										.addComponent(textFieldID)
+										.addComponent(textFieldAddress)
+										.addComponent(textFieldName, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)))))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblNoSeHa, GroupLayout.PREFERRED_SIZE, 779, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(262)
+							.addComponent(btnCreate)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnCancel)))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -117,13 +132,44 @@ public class CreateCenterDialog extends JDialog {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPostalCode)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textFieldPCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPhoneNumber)
 						.addComponent(textFieldPNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(73, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnCancel)
+						.addComponent(btnCreate)))
 		);
 		contentPanel.setLayout(gl_contentPanel);
+	}
+
+	public JButton getBtnCreate() {
+		return btnCreate;
+	}
+
+	public JButton getBtnCancel() {
+		return btnCancel;
+	}
+
+	public JTextField getTextFieldID() {
+		return textFieldID;
+	}
+
+	public JTextField getTextFieldName() {
+		return textFieldName;
+	}
+
+	public JTextField getTextFieldAddress() {
+		return textFieldAddress;
+	}
+
+	public JTextField getTextFieldPCode() {
+		return textFieldPCode;
+	}
+
+	public JTextField getTextFieldPNumber() {
+		return textFieldPNumber;
 	}
 }

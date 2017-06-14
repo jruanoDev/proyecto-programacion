@@ -13,6 +13,7 @@ import com.proyectogestioncitas.model.XMLFile;
 import com.proyectogestioncitas.view.AdministrationFrame;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
 import com.proyectogestioncitas.view.CreateAdminFrame;
+import com.proyectogestioncitas.view.CreateCenterDialog;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
 import com.proyectogestioncitas.view.LoginFrame;
 
@@ -24,6 +25,7 @@ public class Controller implements ActionListener {
 	private LoginFrame loginFrame;
 	private CheckTableErrorDialog chkTableDialog;
 	private AdministrationFrame adminFrame;
+	private CreateCenterDialog cCenterDialog;
 	
 	public Controller(DataBaseConfigFrame dbConfigFrame) {
 		this.dbConfigFrame = dbConfigFrame;
@@ -46,6 +48,11 @@ public class Controller implements ActionListener {
 	public Controller(AdministrationFrame adminFrame){
 		this.adminFrame = adminFrame;
 		//actionListenerAdministrationFrame(this);
+	}
+	
+	public Controller(CreateCenterDialog cCenterDialog) {
+		this.cCenterDialog = cCenterDialog;
+		actionListenerCenterDialog(this);
 	}
 
 	@Override
@@ -154,6 +161,12 @@ public class Controller implements ActionListener {
 		createAdminFrame.getTextField_CALogin().addActionListener(escuchador);
 		createAdminFrame.getPasswordField_CAPassword().addActionListener(escuchador);
 		createAdminFrame.getPasswordField_CARepeat().addActionListener(escuchador);
+		
+	}
+	
+	public void actionListenerCenterDialog(ActionListener escuchador) {
+		cCenterDialog.getBtnCreate().addActionListener(escuchador);
+		cCenterDialog.getBtnCancel().addActionListener(escuchador);
 		
 	}
 	/*
