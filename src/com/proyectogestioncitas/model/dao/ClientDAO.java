@@ -75,21 +75,70 @@ public class ClientDAO implements IClientDAO {
 
 	@Override
 	public List<Client> getAllClients() {
-		// TODO Auto-generated method stub
+		sql = "SELECT name, surnames, id, birthDate, email, password, associatedCenter FROM clients";
+		
+		try {			
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sql);
+			while(resultSet.next()){	
+				
+				client.setName(resultSet.getString(1));
+				client.setSurnames(resultSet.getString(2));
+				client.setId(resultSet.getString(3));
+				//client.setBirthDate(resultSet.getString(4));
+				client.setEmail(resultSet.getString(5));
+				client.setPassword(resultSet.getString(6));
+				client.setAssociatedCenter(resultSet.getInt(7));
+				
+				clientsList.add(client);
+				
+			}
+		} catch (SQLException e) {
+			System.err.println("Error al ejecutar la sentencia de obtener todos los clients.");
+		}
+		
 		return clientsList;
 	}
 
 	@Override
 	public boolean deleteClientByID(String id) {
 		boolean success = false;
-		//TO-DO
+		
+		sql = "DELETE FROM clients WHERE id=?;";
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, id);
+			rows = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.err.println("Error al ejecutar la sentencia de eliminar un cliente por id.");
+		}
+		
+		if(rows != 0)
+			success = true;
 		return success;
 	}
 
 	@Override
 	public boolean updateClient(Client client) {
 		boolean success = false;
-		//TO-DO
+		
+		sql = "UPDATE clients SET name=?, surnames=?, birthDate=?, email=?, password=?, associatedCenter=? WHERE id=?;";
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, client.getName());
+			preparedStatement.setString(2, client.getSurnames());
+			//preparedStatement.setString(3, client.getBirthDate());
+			preparedStatement.setString(4, client.getEmail());
+			preparedStatement.setString(5, client.getPassword());
+			preparedStatement.setInt(6, client.getAssociatedCenter());
+			preparedStatement.setString(7, client.getId());
+			rows = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(rows != 0)
+			success = true;
 		return success;
 	}
 
