@@ -13,7 +13,9 @@ import javax.swing.table.AbstractTableModel;import javax.swing.table.TableModel;
 import com.proyectogestioncitas.model.dao.ClientDAO;
 import com.proyectogestioncitas.model.pojo.Client;
 import com.proyectogestioncitas.view.AdministrationFrame;
-import com.proyectogestioncitas.model.pojo.Client;
+
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 @SuppressWarnings("serial")
 public class ClientTableModel extends AbstractTableModel implements TableModelListener, ListSelectionListener{
@@ -34,6 +36,7 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 	public ClientTableModel(){
 		//addTableModelListener(this);
 		addClientsToTableData(new ClientDAO());
+		//setJTableClientConfiguration();
 	}
 	
 	@Override
@@ -72,28 +75,10 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 	 */
 	@Override
 	public void tableChanged(TableModelEvent e) {
-		getClientInformation(e);
-		
+				
 		
 	}
-	
-	
-	
-	public Object getClientInformation(TableModelEvent e){
-		int row = e.getFirstRow();
-		ClientTableModel model = (ClientTableModel) e.getSource();
-		String name = (String) model.getValueAt(row, 0);
-		String surnames = (String) model.getValueAt(row, 1);
-		String id = (String) model.getValueAt(row, 2);
-		LocalDate birthDate = (LocalDate) model.getValueAt(row, 3);
-		String email = (String) model.getValueAt(row, 4);
-		String password = (String) model.getValueAt(row, 5);
-		int associatedCenter = (int) model.getValueAt(row, 6);
-		Client client = new Client(name, surnames, id, birthDate, email, password, associatedCenter);
-		new Controller(new AdministrationFrame()).setTextCCAdministrationFrame(name, surnames, id, birthDate.toString());
-		return client;
-	}
-	
+		
 	public Object[][] addClientsToTableData(ClientDAO clientDAO){
 		
 		//List<Client> clientList= clientDAO.getAllClients();		
@@ -122,9 +107,33 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		System.out.println(e.getFirstIndex() + e.getLastIndex());
-		
-		
+		System.out.println(e.getFirstIndex() + e.getLastIndex());		
 	}
-	
+	/**
+	public void setJTableClientConfiguration(){
+		AdministrationFrame adminFrame = new AdministrationFrame();
+		JTable adminCCTable = adminFrame.getTableCCClient();
+		adminCCTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		adminCCTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				int selectedRow = adminCCTable.getSelectedRow();
+				if(selectedRow >= 0){
+					Object name = adminCCTable.getValueAt(selectedRow, 0);
+					Object surnames = adminCCTable.getValueAt(selectedRow, 1);
+					Object id = adminCCTable.getValueAt(selectedRow, 1);
+					Object birthDate = adminCCTable.getValueAt(selectedRow, 1);
+					
+					adminFrame.getTextField_CCBirthDate().setText((String) birthDate);
+					adminFrame.getTextField_CCName().setText((String) name);
+					adminFrame.getTextField_CCSurname().setText((String) surnames);
+					adminFrame.getTextField_CCdni().setText((String) id);
+					
+				}
+				
+			}
+		});
+	}
+	*/
 }

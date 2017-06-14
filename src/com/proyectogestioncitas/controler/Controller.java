@@ -160,7 +160,7 @@ public class Controller implements ActionListener {
 		adminFrame.getTextField_CCSurname().addActionListener(escuchador);
 		
 	}
-	
+	/**
 	public void setTextCCAdministrationFrame(String name, String surnames, String dni, String Birthdate){
 		adminFrame.getTextField_CCBirthDate().setText(Birthdate);
 		adminFrame.getTextField_CCName().setText(name);
@@ -168,5 +168,6 @@ public class Controller implements ActionListener {
 		adminFrame.getTextField_CCdni().setText(dni);
 		
 	}
+	*/
 
 }

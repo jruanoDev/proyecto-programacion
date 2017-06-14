@@ -147,15 +147,8 @@ public class AdministrationFrame extends JFrame {
 		
 		ClientTableModel ccTableModel = new ClientTableModel();
 		tableCCClient = new JTable(ccTableModel);
-		tableCCClient.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tableCCClient.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println(tableCCClient.getSelectedRow());
-			}
-		});
+		
+		
 		
 		
 		JSeparator separator_1 = new JSeparator();
