@@ -151,7 +151,7 @@ public class Controller implements ActionListener {
 		createAdminFrame.getPasswordField_CARepeat().addActionListener(escuchador);
 		
 	}
-	
+	/*
 	public void actionListenerAdministrationFrame(ActionListener escuchador){
 		adminFrame.getTextCCAField_Date().addActionListener(escuchador);
 		adminFrame.getTextCCAField_Hour().addActionListener(escuchador);
@@ -161,6 +161,7 @@ public class Controller implements ActionListener {
 		adminFrame.getTextField_CCSurname().addActionListener(escuchador);
 		
 	}
+	*/
 	/**
 	public void setTextCCAdministrationFrame(String name, String surnames, String dni, String Birthdate){
 		adminFrame.getTextField_CCBirthDate().setText(Birthdate);

@@ -33,6 +33,7 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 	
 	private static Object[][] tableData = new ClientTableModel().addClientsToTableData(new ClientDAO());
 	
+	
 	public ClientTableModel(){
 		//addTableModelListener(this);
 		addClientsToTableData(new ClientDAO());
@@ -91,16 +92,15 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 		int rowCount = clientList.size();
 		int columnCount = columnNames.length;
 		Object dataTable[][] = new Object[rowCount][columnCount];
-		System.out.println(rowCount + "," + columnCount);
+		//System.out.println(rowCount + "," + columnCount);
+		
 		for(int i=0; i<rowCount; i++){
 			Client client = clientList.get(i);
-			 dataTable[i] = new Object[]{
-					client.getName(), client.getSurnames(), client.getId(), client.getBirthDate(),
+			dataTable[i] = new Object[]{client.getName(), client.getSurnames(), client.getId(), client.getBirthDate(),
 						client.getEmail(), client.getPassword(), client.getAssociatedCenter()};				
-			System.out.println(dataTable.toString());
+			//System.out.println(dataTable.toString());
 		}
 		
-		System.out.println(dataTable.toString());
 		return dataTable;
 	}
 	
@@ -125,15 +125,16 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 					Object id = adminCCTable.getValueAt(selectedRow, 1);
 					Object birthDate = adminCCTable.getValueAt(selectedRow, 1);
 					
-					adminFrame.getTextField_CCBirthDate().setText((String) birthDate);
-					adminFrame.getTextField_CCName().setText((String) name);
-					adminFrame.getTextField_CCSurname().setText((String) surnames);
-					adminFrame.getTextField_CCdni().setText((String) id);
+					adminFrame.getTextField_CCBirthDate().setText(birthDate.toString());
+					adminFrame.getTextField_CCName().setText(name.toString());
+					adminFrame.getTextField_CCSurname().setText(surnames.toString());
+					adminFrame.getTextField_CCdni().setText(id.toString());
 					
 				}
 				
 			}
 		});
 	}
+	
 	
 }
