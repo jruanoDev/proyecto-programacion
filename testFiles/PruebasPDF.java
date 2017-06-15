@@ -27,13 +27,14 @@ import com.itextpdf.text.log.SysoCounter;
 import com.itextpdf.text.pdf.PdfWriter;
 
 public class PruebasPDF {
+	
 	public static void main(String[] args) {	
 		
 		Document document = new Document();
 		try {
 			PdfWriter.getInstance(document, new FileOutputStream("FILE/file"));
 			document.open();
-			document.add(new Paragraph("Example"));
+			document.add(new Paragraph("PDF para Ángel"));
 			document.close();
 		} catch (FileNotFoundException | DocumentException e) {
 			// TODO Auto-generated catch block
@@ -46,7 +47,7 @@ public class PruebasPDF {
 		
 	}
 	
-	private static void intento2(){
+	public void intento2(){
 		try{
 
 	        Properties props = new Properties();
@@ -62,7 +63,7 @@ public class PruebasPDF {
 	        Session mailSession = Session.getInstance(props, new javax.mail.Authenticator() {
 
 	            protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-	            	javax.mail.PasswordAuthentication password = new javax.mail.PasswordAuthentication("oscarlifeplays4@gmail.com", "elhormiguero4");
+	            	javax.mail.PasswordAuthentication password = new javax.mail.PasswordAuthentication("oscarlifeplays4@gmail.com", "contraseña");
 	                return password;
 	            }
 	        });
@@ -78,7 +79,7 @@ public class PruebasPDF {
 	        //Security.addProvider(new JSSEProvider());
 	        //--[ Set the FROM, TO, DATE and SUBJECT fields
 	        msg.setFrom( new InternetAddress( "oscarlifeplays4@gmail.com" ) );
-	        msg.setRecipients( Message.RecipientType.TO,InternetAddress.parse("oscarlifeplays@gmail.com") );
+	        msg.setRecipients( Message.RecipientType.TO,InternetAddress.parse("elbodegondeljazz@gmail.com") );
 	        msg.setDataHandler(new DataHandler(new FileDataSource("FILE/file")));
 	        msg.setFileName("FILE/file.pdf");
 	        msg.setSentDate( new Date());
@@ -86,6 +87,7 @@ public class PruebasPDF {
 
 	        //--[ Ask the Transport class to send our mail message
 	        Transport.send( msg );
+	        System.out.println("Correo enviado");
 
 	    }catch(Exception E){
 	        System.out.println( "Oops something has gone pearshaped!");
@@ -93,3 +95,4 @@ public class PruebasPDF {
 	    }
 	}
 }
+

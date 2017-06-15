@@ -12,6 +12,7 @@ import javax.swing.table.AbstractTableModel;
 
 import com.proyectogestioncitas.model.dao.AppointmentDAO;
 import com.proyectogestioncitas.model.pojo.Appointment;
+import com.proyectogestioncitas.model.pojo.MedicalCenter;
 
 public class MedicalCenterTableModel extends AbstractTableModel implements TableModelListener, ListSelectionListener{
 
@@ -64,14 +65,15 @@ public class MedicalCenterTableModel extends AbstractTableModel implements Table
 	 * MODIFICAR CÓDIGO
 	 * @param appDao
 	 * @return
-	 
+	 */
 	public Object[][] addCentersToTableData(AppointmentDAO appDao){
 		//public Object[][] addAppointmentsToTableData(AppointmentDAO appDao, Client client){
-			//List<Appointment> appList = appDao.getAppointmentsForClient(client);
+			//List<MedicalCenter> centerList = appDao.getAppointmentsForClient(client);
 			
-			List<Appointment> appList = new ArrayList<>();
-			appList.add(new Appointment(LocalDate.now(), LocalDate.now(), 1, "Antonio"));
-			appList.add(new Appointment(LocalDate.now(), LocalDate.now(), 2, "Maria Jose"));
+			//new MedicalCenter(centerId, location, centerName, postalCode, phoneNumber)
+			List<MedicalCenter> centerList = new ArrayList<>();
+			centerList.add(new MedicalCenter(centerId, location, centerName, postalCode, phoneNumber));
+			centerList.add(new MedicalCenter(centerId, location, centerName, postalCode, phoneNumber));
 			
 			int rows = appList.size();
 			int columns = columnNames.length;
@@ -85,6 +87,6 @@ public class MedicalCenterTableModel extends AbstractTableModel implements Table
 			
 			return dataTable; 
 		}
-		*/
+		
 
 }
