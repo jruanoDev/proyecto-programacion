@@ -39,7 +39,8 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 	public ClientTableModel(){
 		
 		addTableModelListener(this);
-		
+			
+
 		//new Controller(new AdministrationFrame());
 		//setJTableClientConfiguration();
 		
@@ -90,9 +91,9 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 		//List<Client> clientList= clientDAO.getAllClients();		
 		
 		List<Client> clientList = new ArrayList<>();
-		clientList.add(new Client("asdf", "asdf", "", LocalDate.now(), "", "", 1));
-		clientList.add(new Client("fasd", "qwer", "", LocalDate.now(), "", "", 1));
-		clientList.add(new Client("oscar", "caca", "", LocalDate.now(), "", "", 1));
+		clientList.add(new Client("asdf", "asdf", "1", LocalDate.now(), "email", "pass", 1));
+		clientList.add(new Client("fasd", "qwer", "2", LocalDate.now(), "email", "pass", 1));
+		clientList.add(new Client("oscar", "caca", "3", LocalDate.now(), "email", "pass", 1));
 		
 		int rowCount = clientList.size();
 		int columnCount = columnNames.length;
@@ -105,7 +106,6 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 						client.getEmail(), client.getPassword(), client.getAssociatedCenter()};				
 			//System.out.println(dataTable.toString());
 		}
-		new Controller(new AdministrationFrame());
 		return dataTable;
 	}
 	

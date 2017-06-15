@@ -13,10 +13,14 @@ public interface IAppointmentDAO {
 	 * 
 	 * ¡IMPORTANTE! Revisar AppointmentDAO para un correcto código en las sentencias y métodos implementados.
 	 * 
+	 * ----------------DESCOMENTAR ÚLTIMO METODO TRAS RELACION ENTRE CLIENTE Y CITA
 	 */
 	boolean createNewAppointment(Appointment appointment);
 	//Appointment getAppointmentByID(int id);
 	List<Appointment> getAllAppointments();
 	//boolean deleteAppointmentByID(int id);
 	boolean updateAppointment(Appointment appointment);
+	
+	//List<Appointment> getAppointmentsForClient(Client client);
+	
 }

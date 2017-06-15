@@ -12,6 +12,7 @@ import com.proyectogestioncitas.app.App;
 import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.interfaces.IAppointmentDAO;
 import com.proyectogestioncitas.model.pojo.Appointment;
+import com.proyectogestioncitas.model.pojo.Client;
 
 public class AppointmentDAO implements IAppointmentDAO {
 
@@ -24,6 +25,7 @@ public class AppointmentDAO implements IAppointmentDAO {
 	boolean success;	
 	Appointment appoint;
 	List<Appointment> appointmentsList = new ArrayList<>();
+	List<Appointment> clientAppointmentsList = new ArrayList<>();
 	
 	@Override
 	public boolean createNewAppointment(Appointment appointment) {
@@ -95,5 +97,29 @@ public class AppointmentDAO implements IAppointmentDAO {
 		
 		return success;
 	}
-
+	/** -----------------NO BORRAR
+	@Override
+	public List<Appointment> getAppointmentsForClient(Client client){
+		sql = "SELECT day, time, associatedCenter, doctorName, id FROM appointments WHERE id=?;";
+		
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, client.getId());
+			resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()){
+				appoint.setDay(resultSet.getString(1));
+				appoint.setTime(resultSet.getString(2));
+				appoint.setAssociatedCenter(resultSet.getInt(3));
+				appoint.setDoctorName(resultSet.getString(4));
+				appoint.setId(resultSet.getString(5));
+				
+				appointmentsList.add(appoint);
+			}
+		} catch (SQLException e) {
+			System.err.println("Error en la consulta al intentar obtener las citas del cliente.");
+		}
+		
+		return clientAppointmentsList;
+	}
+	*/
 }

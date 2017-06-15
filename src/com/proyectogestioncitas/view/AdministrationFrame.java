@@ -6,7 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.proyectogestioncitas.controler.AppointmentTableModel;
 import com.proyectogestioncitas.controler.ClientTableModel;
+import com.proyectogestioncitas.controler.Controller;
+import com.proyectogestioncitas.controler.MedicalCenterTableModel;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -54,6 +57,7 @@ public class AdministrationFrame extends JFrame {
 			public void run() {
 				try {
 					AdministrationFrame frame = new AdministrationFrame();
+					new Controller(frame);
 					frame.setVisible(true);
 					
 				} catch (Exception e) {
@@ -158,7 +162,8 @@ public class AdministrationFrame extends JFrame {
 		
 		JLabel lblCCBirthdate = new JLabel("Birth date:");
 		
-		tableCCAAppointment = new JTable();
+		AppointmentTableModel appTableModel = new AppointmentTableModel();
+		tableCCAAppointment = new JTable(appTableModel);
 		
 		textField_CCBirthDate = new JTextField();
 		textField_CCBirthDate.setEditable(false);
@@ -309,7 +314,8 @@ public class AdministrationFrame extends JFrame {
 		JPanel MedicalCenterConfig = new JPanel();
 		tabbedPane.addTab("Medical center configuration", null, MedicalCenterConfig, null);
 		
-		medicalTableCRUD = new JTable();
+		MedicalCenterTableModel medicalTM = new MedicalCenterTableModel();
+		medicalTableCRUD = new JTable(medicalTM);
 		
 		JSeparator separator = new JSeparator();
 		
@@ -435,6 +441,10 @@ public class AdministrationFrame extends JFrame {
 
 	public JTable getTableCCClient() {
 		return tableCCClient;
+	}
+	
+	public JTable getTableMedicalCenter() {
+		return medicalTableCRUD;
 	}
 
 	public JTextField getTextField_CCdni() {

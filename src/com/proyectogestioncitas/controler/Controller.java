@@ -6,6 +6,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
 import java.sql.Connection;
+import java.time.LocalDate;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -17,15 +18,19 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.DataBaseController;
 import com.proyectogestioncitas.model.XMLFile;
+import com.proyectogestioncitas.model.dao.AppointmentDAO;
 import com.proyectogestioncitas.view.AdministrationFrame;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
 import com.proyectogestioncitas.view.CreateAdminFrame;
 import com.proyectogestioncitas.view.CreateCenterDialog;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
 import com.proyectogestioncitas.view.LoginFrame;
+import com.proyectogestioncitas.model.pojo.Appointment;
 import com.proyectogestioncitas.model.pojo.Client;
 
 public class Controller implements ActionListener {
@@ -182,38 +187,106 @@ public class Controller implements ActionListener {
 	}
 	
 	public void actionListenerAdministrationFrame(ActionListener escuchador){
-		setTextCCAdministrationFrame();
+		adminFrame.getTableCCClient().getSelectionModel().addListSelectionListener(e -> {
+			setTextCCAdministrationFrame();
+			/**
+			 * new AppointmentTableModel().addAppointmetsToTableData(new AppointmentDAO(), this.returnsClientWithRowParams());
+			 * 
+			 * Para poder obtener en la tabla de citas las citas de un cliente en concreto.
+			 * Necesitamos relacion entre cliente y cita a parte de pasarle al table model esa 
+			 * relacion(dni) para poder mostrar sus citas.
+			 */
+			
+		});
+		
+		adminFrame.getTableCCAAppointment().getSelectionModel().addListSelectionListener(e -> {
+			setTextCCAppAdministrationFrame();
+		});
+		
+		adminFrame.getTableMedicalCenter().getSelectionModel().addListSelectionListener(e -> {
+			setTextMCenterAdministrationFrame();
+		});
+		
 	}
 	
 	
 	public void setTextCCAdministrationFrame(){
-		System.out.println("Has entrado");
-		JTable adminCCTable = adminFrame.getTableCCClient();
-	    adminCCTable.setModel(new ClientTableModel());
-		adminCCTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
-		//adminCCTable.getSelectionModel().addListSelectionListener(e -> {
+		/**
+		 * Una vez solucionado la RELACION ENTRE CLIENTE Y CITA descomentar codigo.
+		 */
+		try{
+			System.out.println("Ahora has entrado al selection listener de la tabla cliente.");
+			
+			int selectedRow = adminFrame.getTableCCClient().getSelectedRow();
+			System.out.println(selectedRow);
+			
+			//Client("name", "surname", "id", LocalDate.now(), "email", "pass", 1))
+			Object name = adminFrame.getTableCCClient().getValueAt(selectedRow, 0);
+			Object surnames = adminFrame.getTableCCClient().getValueAt(selectedRow, 1);
+			Object id = adminFrame.getTableCCClient().getValueAt(selectedRow, 2);
+			Object birthDate = adminFrame.getTableCCClient().getValueAt(selectedRow, 3);
+			//Object email = adminFrame.getTableCCClient().getValueAt(selectedRow, 4);
+			//Object password = adminFrame.getTableCCClient().getValueAt(selectedRow, 4);
+			
+			adminFrame.getTextField_CCBirthDate().setText(birthDate.toString());
+			adminFrame.getTextField_CCName().setText(name.toString());
+			adminFrame.getTextField_CCSurname().setText(surnames.toString());
+			adminFrame.getTextField_CCdni().setText(id.toString());
+			
+			//Client client = new Client(name.toString(), surnames.toString(), id.toString(), birthDate.toString(), 
+			//email.toString(), password.toString());
+			//returnsClientWithRowParams(client);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
 
-				System.out.println("Ahora has entrado al selection listener");
-				int selectedRow = adminCCTable.getSelectedRow();
-				System.out.println(selectedRow);
-				/*
-					Object name = adminCCTable.getValueAt(selectedRow, 0);
-					Object surnames = adminCCTable.getValueAt(selectedRow, 1);
-					Object id = adminCCTable.getValueAt(selectedRow, 1);
-					Object birthDate = adminCCTable.getValueAt(selectedRow, 1);
-					
-					adminFrame.getTextField_CCBirthDate().setText(birthDate.toString());
-					adminFrame.getTextField_CCName().setText(name.toString());
-					adminFrame.getTextField_CCSurname().setText(surnames.toString());
-					adminFrame.getTextField_CCdni().setText(id.toString());
-*/
-		//});
-		
-		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-        rightRenderer.setHorizontalAlignment(SwingConstants.LEFT);
-        adminCCTable.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
 	}
 	
+	public void setTextCCAppAdministrationFrame(){
+		System.out.println("Has entrado a setTextCCAppAdminFrame");
+		try{
+			System.out.println("Ahora has entrado al selection listener de la tabla appointment");
+			
+			int selectedRow = adminFrame.getTableCCAAppointment().getSelectedRow();
+			System.out.println(selectedRow);
+				
+			//new Appointment(day, time, associatedCenter, doctorName)
+			Object day = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 0);
+			Object hour = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 1);
+			
+			adminFrame.getTextCCAField_Date().setText(day.toString());
+			adminFrame.getTextCCAField_Hour().setText(hour.toString());
+			
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void setTextMCenterAdministrationFrame(){
+		System.out.println("Has entrado a setTextMCenterAdministrationFrame()");
+		try{
+			System.out.println("Ahora has entrado al selection listener de la tabla medical center");
+			
+			int selectedRow = adminFrame.getTableMedicalCenter().getSelectedRow();
+			System.out.println(selectedRow);
+				
+			//new MedicalCenter()
+			Object day = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 0);
+			Object hour = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 1);
+			
+			adminFrame.getTextCCAField_Date().setText(day.toString());
+			adminFrame.getTextCCAField_Hour().setText(hour.toString());
+			
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	/**
+	 * NO BORRAAAAAAAAR
+	 * public Client returnsClientWithRowParams(Client client){
+	 * 		return client;
+	 * }
+	 */
 
 }
