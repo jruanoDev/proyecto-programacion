@@ -91,9 +91,9 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 		//List<Client> clientList= clientDAO.getAllClients();		
 		
 		List<Client> clientList = new ArrayList<>();
-		clientList.add(new Client("asdf", "asdf", "1", LocalDate.now(), "email", "pass", 1));
-		clientList.add(new Client("fasd", "qwer", "2", LocalDate.now(), "email", "pass", 1));
-		clientList.add(new Client("oscar", "caca", "3", LocalDate.now(), "email", "pass", 1));
+		clientList.add(new Client("asdf", "asdf", "1", "fechanac", "email", "pass", "1"));
+		clientList.add(new Client("fasd", "qwer", "2", "fechanac", "email", "pass", "1"));
+		clientList.add(new Client("oscar", "caca", "3", "fechanac", "email", "pass", "1"));
 		
 		int rowCount = clientList.size();
 		int columnCount = columnNames.length;

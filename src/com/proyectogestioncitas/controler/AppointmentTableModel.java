@@ -10,11 +10,10 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
-import com.mysql.fabric.xmlrpc.Client;
 import com.proyectogestioncitas.model.dao.AppointmentDAO;
-import com.proyectogestioncitas.model.dao.ClientDAO;
 import com.proyectogestioncitas.model.pojo.Appointment;
 
+@SuppressWarnings("serial")
 public class AppointmentTableModel extends AbstractTableModel implements TableModelListener, ListSelectionListener{
 
 	//new Appointment(day, time, associatedCenter, doctorName)	

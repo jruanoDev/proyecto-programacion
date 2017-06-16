@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Doctor extends Person {
 	private int associatedCenter;
 
-	public Doctor(String name, String surnames, String id, LocalDate birthDate, int associatedCenter) {
+	public Doctor(String name, String surnames, String id, String birthDate, int associatedCenter) {
 		super(name, surnames, id, birthDate);
 		this.associatedCenter = associatedCenter;
 	}

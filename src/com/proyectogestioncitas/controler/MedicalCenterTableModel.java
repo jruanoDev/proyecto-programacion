@@ -9,10 +9,10 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
-import com.proyectogestioncitas.model.dao.AppointmentDAO;
 import com.proyectogestioncitas.model.dao.MedicalCenterDAO;
 import com.proyectogestioncitas.model.pojo.MedicalCenter;
 
+@SuppressWarnings("serial")
 public class MedicalCenterTableModel extends AbstractTableModel implements TableModelListener, ListSelectionListener{
 
 	//new MedicalCenter(centerId, location, centerName, postalCode, phoneNumber)

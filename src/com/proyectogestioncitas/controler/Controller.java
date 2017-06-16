@@ -24,6 +24,8 @@ import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.DataBaseController;
 import com.proyectogestioncitas.model.XMLFile;
 import com.proyectogestioncitas.model.dao.AppointmentDAO;
+import com.proyectogestioncitas.model.dao.ClientDAO;
+import com.proyectogestioncitas.model.dao.MedicalCenterDAO;
 import com.proyectogestioncitas.view.AdministrationFrame;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
 import com.proyectogestioncitas.view.CreateAdminFrame;
@@ -42,6 +44,10 @@ public class Controller implements ActionListener {
 	private CheckTableErrorDialog chkTableDialog;
 	private AdministrationFrame adminFrame;
 	private CreateCenterDialog cCenterDialog;
+	private Client client;
+	private ClientDAO clientDao;
+	private AppointmentDAO appDao;
+	private MedicalCenterDAO centerDao;
 	
 	public Controller(DataBaseConfigFrame dbConfigFrame) {
 		this.dbConfigFrame = dbConfigFrame;
@@ -61,8 +67,11 @@ public class Controller implements ActionListener {
 		actionListenerCreateAdminFrame(this);
 	}
 
-	public Controller(AdministrationFrame adminFrame){
+	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, AppointmentDAO appDao, MedicalCenterDAO centerDao){
 		this.adminFrame = adminFrame;
+		this.clientDao = clientDao;
+		this.appDao = appDao;
+		this.centerDao = centerDao;
 		actionListenerAdministrationFrame(this);
 	}
 	
@@ -76,6 +85,38 @@ public class Controller implements ActionListener {
 		/*getCreateAdminFrameAction(e);
 		getDBConfigFrameAction(e);
 		getLoginFrameAction(e);*/
+		System.out.println("Has entrado en el action performed.");
+		switch (e.getActionCommand()) {
+		//Client
+		case "Add client":
+			getActionAddClientBtn();
+			break;
+		case "Delete client":
+			getActionDeleteClientBtn();
+			break;
+		case "Update client":
+			getActionUpdateClientBtn();
+			break;
+		case "Save client":
+			getActionSaveClientBtn("saved");
+			break;
+		//App
+		case "Add app":
+			getActionAddAppBtn();
+			break;
+		case "Delete app":
+			getActionDeleteAppBtn();
+			break;
+		case "Update app":
+			getActionUpdateAppBtn();
+			break;
+		case "Save app":
+			getActionSaveAppBtn();
+			break;
+
+		default:
+			break;
+		}
 		
 		if(e.getActionCommand().equals("Validate")) {
 			String dbUrl = dbConfigFrame.getTextField_DbUrl().getText();
@@ -187,6 +228,18 @@ public class Controller implements ActionListener {
 	}
 	
 	public void actionListenerAdministrationFrame(ActionListener escuchador){
+		//Client table
+		adminFrame.getBtnCCAddNew().addActionListener(escuchador);
+		adminFrame.getBtnCCUpdate().addActionListener(escuchador);
+		adminFrame.getBtnCCDelete().addActionListener(escuchador);
+		adminFrame.getBtnCCSave().addActionListener(escuchador);
+		
+		//Appointment table
+		adminFrame.getBtnCCAAddNew().addActionListener(escuchador);
+		adminFrame.getBtnCCAUpdate().addActionListener(escuchador);
+		adminFrame.getBtnCCADelete().addActionListener(escuchador);
+		adminFrame.getBtnCCASave().addActionListener(escuchador);
+		
 		adminFrame.getTableCCClient().getSelectionModel().addListSelectionListener(e -> {
 			setTextCCAdministrationFrame();
 			/**
@@ -226,13 +279,16 @@ public class Controller implements ActionListener {
 			Object id = adminFrame.getTableCCClient().getValueAt(selectedRow, 2);
 			Object birthDate = adminFrame.getTableCCClient().getValueAt(selectedRow, 3);
 			Object email = adminFrame.getTableCCClient().getValueAt(selectedRow, 4);
-			//Object password = adminFrame.getTableCCClient().getValueAt(selectedRow, 4);
+			Object password = adminFrame.getTableCCClient().getValueAt(selectedRow, 5);
+			Object assCenter = adminFrame.getTableCCClient().getValueAt(selectedRow, 6);
 			
 			adminFrame.getTextField_CCBirthDate().setText(birthDate.toString());
 			adminFrame.getTextField_CCName().setText(name.toString());
 			adminFrame.getTextField_CCSurname().setText(surnames.toString());
 			adminFrame.getTextField_CCdni().setText(id.toString());
 			adminFrame.getTextField_CCEmail().setText(email.toString());
+			adminFrame.getTextField_CCPassword().setText(password.toString());
+			adminFrame.getTextField_CCAssCenter().setText(assCenter.toString());
 			
 			//Client client = new Client(name.toString(), surnames.toString(), id.toString(), birthDate.toString(), 
 			//email.toString(), password.toString());
@@ -254,9 +310,13 @@ public class Controller implements ActionListener {
 			//new Appointment(day, time, associatedCenter, doctorName)
 			Object day = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 0);
 			Object hour = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 1);
+			Object assCenter = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 2);
+			Object doctorsName = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 3);
 			
 			adminFrame.getTextCCAField_Date().setText(day.toString());
 			adminFrame.getTextCCAField_Hour().setText(hour.toString());
+			adminFrame.getTextField_CCAAssCenter().setText(assCenter.toString());
+			adminFrame.getTextField_CCADoctorName().setText(doctorsName.toString());
 			
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -281,6 +341,101 @@ public class Controller implements ActionListener {
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	//Client table btn
+	private void getActionAddClientBtn(){
+		System.out.println("Has entrado a getActionAddClientBtn()");
+		//TextField
+		adminFrame.getTextField_CCBirthDate().setEditable(true);
+		adminFrame.getTextField_CCdni().setEditable(true);
+		adminFrame.getTextField_CCEmail().setEditable(true);
+		adminFrame.getTextField_CCName().setEditable(true);
+		adminFrame.getTextField_CCPassword().setEditable(true);
+		adminFrame.getTextField_CCSurname().setEditable(true);
+		adminFrame.getTextField_CCAssCenter().setEditable(true);
+		
+		//Other btns
+		adminFrame.getBtnCCAAddNew().setEnabled(false);
+		adminFrame.getBtnCCAddNew().setEnabled(false);
+		adminFrame.getBtnCCADelete().setEnabled(false);
+		adminFrame.getBtnCCSave().setEnabled(true);
+		adminFrame.getBtnCCAUpdate().setEnabled(false);
+		adminFrame.getBtnCCDelete().setEnabled(false);
+		adminFrame.getBtnCCAUpdate().setEnabled(false);
+		adminFrame.getBtnCCUpdate().setEnabled(false);
+		
+		client = new Client(adminFrame.getTextField_CCName().getText(), 
+				adminFrame.getTextField_CCSurname().getText(), 
+				adminFrame.getTextField_CCdni().getText(),
+				adminFrame.getTextField_CCBirthDate().getText(),
+				adminFrame.getTextField_CCEmail().getText(),
+				adminFrame.getTextField_CCPassword().getText(),
+				adminFrame.getTextField_CCAAssCenter().getText());
+		
+		//clientDao.createNewClient(client);
+		getActionSaveClientBtn("create");
+		JOptionPane.showConfirmDialog(null, "The user with ID: '" + client.getId() + "' was created.", 
+				"An user was created", JOptionPane.DEFAULT_OPTION);
+	}
+	private void getActionDeleteClientBtn(){
+		client = new Client(adminFrame.getTextField_CCName().getText(), 
+									adminFrame.getTextField_CCSurname().getText(), 
+									adminFrame.getTextField_CCdni().getText(),
+									adminFrame.getTextField_CCBirthDate().getText(),
+									adminFrame.getTextField_CCEmail().getText(),
+									adminFrame.getTextField_CCPassword().getText(),
+									adminFrame.getTextField_CCAAssCenter().getText());
+		System.out.println(client);
+		//clientDao.deleteClientByID(client.getId());
+		JOptionPane.showConfirmDialog(null, "The user with ID: '" + client.getId() + "' was deleted.", 
+				"An user was deleted", JOptionPane.DEFAULT_OPTION);
+	}
+	private void getActionUpdateClientBtn(){
+		//TextField
+		adminFrame.getTextField_CCBirthDate().setEditable(true);
+		adminFrame.getTextField_CCEmail().setEditable(true);
+		adminFrame.getTextField_CCName().setEditable(true);
+		adminFrame.getTextField_CCPassword().setEditable(true);
+		adminFrame.getTextField_CCSurname().setEditable(true);
+		adminFrame.getTextField_CCAssCenter().setEditable(true);
+		
+		//Other btns
+		adminFrame.getBtnCCAAddNew().setEnabled(false);
+		adminFrame.getBtnCCAddNew().setEnabled(false);
+		adminFrame.getBtnCCADelete().setEnabled(false);
+		adminFrame.getBtnCCSave().setEnabled(true);
+		adminFrame.getBtnCCAUpdate().setEnabled(false);
+		adminFrame.getBtnCCDelete().setEnabled(false);
+		adminFrame.getBtnCCAUpdate().setEnabled(false);
+		adminFrame.getBtnCCUpdate().setEnabled(false);
+	}
+	private void getActionSaveClientBtn(String status){
+		switch (status) {
+		case "create":
+			JOptionPane.showConfirmDialog(null, "The user with ID: '" + client.getId() + "' was created.", 
+					"An user was created", JOptionPane.DEFAULT_OPTION);
+			break;
+		case "update":
+			
+			break;
+
+		default:
+			break;
+		}
+	}
+	//Appointment table btn
+	private void getActionAddAppBtn(){
+		
+	}
+	private void getActionDeleteAppBtn(){
+		
+	}
+	private void getActionUpdateAppBtn(){
+		
+	}
+	private void getActionSaveAppBtn(){
+		
 	}
 	
 	/**

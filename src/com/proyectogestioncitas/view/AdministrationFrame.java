@@ -10,6 +10,9 @@ import com.proyectogestioncitas.controler.AppointmentTableModel;
 import com.proyectogestioncitas.controler.ClientTableModel;
 import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.controler.MedicalCenterTableModel;
+import com.proyectogestioncitas.model.dao.AppointmentDAO;
+import com.proyectogestioncitas.model.dao.ClientDAO;
+import com.proyectogestioncitas.model.dao.MedicalCenterDAO;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -20,9 +23,9 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTable;
 import javax.swing.JSeparator;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 
+
+@SuppressWarnings("serial")
 public class AdministrationFrame extends JFrame {
 
 	private JPanel contentPane;
@@ -49,6 +52,12 @@ public class AdministrationFrame extends JFrame {
 	private JButton btnCCDelete;
 	private JButton btnCCAddNew;
 	private JTextField textField_CCEmail;
+	private JTextField textField_CCPassword;
+	private JTextField textField_CCAssCenter;
+	private JTextField textField_CCAAssCenter;
+	private JTextField textField_CCADoctorName;
+	private JButton btnCCSave;
+	private JButton btnCCASave;
 
 	/**
 	 * Launch the application.
@@ -58,7 +67,7 @@ public class AdministrationFrame extends JFrame {
 			public void run() {
 				try {
 					AdministrationFrame frame = new AdministrationFrame();
-					new Controller(frame);
+					new Controller(frame, new ClientDAO(), new AppointmentDAO(), new MedicalCenterDAO());
 					frame.setVisible(true);
 					
 				} catch (Exception e) {
@@ -77,7 +86,7 @@ public class AdministrationFrame extends JFrame {
 	
 	public void inicialize(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 995, 680);
+		setBounds(100, 100, 1028, 720);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -86,11 +95,13 @@ public class AdministrationFrame extends JFrame {
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 985, Short.MAX_VALUE)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 986, Short.MAX_VALUE)
+					.addGap(0))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
+				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 709, Short.MAX_VALUE)
 		);
 		
 		JPanel MainPanel = new JPanel();
@@ -318,154 +329,281 @@ public class AdministrationFrame extends JFrame {
 		
 		JLabel lblAppointmentInformation = new JLabel("APPOINTMENT INFORMATION");
 		
-		btnCCAddNew = new JButton("Add new");
+		btnCCAddNew = new JButton("Add client");
 		
-		btnCCDelete = new JButton("Delete");
+		btnCCDelete = new JButton("Delete client");
 		
-		btnCCUpdate = new JButton("Update");
+		btnCCUpdate = new JButton("Update client");
 		
-		btnCCAUpdate = new JButton("Update");
+		btnCCAUpdate = new JButton("Update app");
 		
-		btnCCADelete = new JButton("Delete");
+		btnCCADelete = new JButton("Delete app");
 		
-		btnCCAAddNew = new JButton("Add new");
+		btnCCAAddNew = new JButton("Add app");
 		
 		JLabel lblCCEmail = new JLabel("E-mail:");
 		
 		textField_CCEmail = new JTextField();
 		textField_CCEmail.setEditable(false);
 		textField_CCEmail.setColumns(10);
+		
+		JLabel lblCCPassword = new JLabel("Password:");
+		
+		textField_CCPassword = new JTextField();
+		textField_CCPassword.setEditable(false);
+		textField_CCPassword.setColumns(10);
+		
+		JLabel lblCCAssCenter = new JLabel("Ass. Center:");
+		
+		textField_CCAssCenter = new JTextField();
+		textField_CCAssCenter.setEditable(false);
+		textField_CCAssCenter.setColumns(10);
+		
+		JLabel lblCCAAssCenter = new JLabel("Ass. center");
+		
+		JLabel lblCCADoctorsName = new JLabel("Doctor's name:");
+		
+		textField_CCAAssCenter = new JTextField();
+		textField_CCAAssCenter.setEditable(false);
+		textField_CCAAssCenter.setColumns(10);
+		
+		textField_CCADoctorName = new JTextField();
+		textField_CCADoctorName.setEditable(false);
+		textField_CCADoctorName.setColumns(10);
+		
+		btnCCSave = new JButton(" Save client");
+		btnCCSave.setEnabled(false);
+		
+		btnCCASave = new JButton("Save app");
+		btnCCASave.setEnabled(false);
 		GroupLayout gl_ClientConfiguration = new GroupLayout(ClientConfiguration);
 		gl_ClientConfiguration.setHorizontalGroup(
-			gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
+			gl_ClientConfiguration.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_ClientConfiguration.createSequentialGroup()
 					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_ClientConfiguration.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(tableCCClient, GroupLayout.PREFERRED_SIZE, 471, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
-							.addComponent(tableCCAAppointment, GroupLayout.PREFERRED_SIZE, 468, GroupLayout.PREFERRED_SIZE))
+							.addComponent(tableCCAAppointment, GroupLayout.PREFERRED_SIZE, 504, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_ClientConfiguration.createSequentialGroup()
 							.addGap(22)
 							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
-									.addGroup(gl_ClientConfiguration.createSequentialGroup()
-										.addComponent(btnCCAddNew)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(btnCCDelete)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(btnCCUpdate))
-									.addGroup(gl_ClientConfiguration.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
-											.addComponent(lblCCName)
-											.addComponent(lblCCid))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
-											.addComponent(textField_CCdni, GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
-											.addComponent(textField_CCName, GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE))))
-								.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING, false)
-									.addGroup(gl_ClientConfiguration.createSequentialGroup()
-										.addComponent(lblCCSurname)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(textField_CCSurname))
-									.addGroup(gl_ClientConfiguration.createSequentialGroup()
+								.addGroup(gl_ClientConfiguration.createSequentialGroup()
+									.addComponent(btnCCAddNew)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnCCDelete)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnCCUpdate)
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(btnCCSave))
+								.addGroup(gl_ClientConfiguration.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblCCid)
+										.addComponent(lblCCName)
 										.addComponent(lblCCBirthdate)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(textField_CCBirthDate, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE))
-									.addGroup(gl_ClientConfiguration.createSequentialGroup()
-										.addComponent(lblCCEmail)
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(textField_CCEmail, GroupLayout.PREFERRED_SIZE, 205, GroupLayout.PREFERRED_SIZE))))
-							.addGap(197)
-							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblCCADate)
-								.addComponent(lblCCAHour))
-							.addPreferredGap(ComponentPlacement.RELATED)
+										.addGroup(gl_ClientConfiguration.createSequentialGroup()
+											.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.TRAILING)
+												.addComponent(lblCCPassword)
+												.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
+													.addComponent(lblCCEmail)
+													.addComponent(lblCCAssCenter)
+													.addComponent(lblCCSurname)))
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
+												.addComponent(textField_CCEmail, GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
+												.addComponent(textField_CCPassword, GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
+												.addComponent(textField_CCBirthDate, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)
+												.addComponent(textField_CCName, GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
+												.addComponent(textField_CCSurname, GroupLayout.PREFERRED_SIZE, 304, GroupLayout.PREFERRED_SIZE)
+												.addComponent(textField_CCAssCenter, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE)
+												.addComponent(textField_CCdni, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE))))))
+							.addGap(86)
 							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
-								.addComponent(textCCAField_Hour, GroupLayout.PREFERRED_SIZE, 79, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textCCAField_Date, GroupLayout.PREFERRED_SIZE, 201, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_ClientConfiguration.createSequentialGroup()
+									.addGap(23)
+									.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_ClientConfiguration.createSequentialGroup()
+											.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblCCADate)
+												.addComponent(lblCCAHour))
+											.addGap(53)
+											.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING, false)
+												.addComponent(textCCAField_Hour)
+												.addComponent(textCCAField_Date, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)))
+										.addComponent(lblCCADoctorsName)
+										.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.TRAILING)
+											.addComponent(textField_CCADoctorName, GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+											.addGroup(Alignment.LEADING, gl_ClientConfiguration.createSequentialGroup()
+												.addComponent(lblCCAAssCenter)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(textField_CCAAssCenter, 253, 253, 253)))))
 								.addGroup(gl_ClientConfiguration.createSequentialGroup()
 									.addComponent(btnCCAAddNew)
-									.addGap(18)
-									.addComponent(btnCCADelete)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.TRAILING, false)
+										.addComponent(btnCCASave, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(btnCCADelete, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 									.addGap(18)
 									.addComponent(btnCCAUpdate)))
-							.addGap(255))
+							.addPreferredGap(ComponentPlacement.RELATED, 356, Short.MAX_VALUE))
 						.addGroup(gl_ClientConfiguration.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 1085, Short.MAX_VALUE)))
+							.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 1321, Short.MAX_VALUE))
+						.addGroup(gl_ClientConfiguration.createSequentialGroup()
+							.addGap(179)
+							.addComponent(lblClientInformation)
+							.addGap(368)
+							.addComponent(lblAppointmentInformation)))
 					.addContainerGap())
-				.addGroup(gl_ClientConfiguration.createSequentialGroup()
-					.addGap(120)
-					.addComponent(lblClientInformation)
-					.addPreferredGap(ComponentPlacement.RELATED, 349, Short.MAX_VALUE)
-					.addComponent(lblAppointmentInformation)
-					.addGap(295))
 		);
 		gl_ClientConfiguration.setVerticalGroup(
 			gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_ClientConfiguration.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
-						.addComponent(tableCCClient, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
-						.addComponent(tableCCAAppointment, GroupLayout.PREFERRED_SIZE, 280, GroupLayout.PREFERRED_SIZE))
+						.addComponent(tableCCClient, GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+						.addComponent(tableCCAAppointment, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
 					.addGap(28)
 					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblClientInformation)
 						.addComponent(lblAppointmentInformation))
-					.addGap(38)
+					.addGap(9)
+					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblCCid)
+						.addComponent(textField_CCdni, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblCCName)
+						.addComponent(textField_CCName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCCADate)
+						.addComponent(textCCAField_Date, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(17)
+					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblCCBirthdate)
+						.addComponent(textField_CCBirthDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCCAHour)
+						.addComponent(textCCAField_Hour, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textField_CCSurname, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCCSurname)
+						.addComponent(lblCCAAssCenter)
+						.addComponent(textField_CCAAssCenter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_ClientConfiguration.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textCCAField_Date, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblCCADate))
-							.addGap(18)
-							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textCCAField_Hour, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblCCAHour))
-							.addGap(35))
-						.addGroup(gl_ClientConfiguration.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblCCid)
-								.addComponent(textField_CCdni, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
-							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblCCName)
-								.addComponent(textField_CCName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
-							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblCCSurname)
-								.addComponent(textField_CCSurname, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.TRAILING, false)
-						.addGroup(gl_ClientConfiguration.createSequentialGroup()
-							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblCCBirthdate)
-								.addComponent(textField_CCBirthDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
 								.addComponent(textField_CCEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblCCEmail))
-							.addGap(47)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnCCAddNew)
-								.addComponent(btnCCDelete)
-								.addComponent(btnCCUpdate))
-							.addContainerGap())
+								.addComponent(lblCCPassword)
+								.addComponent(textField_CCPassword, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblCCAssCenter)
+								.addComponent(textField_CCAssCenter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_ClientConfiguration.createSequentialGroup()
-							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnCCADelete)
-								.addComponent(btnCCAAddNew)
-								.addComponent(btnCCAUpdate))
-							.addGap(23))))
+							.addGap(24)
+							.addComponent(lblCCADoctorsName)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textField_CCADoctorName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnCCAAddNew)
+						.addComponent(btnCCADelete)
+						.addComponent(btnCCAUpdate))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnCCAddNew)
+						.addComponent(btnCCDelete)
+						.addComponent(btnCCUpdate)
+						.addComponent(btnCCSave)
+						.addComponent(btnCCASave))
+					.addContainerGap())
 		);
 		ClientConfiguration.setLayout(gl_ClientConfiguration);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	public JButton getBtnCCSave() {
+		return btnCCSave;
+	}
+
+	public JButton getBtnCCASave() {
+		return btnCCASave;
+	}
+
+	public JButton getBtnCCAAddNew() {
+		return btnCCAAddNew;
+	}
+
+	public JButton getBtnCCADelete() {
+		return btnCCADelete;
+	}
+
+	public JButton getBtnCCAUpdate() {
+		return btnCCAUpdate;
+	}
+
+	public JButton getBtnCCUpdate() {
+		return btnCCUpdate;
+	}
+
+	public JButton getBtnCCDelete() {
+		return btnCCDelete;
+	}
+
+	public JButton getBtnCCAddNew() {
+		return btnCCAddNew;
+	}
+
+	public JTextField getTextField_MPLog() {
+		return textField_MPLog;
+	}
+
+	public JTextField getTextField_MPLastLog() {
+		return textField_MPLastLog;
+	}
+
+	public JTextField getTextField_MCCenterID() {
+		return textField_MCCenterID;
+	}
+
+	public JTextField getTextField_MCLocation() {
+		return textField_MCLocation;
+	}
+
+	public JTextField getTextField_MCCenterName() {
+		return textField_MCCenterName;
+	}
+
+	public JTextField getTextField_MCPostalCode() {
+		return textField_MCPostalCode;
+	}
+
+	public JTextField getTextField_MCPhone() {
+		return textField_MCPhone;
+	}
+
+	public JTextField getTextField_CCPassword() {
+		return textField_CCPassword;
+	}
+
+	public JTextField getTextField_CCAssCenter() {
+		return textField_CCAssCenter;
+	}
+
+	public JTextField getTextField_CCAAssCenter() {
+		return textField_CCAAssCenter;
+	}
+
+	public JTextField getTextField_CCADoctorName() {
+		return textField_CCADoctorName;
 	}
 
 	public JTextField getTextField_CCEmail() {

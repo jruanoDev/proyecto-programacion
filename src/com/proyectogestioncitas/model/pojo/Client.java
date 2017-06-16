@@ -5,10 +5,10 @@ import java.time.LocalDate;
 public class Client extends Person{
 	private String email;
 	private String password;
-	private int associatedCenter;
+	private String associatedCenter;
 	
-	public Client(String name, String surnames, String id, LocalDate birthDate, String email, String password,
-			int associatedCenter) {
+	public Client(String name, String surnames, String id, String birthDate, String email, String password,
+			String associatedCenter) {
 		super(name, surnames, id, birthDate);
 		this.email = email;
 		this.password = password;
@@ -31,13 +31,19 @@ public class Client extends Person{
 		this.password = password;
 	}
 
-	public int getAssociatedCenter() {
+	public String getAssociatedCenter() {
 		return associatedCenter;
 	}
 
-	public void setAssociatedCenter(int associatedCenter) {
+	public void setAssociatedCenter(String associatedCenter) {
 		this.associatedCenter = associatedCenter;
 	}
+
+	@Override
+	public String toString() {
+		return "Client [email=" + email + ", password=" + password + ", associatedCenter=" + associatedCenter + "]";
+	}
+	
 	
 	
 	

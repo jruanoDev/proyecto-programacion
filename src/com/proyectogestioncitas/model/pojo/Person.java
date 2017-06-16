@@ -1,14 +1,13 @@
 package com.proyectogestioncitas.model.pojo;
 
-import java.time.LocalDate;
 
 public class Person {
 	private String name;
 	private String surnames;
 	private String id; //dni
-	private LocalDate birthDate;
+	private String birthDate;
 	
-	public Person(String name, String surnames, String id, LocalDate birthDate) {
+	public Person(String name, String surnames, String id, String birthDate) {
 		this.name = name;
 		this.surnames = surnames;
 		this.id = id;
@@ -39,12 +38,17 @@ public class Person {
 		this.id = id;
 	}
 
-	public LocalDate getBirthDate() {
+	public String getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(LocalDate birthDate) {
+	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	@Override
+	public String toString() {
+		return "Person [name=" + name + ", surnames=" + surnames + ", id=" + id + ", birthDate=" + birthDate + "]";
 	}
 	
 	
