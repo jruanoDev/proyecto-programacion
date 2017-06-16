@@ -1,6 +1,5 @@
 package com.proyectogestioncitas.controler;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,29 +10,40 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
 import com.proyectogestioncitas.model.dao.AppointmentDAO;
-import com.proyectogestioncitas.model.pojo.Appointment;
+import com.proyectogestioncitas.model.dao.MedicalCenterDAO;
 import com.proyectogestioncitas.model.pojo.MedicalCenter;
 
 public class MedicalCenterTableModel extends AbstractTableModel implements TableModelListener, ListSelectionListener{
 
+	//new MedicalCenter(centerId, location, centerName, postalCode, phoneNumber)
+	private static String columnNames[] = {
+			"Center ID",
+			"Location",
+			"Center name",
+			"Postal code",
+			"Phone number"
+	};
+	
+	private static Object[][] tableData = new MedicalCenterTableModel().addCentersToTableData(new MedicalCenterDAO());
+	
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return tableData.length;
 	}
 	
 	@Override
 	public String getColumnName(int column) {
 		// TODO Auto-generated method stub
-		return super.getColumnName(column);
+		return columnNames[column];
 	}
 
 
 
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		super.setValueAt(aValue, rowIndex, columnIndex);
+		tableData[rowIndex][columnIndex] = aValue;
+		fireTableCellUpdated(rowIndex, columnIndex);
 	}
 
 
@@ -41,13 +51,13 @@ public class MedicalCenterTableModel extends AbstractTableModel implements Table
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return columnNames.length;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub
-		return null;
+		return tableData[rowIndex][columnIndex];
 	}
 
 	@Override
@@ -66,23 +76,24 @@ public class MedicalCenterTableModel extends AbstractTableModel implements Table
 	 * @param appDao
 	 * @return
 	 */
-	public Object[][] addCentersToTableData(AppointmentDAO appDao){
-		//public Object[][] addAppointmentsToTableData(AppointmentDAO appDao, Client client){
-			//List<MedicalCenter> centerList = appDao.getAppointmentsForClient(client);
+	public Object[][] addCentersToTableData(MedicalCenterDAO centerDAO){
+			
+			//List<MedicalCenter> centerList = centerDAO.getAllMedicalCenters();
 			
 			//new MedicalCenter(centerId, location, centerName, postalCode, phoneNumber)
 			List<MedicalCenter> centerList = new ArrayList<>();
-			centerList.add(new MedicalCenter(centerId, location, centerName, postalCode, phoneNumber));
-			centerList.add(new MedicalCenter(centerId, location, centerName, postalCode, phoneNumber));
+			centerList.add(new MedicalCenter("IdExample", "Locatio", "NombreCentro", "CodigoPostal", "PhoneNumber"));
+			centerList.add(new MedicalCenter("id", "loc", "centerName", "cp", "phoneNumber"));
 			
-			int rows = appList.size();
+			int rows = centerList.size();
 			int columns = columnNames.length;
 			
 			Object dataTable[][] = new Object[rows][columns];
 			
 			for(int i = 0; i < rows ; i++){
-				Appointment appointment = appList.get(i);
-				dataTable[i] = new Object[]{appointment.getDay(), appointment.getTime(), appointment.getAssociatedCenter(), appointment.getDoctorName()};
+				MedicalCenter center = centerList.get(i);
+				dataTable[i] = new Object[]{center.getCenterId(), center.getLocation(), center.getCenterName(),
+						center.getPostalCode(), center.getPhoneNumber()};
 			}
 			
 			return dataTable; 

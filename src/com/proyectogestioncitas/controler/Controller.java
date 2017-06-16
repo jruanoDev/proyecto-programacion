@@ -225,13 +225,14 @@ public class Controller implements ActionListener {
 			Object surnames = adminFrame.getTableCCClient().getValueAt(selectedRow, 1);
 			Object id = adminFrame.getTableCCClient().getValueAt(selectedRow, 2);
 			Object birthDate = adminFrame.getTableCCClient().getValueAt(selectedRow, 3);
-			//Object email = adminFrame.getTableCCClient().getValueAt(selectedRow, 4);
+			Object email = adminFrame.getTableCCClient().getValueAt(selectedRow, 4);
 			//Object password = adminFrame.getTableCCClient().getValueAt(selectedRow, 4);
 			
 			adminFrame.getTextField_CCBirthDate().setText(birthDate.toString());
 			adminFrame.getTextField_CCName().setText(name.toString());
 			adminFrame.getTextField_CCSurname().setText(surnames.toString());
 			adminFrame.getTextField_CCdni().setText(id.toString());
+			adminFrame.getTextField_CCEmail().setText(email.toString());
 			
 			//Client client = new Client(name.toString(), surnames.toString(), id.toString(), birthDate.toString(), 
 			//email.toString(), password.toString());
