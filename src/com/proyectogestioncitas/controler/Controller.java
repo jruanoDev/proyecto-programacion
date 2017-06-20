@@ -362,6 +362,7 @@ public class Controller implements ActionListener {
 		adminFrame.getTextField_CCAssCenter().setEditable(true);
 		adminFrame.getTextField_CCAssCenter().setText("");
 		
+		System.out.println(adminFrame.getTextField_CCdni().isEditable()+" holi");
 		//Other btns
 		setCCBtnConfiguration(false);
 
