@@ -37,7 +37,7 @@ public class AdministrationFrame extends JFrame {
 	private JTextField textField_MCCenterName;
 	private JTextField textField_MCPostalCode;
 	private JTextField textField_MCPhone;
-	private JTable tableCCClient;
+	private static JTable tableCCClient;
 	private JTextField textField_CCdni;
 	private JTextField textField_CCName;
 	private JTable tableCCAAppointment;
@@ -67,7 +67,7 @@ public class AdministrationFrame extends JFrame {
 			public void run() {
 				try {
 					AdministrationFrame frame = new AdministrationFrame();
-					new Controller(frame, new ClientDAO(), new AppointmentDAO(), new MedicalCenterDAO());
+					new Controller(frame, new ClientDAO(), new AppointmentDAO(), new MedicalCenterDAO(), tableCCClient);
 					frame.setVisible(true);
 					
 				} catch (Exception e) {
@@ -334,6 +334,7 @@ public class AdministrationFrame extends JFrame {
 		btnCCDelete = new JButton("Delete client");
 		
 		btnCCUpdate = new JButton("Update client");
+		btnCCUpdate.setEnabled(false);
 		
 		btnCCAUpdate = new JButton("Update app");
 		
@@ -371,7 +372,7 @@ public class AdministrationFrame extends JFrame {
 		textField_CCADoctorName.setEditable(false);
 		textField_CCADoctorName.setColumns(10);
 		
-		btnCCSave = new JButton(" Save client");
+		btnCCSave = new JButton("Save client");
 		btnCCSave.setEnabled(false);
 		
 		btnCCASave = new JButton("Save app");

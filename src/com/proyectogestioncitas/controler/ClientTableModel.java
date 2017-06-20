@@ -37,13 +37,9 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 	
 	
 	public ClientTableModel(){
-		
 		addTableModelListener(this);
-			
-
 		//new Controller(new AdministrationFrame());
 		//setJTableClientConfiguration();
-		
 	}
 	
 	@Override
