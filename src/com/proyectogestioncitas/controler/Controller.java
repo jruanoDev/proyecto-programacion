@@ -74,6 +74,7 @@ public class Controller implements ActionListener {
 		this.appDao = appDao;
 		this.centerDao = centerDao;
 		this.tableCCClient = tableCCClient;
+		
 		actionListenerAdministrationFrame(this);
 	}
 	
@@ -334,12 +335,18 @@ public class Controller implements ActionListener {
 			int selectedRow = adminFrame.getTableMedicalCenter().getSelectedRow();
 			System.out.println(selectedRow);
 				
-			//new MedicalCenter()
-			Object day = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 0);
-			Object hour = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 1);
+			Object id = adminFrame.getTableMedicalCenter().getValueAt(selectedRow, 0);
+			Object location = adminFrame.getTableMedicalCenter().getValueAt(selectedRow, 1);
+			Object name = adminFrame.getTableMedicalCenter().getValueAt(selectedRow, 2);
+			Object cp = adminFrame.getTableMedicalCenter().getValueAt(selectedRow, 3);
+			Object phone = adminFrame.getTableMedicalCenter().getValueAt(selectedRow, 4);
 			
-			adminFrame.getTextCCAField_Date().setText(day.toString());
-			adminFrame.getTextCCAField_Hour().setText(hour.toString());
+			adminFrame.getTextField_MCCenterID().setText(id.toString());
+			adminFrame.getTextField_MCLocation().setText(location.toString());
+			adminFrame.getTextField_MCCenterName().setText(name.toString());
+			adminFrame.getTextField_MCPostalCode().setText(cp.toString());
+			adminFrame.getTextField_MCPhone().setText(phone.toString());
+			
 			
 		}catch(Exception e){
 			System.out.println(e.getMessage());
