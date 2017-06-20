@@ -122,8 +122,8 @@ public class DataBaseController {
 			
 			int createDatesCheck = statement.executeUpdate(createDates);
 			
-			/* FALTAN POR CREAR LA TABLA DE LAS CITAS CONCEDIDAS, QUE SE LIMPIARÁ EN CASO DE
-			 * QUE EL DÍA HAYA CAMBIADO Y SE AÑADIRAN NUEVOS CAMPOS CON LOS HORARIOS ESCOGIDOS.
+			/* FALTAN POR CREAR LA TABLA DE LAS CITAS CONCEDIDAS, QUE SE LIMPIARÃ� EN CASO DE
+			 * QUE EL DÃ�A HAYA CAMBIADO Y SE AÃ‘ADIRAN NUEVOS CAMPOS CON LOS HORARIOS ESCOGIDOS.
 			 */
 			
 			
@@ -226,7 +226,9 @@ public class DataBaseController {
 			ResultSet medicalCenters = statement.executeQuery("SELECT * FROM centers;");
 			
 			if(!medicalCenters.next()) {
-				
+				System.out.println("Esta vacia");
+			} else {
+				System.out.println("Tiene algo");
 			}
 			
 		} catch (SQLException e) {

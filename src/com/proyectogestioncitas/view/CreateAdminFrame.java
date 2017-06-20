@@ -10,10 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JPasswordField;
 
 @SuppressWarnings("serial")
-public class CreateAdminFrame extends JFrame {
+public class CreateAdminFrame extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField textField_CALogin;
@@ -53,6 +54,9 @@ public class CreateAdminFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setModalityType();
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+	
 		
 		JLabel lblCreatingAdminUser = new JLabel("CREATING ADMIN USER");
 		

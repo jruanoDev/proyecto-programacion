@@ -85,7 +85,7 @@ public class Controller implements ActionListener {
 		/*getCreateAdminFrameAction(e);
 		getDBConfigFrameAction(e);
 		getLoginFrameAction(e);*/
-		System.out.println("Has entrado en el action performed.");
+		//System.out.println("Has entrado en el action performed.");
 		switch (e.getActionCommand()) {
 		//Client
 		case "Add client":

@@ -15,7 +15,7 @@ import com.proyectogestioncitas.view.DataBaseConfigFrame;
 
 public class App {
 	// Al iniciar la app primero comprobamos el archivo XML, lo almacenaremos en una carpeta llamada config
-	// donde estará el archivo de configuración, si no existe lo creamos nosotros de nuevo
+	// donde estarÃ¡ el archivo de configuraciÃ³n, si no existe lo creamos nosotros de nuevo
 	
 	private XMLFile xmlFile = null;
 	private static Connection dbConnection = null;
@@ -55,6 +55,7 @@ public class App {
 				dbController.checkDatabaseTables();
 				
 				dbController.checkAdminOnDB();
+				dbController.checkMedicalCenters();
 				
 			}
 			
@@ -85,8 +86,8 @@ public class App {
 				if(!currentDay.equals(TimeController.getCurrentTime().toString())) {
 					// HACER UN BORRADO DE LAS FILAS DE LA TABLA CURRENT DAY
 					// Y INSERTAR UNA NUEVA CON LA FECHA ACTUAL, DE ESTA MANERA PODEMOS
-					// ACTUALIZAR LA FECHA Y COMPROBAR SI LAS CITAS SON VÁLIDAS, MIRAR
-					// SI LO HACEMOS DIRECTAMENTE AQUÍ (NO RECOMENDABLE), O EN DATABASECONTROLLER
+					// ACTUALIZAR LA FECHA Y COMPROBAR SI LAS CITAS SON VÃ�LIDAS, MIRAR
+					// SI LO HACEMOS DIRECTAMENTE AQUÃ� (NO RECOMENDABLE), O EN DATABASECONTROLLER
 					// O EN TIMECONTROLLER
 					
 					int deletedRows = statement.executeUpdate("DELETE FROM currentday;");
