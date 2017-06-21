@@ -10,6 +10,7 @@ import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 
 import com.proyectogestioncitas.app.App;
+import com.proyectogestioncitas.model.ApplyForAnAppointmentConfiguration;
 import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.DataBaseController;
 import com.proyectogestioncitas.model.XMLFile;
@@ -908,9 +909,19 @@ public class Controller implements ActionListener {
 
 		Object day = clientFrame.getTable_applyFor().getValueAt(selectedRow, 0);
 		Object hour = clientFrame.getTable_applyFor().getValueAt(selectedRow, 1);
-		Object center = clientFrame.getTable_applyFor().getValueAt(selectedRow, 2);
+		Object associatedCenter2 = clientFrame.getTable_applyFor().getValueAt(selectedRow, 2);
 		
+		String name = clientFrame.getTextField_Name().getText();
+		String surname = clientFrame.getTextField_Surnames().getText();
+		String birthDate = clientFrame.getTextField_Birthdate().getText();
+		String id = clientFrame.getTextField_id().getText();
+		String associatedCenter = clientFrame.getTextField_assCenter().getText();
+		String email = clientFrame.getTextField_email().getText();
 		
+		ApplyForAnAppointmentConfiguration apply = new ApplyForAnAppointmentConfiguration(name, surname, birthDate, id, associatedCenter, email, 
+				day.toString(), hour.toString(), associatedCenter2.toString());
+		apply.downloadPdfToDesktop();
+		apply.sendEmailToClient();
 	}
 
 	public void setClientWithRowParams(Client client){

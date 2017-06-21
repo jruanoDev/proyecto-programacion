@@ -3,6 +3,8 @@ package com.proyectogestioncitas.model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -19,6 +21,9 @@ import javax.swing.JOptionPane;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -86,7 +91,7 @@ public class ApplyForAnAppointmentConfiguration {
 	        Session mailSession = Session.getInstance(props, new javax.mail.Authenticator() {
 	
 	            protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-	            	javax.mail.PasswordAuthentication password = new javax.mail.PasswordAuthentication("oscarlifeplays4@gmail.com", "elhormiguero4");
+	            	javax.mail.PasswordAuthentication password = new javax.mail.PasswordAuthentication("procitas.noreplay@gmail.com", "ProyectoProgramacion");
 	                return password;
 	            }
 	        });
@@ -101,7 +106,7 @@ public class ApplyForAnAppointmentConfiguration {
 	         */
 	        //Security.addProvider(new JSSEProvider());
 	        //--[ Set the FROM, TO, DATE and SUBJECT fields
-	        msg.setFrom( new InternetAddress( "oscarlifeplays4@gmail.com" ) );
+	        msg.setFrom( new InternetAddress( "procitas.noreplay@gmail.com" ) );
 	        msg.setRecipients( Message.RecipientType.TO,InternetAddress.parse(email) );
 	        msg.setDataHandler(new DataHandler(new FileDataSource(file.toString())));
 	        msg.setFileName("AppointmentInformation.pdf");
@@ -113,7 +118,8 @@ public class ApplyForAnAppointmentConfiguration {
 	
 	        //--[ Ask the Transport class to send our mail message
 	        Transport.send( msg );
-	        System.out.println("Correo enviado");
+	        JOptionPane.showMessageDialog(null, "An e-mail was sended to your e-mail address: " + email + "\n Please check it, because " + 
+	        		"it has all the information about your appointment." , "E-mail sended", JOptionPane.INFORMATION_MESSAGE);
 	
 	    } catch(Exception E){
 	        System.out.println( "Oops something has gone pearshaped!");
@@ -123,19 +129,52 @@ public class ApplyForAnAppointmentConfiguration {
 	
 	public void setPdfInformation(Document document){
 		try {
-			document.add(new Paragraph("Desde el metodo"));
+			
+			Font boldFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
+			Paragraph title = new Paragraph("PROCITAS - Appointment information", boldFont);
+			title.setAlignment(Element.ALIGN_CENTER);
+			document.add(title);
+			
+			Paragraph content = new Paragraph();
+			content.add("\n");
+			content.add("Dear " + name + ", \n");
+			content.add("    Here is the PDF with all the information about the appointment that you requested recently by our app 'PROCITAS'.\n"
+					+ "    Thank you for your attention and for use our application, then here is all the information about your appointment:\n" +
+					"\nName: " + name +
+					"\nSurname/s: " + surname +
+					"\nID: " + id +
+					"\nBirth date: " + birthDate +
+					"\nAssociated center: " + associatedCenter +
+					"\nDate: Day " + day + " at " + hour);
+			
+			document.add(content);
+
+			Image image1;
+			try {
+				image1 = Image.getInstance("img/proCitas.jpg");
+				image1.setAbsolutePosition(0, 0);
+				image1.scalePercent(40f);
+				document.add(image1);
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
 		} catch (DocumentException e) {
 			System.out.println("Error en el setPdfInformation()");
 		}
 	}
 	
-
+/**
 	public static void main(String[] args) {
-		ApplyForAnAppointmentConfiguration apply = new ApplyForAnAppointmentConfiguration("", "", "", "", "", "oscarlifeplays@gmail.com", "", "", "");
+		ApplyForAnAppointmentConfiguration apply = new ApplyForAnAppointmentConfiguration("Nombre", "Apellidos", "13/10/1998", "77644840Z", "1", "oscarlifeplays@gmail.com", "21", "18:00", "1");
 		apply.downloadPdfToDesktop();
 		apply.sendEmailToClient();
 	}
-	
+*/
 	
 	
 	

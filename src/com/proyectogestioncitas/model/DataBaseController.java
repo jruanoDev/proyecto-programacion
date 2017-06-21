@@ -88,7 +88,7 @@ public class DataBaseController {
 			
 			
 			String createClients = "CREATE TABLE clients (" + 
-								"email VARCHAR(20) NOT NULL UNIQUE," + 
+								"email VARCHAR(40) NOT NULL UNIQUE," + 
 								"name VARCHAR(15) NOT NULL," + 
 								"surname VARCHAR(20) NOT NULL," + 
 								"id VARCHAR(9) NOT NULL UNIQUE," + 
