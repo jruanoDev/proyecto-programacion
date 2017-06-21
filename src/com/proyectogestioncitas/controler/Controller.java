@@ -557,7 +557,6 @@ public class Controller implements ActionListener {
 	private void getActionAddClientBtn(){
 		adminFrame.getBtnCCancelAction().setEnabled(true);
 		
-		System.out.println("Has entrado a getActionAddClientBtn()");
 		//TextField
 		setCCTextFields(true, "all");
 		//Other btns
@@ -574,8 +573,8 @@ public class Controller implements ActionListener {
 									adminFrame.getTextField_CCEmail().getText(),
 									adminFrame.getTextField_CCPassword().getText(),
 									adminFrame.getTextField_CCAAssCenter().getText());
-		System.out.println(client);
-		//clientDao.deleteClientByID(client.getId());
+
+		clientDao.deleteClientByID(client.getId());
 		JOptionPane.showConfirmDialog(null, "The user with ID: '" + client.getId() + "' was deleted.", 
 				"An user was deleted", JOptionPane.DEFAULT_OPTION);
 		setCCTextFields(false, "all");
@@ -610,7 +609,7 @@ public class Controller implements ActionListener {
 					adminFrame.getTextField_CCPassword().getText(),
 					adminFrame.getTextField_CCAAssCenter().getText());
 
-			//clientDao.createNewClient(client);
+			clientDao.createNewClient(client);
 			JOptionPane.showConfirmDialog(null, "The user with ID: '" + client.getId() + "' was created.", 
 					"An user was created", JOptionPane.DEFAULT_OPTION);
 			
@@ -622,9 +621,9 @@ public class Controller implements ActionListener {
 					adminFrame.getTextField_CCBirthDate().getText(),
 					adminFrame.getTextField_CCEmail().getText(),
 					adminFrame.getTextField_CCPassword().getText(),
-					adminFrame.getTextField_CCAAssCenter().getText());
+					MedicalCenterDAO.getMedicalCenterId());
 
-			//clientDao.updateClient(client);
+			clientDao.updateClient(client);
 			JOptionPane.showConfirmDialog(null, "The user with ID: '" + client.getId() + "' was updated.", 
 					"An user was updated", JOptionPane.DEFAULT_OPTION);
 			
@@ -638,8 +637,6 @@ public class Controller implements ActionListener {
 	
 	//Appointment table btn
 	private void getActionAddAppBtn(){
-		System.out.println("Has entrado en add app");
-		//Cancel btn
 		adminFrame.getBtnCCancelAction().setEnabled(true);	
 		//TextField
 		setCCATextFields(true, "add");
@@ -687,7 +684,7 @@ public class Controller implements ActionListener {
 					adminFrame.getTextCCAField_Hour().getText(), 
 					adminFrame.getTextField_CCAAssCenter().getText());
 			
-			//appDao.createNewAppointment(app);
+			appDao.createNewAppointment(app);
 			JOptionPane.showMessageDialog(null, "An appointment was created.", "Appointment created.", JOptionPane.INFORMATION_MESSAGE);
 			setCCATextFields(false, "add");
 			setCBtnConfiguration(true);
@@ -864,7 +861,7 @@ public class Controller implements ActionListener {
 		adminFrame.getTextField_CCName().setEditable(booleano);			
 		adminFrame.getTextField_CCPassword().setEditable(booleano);			
 		adminFrame.getTextField_CCSurname().setEditable(booleano);			
-		adminFrame.getTextField_CCAssCenter().setEditable(booleano);
+		adminFrame.getTextField_CCAssCenter().setEditable(false);
 		
 	}
 	
@@ -872,8 +869,7 @@ public class Controller implements ActionListener {
 		boolean success = false;
 		if(adminFrame.getTextField_CCdni().getText().equals("") || adminFrame.getTextField_CCBirthDate().getText().equals("") || 
 				adminFrame.getTextField_CCEmail().getText().equals("") || adminFrame.getTextField_CCName().getText().equals("") || 
-				adminFrame.getTextField_CCPassword().getText().equals("") || adminFrame.getTextField_CCSurname().getText().equals("") || 
-				adminFrame.getTextField_CCAssCenter().getText().equals(""))
+				adminFrame.getTextField_CCPassword().getText().equals("") || adminFrame.getTextField_CCSurname().getText().equals(""))
 			success = true;
 		return success;
 	}

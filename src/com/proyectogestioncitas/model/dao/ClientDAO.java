@@ -8,8 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import com.proyectogestioncitas.app.App;
 import com.proyectogestioncitas.model.Conexion;
+import com.proyectogestioncitas.model.DataBaseController;
 import com.proyectogestioncitas.model.interfaces.IClientDAO;
 import com.proyectogestioncitas.model.pojo.Client;
 
@@ -29,20 +32,23 @@ public class ClientDAO implements IClientDAO {
 	public boolean createNewClient(Client client) {
 		boolean success = false;
 		
-		sql = "INSERT INTO client(name, surnames, id, birthDate, email, password, associatedCenter) VALUES(?,?,?,?,?,?,?);";
+		sql = "INSERT INTO clients(name, surname, id, birth_date, email, password, associated_centre) VALUES(?,?,?,?,?,?,?);";
 		
 		try {
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, client.getName());
 			preparedStatement.setString(2, client.getSurnames());
 			preparedStatement.setString(3, client.getId());
-			//preparedStatement.setString(4, client.getBirthDate());
+			preparedStatement.setString(4, client.getBirthDate());
 			preparedStatement.setString(5, client.getEmail());
 			preparedStatement.setString(6, client.getPassword());
-			preparedStatement.setString(7, client.getAssociatedCenter());
+			preparedStatement.setString(7, MedicalCenterDAO.getMedicalCenterId());
 			rows = preparedStatement.executeUpdate();
+			
 		} catch (SQLException e) {
-			System.err.println("Error al ejecutar la sentencia de crear un nuevo cliente.");
+			JOptionPane.showMessageDialog(null, "Error al crear nuevo usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+			
 		}
 		if(rows != 0)
 			success = true;
@@ -120,8 +126,9 @@ public class ClientDAO implements IClientDAO {
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, id);
 			rows = preparedStatement.executeUpdate();
+			
 		} catch (SQLException e) {
-			System.err.println("Error al ejecutar la sentencia de eliminar un cliente por id.");
+			JOptionPane.showMessageDialog(null, "Error al eliminar usuario", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		
 		if(rows != 0)
@@ -133,12 +140,12 @@ public class ClientDAO implements IClientDAO {
 	public boolean updateClient(Client client) {
 		boolean success = false;
 		
-		sql = "UPDATE clients SET name=?, surnames=?, birthDate=?, email=?, password=?, associatedCenter=? WHERE id=?;";
+		sql = "UPDATE clients SET name=?, surname=?, birth_date=?, email=?, password=?, associated_centre=? WHERE id=?;";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, client.getName());
 			preparedStatement.setString(2, client.getSurnames());
-			//preparedStatement.setString(3, client.getBirthDate());
+			preparedStatement.setString(3, client.getBirthDate());
 			preparedStatement.setString(4, client.getEmail());
 			preparedStatement.setString(5, client.getPassword());
 			preparedStatement.setString(6, client.getAssociatedCenter());

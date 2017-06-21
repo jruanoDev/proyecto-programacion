@@ -87,15 +87,16 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 		int rowCount = clientList.size();
 		int columnCount = columnNames.length;
 		Object dataTable[][] = new Object[rowCount][columnCount];
-		//System.out.println(rowCount + "," + columnCount);
 		
 		for(int i=0; i<rowCount; i++){
 			Client client = clientList.get(i);
 			dataTable[i] = new Object[]{client.getName(), client.getSurnames(), client.getId(), client.getBirthDate(),
 						client.getEmail(), client.getPassword(), client.getAssociatedCenter()};				
-			//System.out.println(dataTable.toString());
+			
 		}
+		
 		return dataTable;
+		
 	}
 	
 

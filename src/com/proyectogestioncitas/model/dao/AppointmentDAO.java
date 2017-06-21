@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import com.proyectogestioncitas.app.App;
 import com.proyectogestioncitas.controler.AppointmentTableModel;
 import com.proyectogestioncitas.model.interfaces.IAppointmentDAO;
@@ -29,18 +31,18 @@ public class AppointmentDAO implements IAppointmentDAO {
 	@Override
 	public boolean createNewAppointment(Appointment appointment) {
 		boolean success = false;
-		//Appointment a = new Appointment(day, time, associatedCenter, doctorName) FALTA RELACION CON CLIENTE
-		//NECESARIO MODIFICAR LA SENTENCIA Y AÑADIR SET STRING
-		sql = "INSERT INTO appointments(day, time, associatedCenter) VALUES(?,?,?,?);";
+		
+		sql = "INSERT INTO dates(day, hour, associated_centre) VALUES(?,?,?,?);";
 		
 		try {
 			preparedStatement = connection.prepareStatement(sql);
-			//preparedStatement.setString(1, appointment.getDay());
-			//preparedStatement.setString(2, appointment.getTime());
+			preparedStatement.setString(1, appointment.getDay());
+			preparedStatement.setString(2, appointment.getTime());
 			preparedStatement.setString(3, appointment.getAssociatedCenter());
 			rows = preparedStatement.executeUpdate();
+			
 		} catch (SQLException e) {
-			System.err.println("Error en la consulta al intentar crear una nueva cita.");
+			JOptionPane.showMessageDialog(null, "Error while creating new Appointment", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		
 		if(rows != 0)
