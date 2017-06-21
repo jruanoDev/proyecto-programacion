@@ -6,6 +6,7 @@ import java.io.File;
 import java.sql.Connection;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.DataBaseController;
@@ -54,11 +55,8 @@ public class Controller implements ActionListener {
 		actionListenerCreateAdminFrame(this);
 	}
 
-<<<<<<< HEAD
-	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, AppointmentDAO appDao, MedicalCenterDAO centerDao) {
-=======
 	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, AppointmentDAO appDao, MedicalCenterDAO centerDao, JTable tableCCClient){
->>>>>>> ef710533cf5fcfa347380067fbbd8c31816da557
+
 		this.adminFrame = adminFrame;
 		this.clientDao = clientDao;
 		this.appDao = appDao;
@@ -476,11 +474,8 @@ public class Controller implements ActionListener {
 			JOptionPane.showConfirmDialog(null, "The user with ID: '" + client.getId() + "' was created.", 
 					"An user was created", JOptionPane.DEFAULT_OPTION);
 			
-<<<<<<< HEAD
 		} else {
-=======
-		}else{
->>>>>>> ef710533cf5fcfa347380067fbbd8c31816da557
+			
 			client = new Client(adminFrame.getTextField_CCName().getText(), 
 					adminFrame.getTextField_CCSurname().getText(), 
 					adminFrame.getTextField_CCdni().getText(),

@@ -254,7 +254,7 @@ public class DataBaseController {
 			pStatement.setString(3, address);
 			pStatement.setString(4, pCode);
 			pStatement.setString(5, pNumber);
-			pStatement.setString(6, "123");
+			pStatement.setString(7, "123");
 			
 			pStatement.execute();
 			
@@ -304,7 +304,7 @@ public class DataBaseController {
 			registerStatement.setString(3, surname);
 			registerStatement.setString(4, id);
 			registerStatement.setString(5, password);
-			registerStatement.setString(6, birthDate);
+			registerStatement.setString(6, "1998-07-02");
 			
 			check = registerStatement.execute();
 			
