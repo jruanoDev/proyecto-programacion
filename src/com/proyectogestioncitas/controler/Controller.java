@@ -34,6 +34,7 @@ public class Controller implements ActionListener {
 	private ClientDAO clientDao;
 	private AppointmentDAO appDao;
 	private MedicalCenterDAO centerDao;
+	private JTable tableCCClient;
 	
 	public Controller(DataBaseConfigFrame dbConfigFrame) {
 		this.dbConfigFrame = dbConfigFrame;
@@ -53,11 +54,17 @@ public class Controller implements ActionListener {
 		actionListenerCreateAdminFrame(this);
 	}
 
+<<<<<<< HEAD
 	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, AppointmentDAO appDao, MedicalCenterDAO centerDao) {
+=======
+	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, AppointmentDAO appDao, MedicalCenterDAO centerDao, JTable tableCCClient){
+>>>>>>> ef710533cf5fcfa347380067fbbd8c31816da557
 		this.adminFrame = adminFrame;
 		this.clientDao = clientDao;
 		this.appDao = appDao;
 		this.centerDao = centerDao;
+		this.tableCCClient = tableCCClient;
+		
 		actionListenerAdministrationFrame(this);
 	}
 	
@@ -304,6 +311,7 @@ public class Controller implements ActionListener {
 		adminFrame.getBtnCCASave().addActionListener(escuchador);
 		
 		adminFrame.getTableCCClient().getSelectionModel().addListSelectionListener(e -> {
+			adminFrame.getBtnCCUpdate().setEnabled(true);
 			setTextCCAdministrationFrame();
 			/**
 			 * new AppointmentTableModel().addAppointmetsToTableData(new AppointmentDAO(), this.returnsClientWithRowParams());
@@ -394,12 +402,18 @@ public class Controller implements ActionListener {
 			int selectedRow = adminFrame.getTableMedicalCenter().getSelectedRow();
 			System.out.println(selectedRow);
 				
-			//new MedicalCenter()
-			Object day = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 0);
-			Object hour = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 1);
+			Object id = adminFrame.getTableMedicalCenter().getValueAt(selectedRow, 0);
+			Object location = adminFrame.getTableMedicalCenter().getValueAt(selectedRow, 1);
+			Object name = adminFrame.getTableMedicalCenter().getValueAt(selectedRow, 2);
+			Object cp = adminFrame.getTableMedicalCenter().getValueAt(selectedRow, 3);
+			Object phone = adminFrame.getTableMedicalCenter().getValueAt(selectedRow, 4);
 			
-			adminFrame.getTextCCAField_Date().setText(day.toString());
-			adminFrame.getTextCCAField_Hour().setText(hour.toString());
+			adminFrame.getTextField_MCCenterID().setText(id.toString());
+			adminFrame.getTextField_MCLocation().setText(location.toString());
+			adminFrame.getTextField_MCCenterName().setText(name.toString());
+			adminFrame.getTextField_MCPostalCode().setText(cp.toString());
+			adminFrame.getTextField_MCPhone().setText(phone.toString());
+			
 			
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -410,23 +424,11 @@ public class Controller implements ActionListener {
 	private void getActionAddClientBtn(){
 		System.out.println("Has entrado a getActionAddClientBtn()");
 		//TextField
-		adminFrame.getTextField_CCBirthDate().setEditable(true);
-		adminFrame.getTextField_CCBirthDate().setText("");
-		adminFrame.getTextField_CCdni().setEditable(true);
-		adminFrame.getTextField_CCdni().setText("");
-		adminFrame.getTextField_CCEmail().setEditable(true);
-		adminFrame.getTextField_CCEmail().setText("");
-		adminFrame.getTextField_CCName().setEditable(true);
-		adminFrame.getTextField_CCName().setText("");
-		adminFrame.getTextField_CCPassword().setEditable(true);
-		adminFrame.getTextField_CCPassword().setText("");
-		adminFrame.getTextField_CCSurname().setEditable(true);
-		adminFrame.getTextField_CCSurname().setText("");
-		adminFrame.getTextField_CCAssCenter().setEditable(true);
-		adminFrame.getTextField_CCAssCenter().setText("");
-		
+		setCCTextFields(true, "all");
 		//Other btns
 		setCCBtnConfiguration(false);
+		//JTable
+		tableCCClient.setEnabled(false);
 
 	}
 	private void getActionDeleteClientBtn(){
@@ -443,19 +445,24 @@ public class Controller implements ActionListener {
 				"An user was deleted", JOptionPane.DEFAULT_OPTION);
 	}
 	private void getActionUpdateClientBtn(){
+		//JTable
+		tableCCClient.setEnabled(false);
+		
 		//TextField
-		adminFrame.getTextField_CCBirthDate().setEditable(true);
-		adminFrame.getTextField_CCEmail().setEditable(true);
-		adminFrame.getTextField_CCName().setEditable(true);
-		adminFrame.getTextField_CCPassword().setEditable(true);
-		adminFrame.getTextField_CCSurname().setEditable(true);
-		adminFrame.getTextField_CCAssCenter().setEditable(true);
+		setCCTextFields(true, "update");
 		
 		//Other btns
 		setCCBtnConfiguration(false);
 	}
 	
 	private void getActionSaveClientBtn(){
+		//System.out.println("Editable? "+adminFrame.getTextField_CCdni().isEditable());
+		if(areCCTextFieldsCorrectlyWrited()){
+			JOptionPane.showMessageDialog(null, "You need to fill all the fields to create or update a client.", 
+					"Cannot create or update a invalid user.", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
 		if(adminFrame.getTextField_CCdni().isEditable()){
 			client = new Client(adminFrame.getTextField_CCName().getText(), 
 					adminFrame.getTextField_CCSurname().getText(), 
@@ -469,7 +476,11 @@ public class Controller implements ActionListener {
 			JOptionPane.showConfirmDialog(null, "The user with ID: '" + client.getId() + "' was created.", 
 					"An user was created", JOptionPane.DEFAULT_OPTION);
 			
+<<<<<<< HEAD
 		} else {
+=======
+		}else{
+>>>>>>> ef710533cf5fcfa347380067fbbd8c31816da557
 			client = new Client(adminFrame.getTextField_CCName().getText(), 
 					adminFrame.getTextField_CCSurname().getText(), 
 					adminFrame.getTextField_CCdni().getText(),
@@ -481,8 +492,12 @@ public class Controller implements ActionListener {
 			//clientDao.updateClient(client);
 			JOptionPane.showConfirmDialog(null, "The user with ID: '" + client.getId() + "' was updated.", 
 					"An user was updated", JOptionPane.DEFAULT_OPTION);
+			
 		}
+		setCCTextFields(false, "all");
 		setCCBtnConfiguration(true);
+		tableCCClient.setEnabled(true);
+		adminFrame.getBtnCCUpdate().setEnabled(false);
 	}
 	
 	//Appointment table btn
@@ -509,6 +524,38 @@ public class Controller implements ActionListener {
 		adminFrame.getBtnCCAUpdate().setEnabled(booleano);
 		adminFrame.getBtnCCUpdate().setEnabled(booleano);
 	}
+	
+	private void setCCTextFields(Boolean booleano, String status){
+		if(status.equals("all")){
+			adminFrame.getTextField_CCdni().setEditable(booleano);	
+			
+			adminFrame.getTextField_CCdni().setText("");
+			adminFrame.getTextField_CCAssCenter().setText("");
+			adminFrame.getTextField_CCSurname().setText("");
+			adminFrame.getTextField_CCPassword().setText("");
+			adminFrame.getTextField_CCName().setText("");
+			adminFrame.getTextField_CCEmail().setText("");
+			adminFrame.getTextField_CCBirthDate().setText("");
+		}
+		adminFrame.getTextField_CCBirthDate().setEditable(booleano);			
+		adminFrame.getTextField_CCEmail().setEditable(booleano);			
+		adminFrame.getTextField_CCName().setEditable(booleano);			
+		adminFrame.getTextField_CCPassword().setEditable(booleano);			
+		adminFrame.getTextField_CCSurname().setEditable(booleano);			
+		adminFrame.getTextField_CCAssCenter().setEditable(booleano);
+		
+	}
+	
+	private boolean areCCTextFieldsCorrectlyWrited(){
+		boolean success = false;
+		if(adminFrame.getTextField_CCdni().getText().equals("") || adminFrame.getTextField_CCBirthDate().getText().equals("") || 
+				adminFrame.getTextField_CCEmail().getText().equals("") || adminFrame.getTextField_CCName().getText().equals("") || 
+				adminFrame.getTextField_CCPassword().getText().equals("") || adminFrame.getTextField_CCSurname().getText().equals("") || 
+				adminFrame.getTextField_CCAssCenter().getText().equals(""))
+			success = true;
+		return success;
+	}
+
 	/**
 	 * NO BORRAAAAAAAAR
 	 * public Client returnsClientWithRowParams(Client client){

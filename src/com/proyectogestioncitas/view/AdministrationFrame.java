@@ -37,7 +37,7 @@ public class AdministrationFrame extends JFrame {
 	private JTextField textField_MCCenterName;
 	private JTextField textField_MCPostalCode;
 	private JTextField textField_MCPhone;
-	private JTable tableCCClient;
+	private static JTable tableCCClient;
 	private JTextField textField_CCdni;
 	private JTextField textField_CCName;
 	private JTable tableCCAAppointment;
@@ -67,7 +67,7 @@ public class AdministrationFrame extends JFrame {
 			public void run() {
 				try {
 					AdministrationFrame frame = new AdministrationFrame();
-					new Controller(frame, new ClientDAO(), new AppointmentDAO(), new MedicalCenterDAO());
+					new Controller(frame, new ClientDAO(), new AppointmentDAO(), new MedicalCenterDAO(), tableCCClient);
 					frame.setVisible(true);
 					
 				} catch (Exception e) {
@@ -156,131 +156,7 @@ public class AdministrationFrame extends JFrame {
 		
 		AppointmentTableModel appTableModel = new AppointmentTableModel();
 		
-		JPanel MedicalCenterConfig = new JPanel();
-		tabbedPane.addTab("Medical center configuration", null, MedicalCenterConfig, null);
-		
 		MedicalCenterTableModel medicalTM = new MedicalCenterTableModel();
-		medicalTableCRUD = new JTable(medicalTM);
-		
-		JSeparator separator = new JSeparator();
-		
-		JLabel lblMCCenterId = new JLabel("Center ID:");
-		
-		textField_MCCenterID = new JTextField();
-		textField_MCCenterID.setEditable(false);
-		textField_MCCenterID.setColumns(10);
-		
-		JLabel lblMCLocate = new JLabel("Location:");
-		
-		textField_MCLocation = new JTextField();
-		textField_MCLocation.setEditable(false);
-		textField_MCLocation.setColumns(10);
-		
-		JLabel lblMCCenterName = new JLabel("Center name:");
-		
-		textField_MCCenterName = new JTextField();
-		textField_MCCenterName.setEditable(false);
-		textField_MCCenterName.setColumns(10);
-		
-		JLabel lblMCPostalCode = new JLabel("Postal code:");
-		
-		textField_MCPostalCode = new JTextField();
-		textField_MCPostalCode.setEditable(false);
-		textField_MCPostalCode.setColumns(10);
-		
-		JLabel lblMCPhoneNumber = new JLabel("Phone number:");
-		
-		textField_MCPhone = new JTextField();
-		textField_MCPhone.setEditable(false);
-		textField_MCPhone.setColumns(10);
-		
-		JButton btnMCAddNew = new JButton("Add new");
-		
-		JButton btnMCUpdate = new JButton("Update");
-		
-		JButton btnDelete = new JButton("Delete");
-		
-		JButton btnMCSave = new JButton("Save");
-		btnMCSave.setEnabled(false);
-		GroupLayout gl_MedicalCenterConfig = new GroupLayout(MedicalCenterConfig);
-		gl_MedicalCenterConfig.setHorizontalGroup(
-			gl_MedicalCenterConfig.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.LEADING)
-						.addComponent(separator, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
-						.addComponent(medicalTableCRUD, GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
-						.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
-							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
-									.addComponent(lblMCPostalCode)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(textField_MCPostalCode))
-								.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
-									.addComponent(lblMCCenterName)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(textField_MCCenterName))
-								.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
-									.addComponent(lblMCLocate)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(textField_MCLocation))
-								.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
-									.addComponent(lblMCCenterId)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(textField_MCCenterID, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.TRAILING)
-								.addComponent(btnMCAddNew)
-								.addComponent(lblMCPhoneNumber))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.LEADING)
-								.addComponent(textField_MCPhone, GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
-								.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.TRAILING)
-									.addComponent(btnMCSave)
-									.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
-										.addComponent(btnDelete)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(btnMCUpdate))))))
-					.addContainerGap())
-		);
-		gl_MedicalCenterConfig.setVerticalGroup(
-			gl_MedicalCenterConfig.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(medicalTableCRUD, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 8, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMCCenterId)
-						.addComponent(textField_MCCenterID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblMCPhoneNumber)
-						.addComponent(textField_MCPhone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
-							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblMCLocate)
-								.addComponent(textField_MCLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
-							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblMCCenterName)
-								.addComponent(textField_MCCenterName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(18))
-						.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
-							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnMCAddNew)
-								.addComponent(btnDelete)
-								.addComponent(btnMCUpdate))
-							.addGap(37)))
-					.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMCPostalCode)
-						.addComponent(textField_MCPostalCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addComponent(btnMCSave)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		MedicalCenterConfig.setLayout(gl_MedicalCenterConfig);
 		
 		JPanel ClientConfiguration = new JPanel();
 		tabbedPane.addTab("Client configuration", null, ClientConfiguration, null);
@@ -334,8 +210,10 @@ public class AdministrationFrame extends JFrame {
 		btnCCDelete = new JButton("Delete client");
 		
 		btnCCUpdate = new JButton("Update client");
+		btnCCUpdate.setEnabled(false);
 		
 		btnCCAUpdate = new JButton("Update app");
+		btnCCAUpdate.setEnabled(false);
 		
 		btnCCADelete = new JButton("Delete app");
 		
@@ -371,7 +249,7 @@ public class AdministrationFrame extends JFrame {
 		textField_CCADoctorName.setEditable(false);
 		textField_CCADoctorName.setColumns(10);
 		
-		btnCCSave = new JButton(" Save client");
+		btnCCSave = new JButton("Save client");
 		btnCCSave.setEnabled(false);
 		
 		btnCCASave = new JButton("Save app");
@@ -527,6 +405,132 @@ public class AdministrationFrame extends JFrame {
 					.addContainerGap())
 		);
 		ClientConfiguration.setLayout(gl_ClientConfiguration);
+		
+		JPanel MedicalCenterConfig = new JPanel();
+		tabbedPane.addTab("Medical center configuration", null, MedicalCenterConfig, null);
+		medicalTableCRUD = new JTable(medicalTM);
+		
+		JSeparator separator = new JSeparator();
+		
+		JLabel lblMCCenterId = new JLabel("Center ID:");
+		
+		textField_MCCenterID = new JTextField();
+		textField_MCCenterID.setEditable(false);
+		textField_MCCenterID.setColumns(10);
+		
+		JLabel lblMCLocate = new JLabel("Location:");
+		
+		textField_MCLocation = new JTextField();
+		textField_MCLocation.setEditable(false);
+		textField_MCLocation.setColumns(10);
+		
+		JLabel lblMCCenterName = new JLabel("Center name:");
+		
+		textField_MCCenterName = new JTextField();
+		textField_MCCenterName.setEditable(false);
+		textField_MCCenterName.setColumns(10);
+		
+		JLabel lblMCPostalCode = new JLabel("Postal code:");
+		
+		textField_MCPostalCode = new JTextField();
+		textField_MCPostalCode.setEditable(false);
+		textField_MCPostalCode.setColumns(10);
+		
+		JLabel lblMCPhoneNumber = new JLabel("Phone number:");
+		
+		textField_MCPhone = new JTextField();
+		textField_MCPhone.setEditable(false);
+		textField_MCPhone.setColumns(10);
+		
+		JButton btnMCAddNew = new JButton("Add new");
+		
+		JButton btnMCUpdate = new JButton("Update");
+		btnMCUpdate.setEnabled(false);
+		
+		JButton btnDelete = new JButton("Delete");
+		
+		JButton btnMCSave = new JButton("Save");
+		btnMCSave.setEnabled(false);
+		GroupLayout gl_MedicalCenterConfig = new GroupLayout(MedicalCenterConfig);
+		gl_MedicalCenterConfig.setHorizontalGroup(
+			gl_MedicalCenterConfig.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.LEADING)
+						.addComponent(separator, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 989, Short.MAX_VALUE)
+						.addComponent(medicalTableCRUD, GroupLayout.DEFAULT_SIZE, 989, Short.MAX_VALUE)
+						.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
+							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
+									.addComponent(lblMCPostalCode)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(textField_MCPostalCode))
+								.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
+									.addComponent(lblMCCenterName)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(textField_MCCenterName))
+								.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
+									.addComponent(lblMCLocate)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(textField_MCLocation))
+								.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
+									.addComponent(lblMCCenterId)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(textField_MCCenterID, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
+									.addComponent(lblMCPhoneNumber)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(textField_MCPhone, GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE))
+								.addGroup(Alignment.TRAILING, gl_MedicalCenterConfig.createSequentialGroup()
+									.addComponent(btnMCAddNew)
+									.addGap(69)
+									.addComponent(btnDelete)
+									.addGap(69)
+									.addComponent(btnMCUpdate)
+									.addGap(66)
+									.addComponent(btnMCSave)
+									.addGap(107)))))
+					.addContainerGap())
+		);
+		gl_MedicalCenterConfig.setVerticalGroup(
+			gl_MedicalCenterConfig.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(medicalTableCRUD, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 8, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMCCenterId)
+						.addComponent(textField_MCCenterID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblMCPhoneNumber)
+						.addComponent(textField_MCPhone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
+							.addGap(18)
+							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblMCLocate)
+								.addComponent(textField_MCLocation, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblMCCenterName)
+								.addComponent(textField_MCCenterName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblMCPostalCode)
+								.addComponent(textField_MCPostalCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
+							.addGap(66)
+							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnMCUpdate)
+								.addComponent(btnDelete)
+								.addComponent(btnMCAddNew)
+								.addComponent(btnMCSave))))
+					.addContainerGap(397, Short.MAX_VALUE))
+		);
+		MedicalCenterConfig.setLayout(gl_MedicalCenterConfig);
 		contentPane.setLayout(gl_contentPane);
 	}
 
