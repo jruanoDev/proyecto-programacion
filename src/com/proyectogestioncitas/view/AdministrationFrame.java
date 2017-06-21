@@ -39,7 +39,7 @@ public class AdministrationFrame extends JFrame {
 	private static JTable tableCCClient;
 	private JTextField textField_CCdni;
 	private JTextField textField_CCName;
-	private JTable tableCCAAppointment;
+	private static JTable tableCCAAppointment;
 	private JTextField textField_CCBirthDate;
 	private JTextField textField_CCSurname;
 	private JTextField textCCAField_Date;
@@ -62,16 +62,17 @@ public class AdministrationFrame extends JFrame {
 	private JButton btnMCSave;
 	private JButton btnCCancelAction;
 	private JButton btnMCCancelMedicalCenter;
+	private AppointmentTableModel appTableModel;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					AdministrationFrame frame = new AdministrationFrame();
-					new Controller(frame, new ClientDAO(), new MedicalCenterDAO());
+					new Controller(frame, new ClientDAO(), new MedicalCenterDAO(), new AppointmentDAO());
 					frame.setVisible(true);
 					
 				} catch (Exception e) {
@@ -79,6 +80,10 @@ public class AdministrationFrame extends JFrame {
 				}
 			}
 		});
+	}*/
+
+	public AppointmentTableModel getAppTableModel() {
+		return appTableModel;
 	}
 
 	/**
@@ -145,7 +150,7 @@ public class AdministrationFrame extends JFrame {
 		
 		ClientTableModel ccTableModel = new ClientTableModel();
 		
-		//AppointmentTableModel appTableModel = new AppointmentTableModel();
+		appTableModel = new AppointmentTableModel();
 		
 		MedicalCenterTableModel medicalTM = new MedicalCenterTableModel();
 		
@@ -168,7 +173,7 @@ public class AdministrationFrame extends JFrame {
 		textField_CCName.setColumns(10);
 		
 		JLabel lblCCBirthdate = new JLabel("Birth date:");
-		//tableCCAAppointment = new JTable(appTableModel);
+		tableCCAAppointment = new JTable(appTableModel);
 		
 		textField_CCBirthDate = new JTextField();
 		textField_CCBirthDate.setEditable(false);
@@ -244,6 +249,7 @@ public class AdministrationFrame extends JFrame {
 		
 		btnCCancelAction = new JButton("Cancel Client/App action");
 		btnCCancelAction.setEnabled(false);
+		
 		GroupLayout gl_ClientConfiguration = new GroupLayout(ClientConfiguration);
 		gl_ClientConfiguration.setHorizontalGroup(
 			gl_ClientConfiguration.createParallelGroup(Alignment.TRAILING)
@@ -643,7 +649,7 @@ public class AdministrationFrame extends JFrame {
 		return textField_CCName;
 	}
 
-	public JTable getTableCCAAppointment() {
+	public static JTable getTableCCAAppointment() {
 		return tableCCAAppointment;
 	}
 

@@ -20,8 +20,6 @@ import javax.swing.ListSelectionModel;
 
 @SuppressWarnings("serial")
 public class ClientTableModel extends AbstractTableModel implements TableModelListener, ListSelectionListener{
-
-	private static ClientDAO clientDao;
 	
 	private static String[] columnNames = {
 			"Name",
@@ -33,7 +31,7 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 			"Associated center"
 	};
 	
-	private static Object[][] tableData = new ClientTableModel().addClientsToTableData();
+	private static Object[][] tableData = new ClientTableModel().addClientsToTableData(new ClientDAO());
 	
 	
 	public ClientTableModel(){
@@ -82,14 +80,9 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 		
 	}
 	
-	public Object[][] addClientsToTableData(){
+	public Object[][] addClientsToTableData(ClientDAO clientDAO){
 		
-		List<Client> clientList= clientDao.getAllClients();		
-		
-		/*List<Client> clientList = new ArrayList<>();
-		clientList.add(new Client("asdf", "asdf", "1", "fechanac", "email", "pass", "1"));
-		clientList.add(new Client("fasd", "qwer", "2", "fechanac", "email", "pass", "1"));
-		clientList.add(new Client("oscar", "caca", "3", "fechanac", "email", "pass", "1"));*/
+		List<Client> clientList= clientDAO.getAllClients();
 		
 		int rowCount = clientList.size();
 		int columnCount = columnNames.length;
@@ -108,7 +101,7 @@ public class ClientTableModel extends AbstractTableModel implements TableModelLi
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		System.out.println(e.getFirstIndex() + e.getLastIndex());		
+		//System.out.println(e.getFirstIndex() + e.getLastIndex());		
 	}
 	
 	public static String getClientId(){

@@ -26,6 +26,11 @@ public class Appointment {
 		return time;
 	}
 
+	@Override
+	public String toString() {
+		return "Appointment [day=" + day + ", time=" + time + ", associatedCenter=" + associatedCenter + "]";
+	}
+
 	public void setTime(String time) {
 		this.time = time;
 	}

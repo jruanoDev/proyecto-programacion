@@ -8,13 +8,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.proyectogestioncitas.app.App;
 import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.interfaces.IClientDAO;
 import com.proyectogestioncitas.model.pojo.Client;
 
 public class ClientDAO implements IClientDAO {
 	
-	Connection connection = Conexion.getInstanceConnection("urlexample", "userexample", "passwordexample");
+	Connection connection = App.getConnection();
 	Statement statement = null;
 	PreparedStatement preparedStatement = null;
 	String sql = "";
@@ -76,6 +77,7 @@ public class ClientDAO implements IClientDAO {
 	@Override
 	public List<Client> getAllClients() {
 		sql = "SELECT name, surname, id, birth_date, email, password, associated_centre FROM clients;";
+		connection = App.getConnection();
 		/**
 		 * "email VARCHAR(20) NOT NULL UNIQUE," + 
 			"name VARCHAR(15) NOT NULL," + 
@@ -85,9 +87,13 @@ public class ClientDAO implements IClientDAO {
 			"birth_date DATE NOT NULL," + 
 			"associated_centre VARCHAR(10) NOT NULL,
 		 */
-		try {			
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(sql);
+		try {
+			Statement updateStatement = connection.createStatement();
+			
+			if(updateStatement == null)
+				System.out.println("eS NULO");
+
+			resultSet = updateStatement.executeQuery(sql);
 			
 			while(resultSet.next()){	
 				
@@ -96,7 +102,6 @@ public class ClientDAO implements IClientDAO {
 							resultSet.getString("associated_centre"));
 				
 				clientsList.add(client);
-				System.out.println(clientsList);
 				
 			}
 		} catch (SQLException e) {

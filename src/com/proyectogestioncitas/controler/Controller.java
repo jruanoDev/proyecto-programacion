@@ -43,8 +43,11 @@ public class Controller implements ActionListener {
 	private AppointmentDAO appDao;
 	private MedicalCenterDAO centerDao;
 	private String btnStatus = "";
+	private AppointmentTableModel appTableModel;
+	public static String clientId;
 
 	private JTable tableCCClient;
+
 	private AdminLoginDialog adminLoginDialog;
 	
 	public Controller(DataBaseConfigFrame dbConfigFrame) {
@@ -65,11 +68,12 @@ public class Controller implements ActionListener {
 		actionListenerCreateAdminFrame(this);
 	}
 
-	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, MedicalCenterDAO centerDao){
-
+	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, MedicalCenterDAO centerDao, AppointmentDAO appDAO) {
+		this.appDao = appDAO;
 		this.adminFrame = adminFrame;
 		this.clientDao = clientDao;
 		this.centerDao = centerDao;
+		this.appTableModel = appTableModel;
 		
 		actionListenerAdministrationFrame(this);
 	}
@@ -336,7 +340,7 @@ public class Controller implements ActionListener {
 				adminLoginDialog.dispose();
 				App.closeLoginFrame();
 				AdministrationFrame adminFrame = new AdministrationFrame();
-				new Controller(adminFrame, new ClientDAO(), new MedicalCenterDAO());
+				new Controller(adminFrame, new ClientDAO(), new MedicalCenterDAO(), new AppointmentDAO());
 				adminFrame.setVisible(true);
 			}
 		}
@@ -423,6 +427,10 @@ public class Controller implements ActionListener {
 			adminFrame.getBtnCCUpdate().setEnabled(true);
 			adminFrame.getBtnCCDelete().setEnabled(true);
 			setTextCCAdministrationFrame();
+			clientId = adminFrame.getTextField_CCdni().getText();
+			System.out.println(clientId);
+			adminFrame.getAppTableModel().addClientAppointmentsToTableData(appDao, clientId);
+			
 			
 		});
 		
@@ -445,11 +453,8 @@ public class Controller implements ActionListener {
 	}
 	
 	public void getHourFromClientJTable(){
-		try{
-			System.out.println("Ahora has entrado al selection listener de la tabla apply for.");
-			
+		try{			
 			int selectedRow = clientFrame.getTable_applyFor().getSelectedRow();
-			System.out.println(selectedRow);
 	
 			Object day = clientFrame.getTable_applyFor().getValueAt(selectedRow, 0);
 			Object hour = clientFrame.getTable_applyFor().getValueAt(selectedRow, 1);
@@ -462,7 +467,7 @@ public class Controller implements ActionListener {
 			//email.toString(), password.toString());
 			//returnsClientWithRowParams(client);
 		}catch(Exception e){
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -471,11 +476,8 @@ public class Controller implements ActionListener {
 		/**
 		 * Una vez solucionado la RELACION ENTRE CLIENTE Y CITA descomentar codigo.
 		 */
-		try{
-			System.out.println("Ahora has entrado al selection listener de la tabla cliente.");
-			
+		try{			
 			int selectedRow = adminFrame.getTableCCClient().getSelectedRow();
-			System.out.println(selectedRow);
 			
 			//Client("name", "surname", "id", LocalDate.now(), "email", "pass", 1))
 			Object name = adminFrame.getTableCCClient().getValueAt(selectedRow, 0);
@@ -499,7 +501,7 @@ public class Controller implements ActionListener {
 			setClientWithRowParams(client);
 			
 		}catch(Exception e){
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 
 	}
@@ -510,7 +512,6 @@ public class Controller implements ActionListener {
 			System.out.println("Ahora has entrado al selection listener de la tabla appointment");
 			
 			int selectedRow = adminFrame.getTableCCAAppointment().getSelectedRow();
-			System.out.println(selectedRow);
 				
 			//new Appointment(day, time, associatedCenter, doctorName)
 			Object day = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 0);
@@ -533,7 +534,6 @@ public class Controller implements ActionListener {
 			System.out.println("Ahora has entrado al selection listener de la tabla medical center");
 			
 			int selectedRow = adminFrame.getTableMedicalCenter().getSelectedRow();
-			System.out.println(selectedRow);
 				
 			Object id = adminFrame.getTableMedicalCenter().getValueAt(selectedRow, 0);
 			Object location = adminFrame.getTableMedicalCenter().getValueAt(selectedRow, 1);
@@ -909,7 +909,6 @@ public class Controller implements ActionListener {
 	/** TERMINAR CODIGO */
 	private void getActionSendApplyClient(){
 		int selectedRow = clientFrame.getTable_applyFor().getSelectedRow();
-		System.out.println(selectedRow);
 
 		Object day = clientFrame.getTable_applyFor().getValueAt(selectedRow, 0);
 		Object hour = clientFrame.getTable_applyFor().getValueAt(selectedRow, 1);
@@ -925,6 +924,9 @@ public class Controller implements ActionListener {
 	public static Client getClientWithRowParams(){
 		return client;
 	}
-	 
+	
+	public static String getClientIdFromController() {
+		return clientId;
+	}
 
 }
