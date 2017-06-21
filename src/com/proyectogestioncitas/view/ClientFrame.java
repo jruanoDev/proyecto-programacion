@@ -1,16 +1,13 @@
 package com.proyectogestioncitas.view;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.proyectogestioncitas.controler.ClientFrameTableModel;
-import com.proyectogestioncitas.controler.Controller;
-import com.proyectogestioncitas.model.dao.ClientDAO;
+import com.proyectogestioncitas.model.DataBaseController;
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
@@ -21,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JButton;
 
+@SuppressWarnings("serial")
 public class ClientFrame extends JFrame {
 
 	private JPanel contentPane;
@@ -37,7 +35,7 @@ public class ClientFrame extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -49,7 +47,7 @@ public class ClientFrame extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.

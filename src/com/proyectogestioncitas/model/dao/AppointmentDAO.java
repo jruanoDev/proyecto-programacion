@@ -146,10 +146,10 @@ public class AppointmentDAO implements IAppointmentDAO {
 		
 		try {
 			statement = connection.createStatement();
-			ResultSet uASet = statement.executeQuery("SELECT day, hour, centre FROM dates WHERE client_id=\"\"");
+			ResultSet uASet = statement.executeQuery("SELECT day, hour, center FROM dates WHERE client_id=\"\"");
 			
 			while(uASet.next()) {
-				Appointment appointment = new Appointment(uASet.getString("day"), uASet.getString("hour"), uASet.getString("centre"));
+				Appointment appointment = new Appointment(uASet.getString("day"), uASet.getString("hour"), uASet.getString("center"));
 				unusedAppointments.add(appointment);
 			}
 			

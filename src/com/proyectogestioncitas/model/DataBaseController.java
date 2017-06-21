@@ -1,5 +1,6 @@
 package com.proyectogestioncitas.model;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,9 +10,12 @@ import java.time.LocalDate;
 
 import javax.swing.JOptionPane;
 
+import com.proyectogestioncitas.app.App;
 import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.model.dao.MedicalCenterDAO;
+import com.proyectogestioncitas.model.pojo.Client;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
+import com.proyectogestioncitas.view.ClientFrame;
 import com.proyectogestioncitas.view.CreateAdminFrame;
 import com.proyectogestioncitas.view.CreateCenterDialog;
 
@@ -394,5 +398,56 @@ public class DataBaseController {
 		}
 		
 		
+	}
+	
+	public void writeUserDataOnGUI(ClientFrame cFrame) {
+		String userDataQuery = "SELECT * FROM clients WHERE id=?";
+		XMLFile xmlFile = new XMLFile(new File("config/dbConfig.xml"));
+		
+		try {
+			PreparedStatement userStatement = dbConnection.prepareStatement(userDataQuery);
+			userStatement.setString(1, xmlFile.readUserID());
+			
+			ResultSet userData = userStatement.executeQuery();
+			userData.next();
+			
+			cFrame.getTextField_Name().setText(userData.getString("name"));
+			cFrame.getTextField_Surnames().setText(userData.getString("surname"));
+			cFrame.getTextField_Birthdate().setText(userData.getString("birth_date"));
+			cFrame.getTextField_id().setText(userData.getString("id"));
+			cFrame.getTextField_assCenter().setText(userData.getString("associated_centre"));
+			cFrame.getTextField_email().setText(userData.getString("email"));
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static Client getCurrentLoguedClient() {
+		Client client = null;
+		
+		String getUser = "SELECT * FROM clients WHERE id=?";
+		XMLFile xmlFile = new XMLFile(new File("config/dbConfig.xml"));
+		Connection dbConnection = App.getConnection();
+		
+		try {
+			PreparedStatement statement = dbConnection.prepareStatement(getUser);
+			statement.setString(1, xmlFile.readUserID());
+			
+			ResultSet userData = statement.executeQuery();
+			userData.next();
+			
+			client = new Client(userData.getString("name"), userData.getString("surname"), userData.getString("id"),
+					userData.getString("birth_date"), userData.getString("email"), userData.getString("password"), 
+						userData.getString("associated_centre"));
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return client;
 	}
 }

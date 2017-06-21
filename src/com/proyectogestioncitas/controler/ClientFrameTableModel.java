@@ -13,7 +13,7 @@ import com.proyectogestioncitas.model.dao.AppointmentDAO;
 import com.proyectogestioncitas.model.pojo.Appointment;
 
 @SuppressWarnings("serial")
-public class ClientFrameTableModel  extends AbstractTableModel implements TableModelListener, ListSelectionListener{
+public class ClientFrameTableModel  extends AbstractTableModel implements TableModelListener, ListSelectionListener {
 	
 	private static String[] columnNames = {
 			"Day",
@@ -21,11 +21,10 @@ public class ClientFrameTableModel  extends AbstractTableModel implements TableM
 			"Associated center"
 	};
 	
-	private static Object[][] tableData = new ClientFrameTableModel().addHourToTableData(new AppointmentDAO());
+	private Object[][] tableData = addAppointmentsToTableData(new AppointmentDAO());
 	//new ClientTableModel().addClientsToTableData(new ClientDAO());
 	
 	public ClientFrameTableModel() {
-		// TODO Auto-generated constructor stub
 		addTableModelListener(this);
 	}
 
@@ -70,13 +69,11 @@ public class ClientFrameTableModel  extends AbstractTableModel implements TableM
 		
 	}
 	
-	public Object[][] addHourToTableData(AppointmentDAO appDao){
-	//public Object[][] addAppointmentsToTableData(AppointmentDAO appDao, Client client){
-		//List<Appointment> appList = appDao.getUnusedAppointments();
+	//public Object[][] addHourToTableData(AppointmentDAO appDao){
+	public Object[][] addAppointmentsToTableData(AppointmentDAO appDao){
+		List<Appointment> appList = appDao.getUnusedAppointments();
 		
-		List<Appointment> appList = new ArrayList<>();
-		appList.add(new Appointment("day", "hour", "1"));
-		appList.add(new Appointment("dia", "hora", "2"));
+		List<Appointment> updatedAppList = new ArrayList<>();
 		
 		int rows = appList.size();
 		int columns = columnNames.length;

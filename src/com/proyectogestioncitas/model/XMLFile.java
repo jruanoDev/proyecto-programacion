@@ -99,17 +99,16 @@ public class XMLFile {
 		boolean valid = false;
 		File configFolder = new File("config");
 		File configFile = new File("config/dbConfig.xml");
-		System.out.println("Hemos entrado en crear");
 		
 		if(!configFolder.exists())
-			System.out.println(configFolder.mkdir());
+			configFolder.mkdir();
 			
 		if(configFile.exists())
 			configFile.delete();
 			
 		DocumentBuilderFactory dbFactoryCreate = DocumentBuilderFactory.newInstance();
 		try {
-			System.out.println("Hemos entrado en creacion del archivo");
+			
 			DocumentBuilder dBuilderCreate = dbFactoryCreate.newDocumentBuilder();
 			Document docCreate = dBuilderCreate.newDocument();
 			
@@ -127,6 +126,10 @@ public class XMLFile {
 			Element dbPasswordElement = docCreate.createElement("dbPassword");
 			dbPasswordElement.appendChild(docCreate.createTextNode("none"));
 			rootElement.appendChild(dbPasswordElement);
+			
+			Element userID = docCreate.createElement("userID");
+			userID.appendChild(docCreate.createTextNode("none"));
+			rootElement.appendChild(userID);
 			
 			// Escribimos el archivo
 			TransformerFactory tFactoryCreate = TransformerFactory.newInstance();
@@ -201,6 +204,86 @@ public class XMLFile {
 	
 		
 	}
+	
+	public void writeUserID(String id) {
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		
+		try {
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(xmlFile);
+			
+			NodeList nList = doc.getElementsByTagName("dbConfig");
+			
+			Node nNode = nList.item(0);
+			
+			if(nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element element = (Element) nNode;
+				
+				element.getElementsByTagName("userID").item(0).setTextContent(id);
+					
+				TransformerFactory transformerFactory = TransformerFactory.newInstance();
+				Transformer transformer = transformerFactory.newTransformer();
+				DOMSource source = new DOMSource(doc);
+				StreamResult result = new StreamResult(new File("config/dbConfig.xml"));
+				transformer.transform(source, result);
+				
+			}
 
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public String readUserID() {
+		String userID = "";
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		
+		try {
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(xmlFile);
+			
+			NodeList nList = doc.getElementsByTagName("dbConfig");
+			
+			Node nNode = nList.item(0);
+			
+			if(nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element element = (Element) nNode;
+				
+				userID = element.getElementsByTagName("userID").item(0).getTextContent();
+					
+				TransformerFactory transformerFactory = TransformerFactory.newInstance();
+				Transformer transformer = transformerFactory.newTransformer();
+				DOMSource source = new DOMSource(doc);
+				StreamResult result = new StreamResult(new File("config/dbConfig.xml"));
+				transformer.transform(source, result);
+				
+			}
+
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return userID;
+	}
 	
 }

@@ -260,7 +260,17 @@ public class Controller implements ActionListener {
 			String password = loginFrame.getPasswordField_LPassword().getText();
 						
 			if(dbController.logUser(login, password)) {
-				System.out.println("Abrir aqui el frame de cliente.");
+				ClientFrame cFrame = new ClientFrame();
+				new Controller(cFrame, clientDao);
+				cFrame.setVisible(true);
+				
+				App.closeLoginFrame();
+				
+				XMLFile xmlFile = new XMLFile(new File("config/dbConfig.xml"));
+				xmlFile.writeUserID(login);
+				
+				dbController.writeUserDataOnGUI(cFrame);
+				
 			} else {
 				JOptionPane.showMessageDialog(null, "Usuario/Contraseña incorrectos", "Error inicio sesión", JOptionPane.ERROR_MESSAGE);
 			}
