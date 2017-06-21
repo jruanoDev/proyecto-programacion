@@ -19,6 +19,7 @@ import com.proyectogestioncitas.model.dao.MedicalCenterDAO;
 import com.proyectogestioncitas.view.AdminLoginDialog;
 import com.proyectogestioncitas.view.AdministrationFrame;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
+import com.proyectogestioncitas.view.ClientFrame;
 import com.proyectogestioncitas.view.CreateAdminFrame;
 import com.proyectogestioncitas.view.CreateCenterDialog;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
@@ -36,6 +37,7 @@ public class Controller implements ActionListener {
 	private CheckTableErrorDialog chkTableDialog;
 	private AdministrationFrame adminFrame;
 	private CreateCenterDialog cCenterDialog;
+	private ClientFrame clientFrame;
 	private Client client;
 	private ClientDAO clientDao;
 	private AppointmentDAO appDao;
@@ -90,6 +92,12 @@ public class Controller implements ActionListener {
 		this.dbConnection = dbConnection;
 		actionListenerAdminLogin(this);
 	}
+	
+	public Controller(ClientFrame clientFrame, ClientDAO clientDao){
+		this.clientFrame = clientFrame;
+		this.clientDao = clientDao;
+		actionListenerClientFrame(this);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -97,6 +105,9 @@ public class Controller implements ActionListener {
 		getDBConfigFrameAction(e);
 		getLoginFrameAction(e);*/
 		//System.out.println("Has entrado en el action performed.");
+		if(e.getActionCommand().equals("Send apply")){
+			getActionSendApplyClient();
+		}
 		switch (e.getActionCommand()) {
 		//Client
 		case "Add client":
@@ -322,6 +333,7 @@ public class Controller implements ActionListener {
 		}
 
 	}
+
 	
 	public void actionListenerConfigFrame(ActionListener escuchador){
 		dbConfigFrame.getBtnDbValidate().addActionListener(escuchador);
@@ -364,6 +376,15 @@ public class Controller implements ActionListener {
 		cCenterDialog.getBtnCreate().addActionListener(escuchador);
 		cCenterDialog.getBtnCancel().addActionListener(escuchador);
 		
+	}
+	
+	
+	public void actionListenerClientFrame(ActionListener escuchador){
+		clientFrame.getBtnSendApply().addActionListener(escuchador);
+		clientFrame.getTable_applyFor().getSelectionModel().addListSelectionListener(e -> {
+			getHourFromClientJTable();
+			clientFrame.getBtnSendApply().setEnabled(true);
+		});
 	}
 	
 	public void actionListenerAdministrationFrame(ActionListener escuchador){
@@ -419,6 +440,28 @@ public class Controller implements ActionListener {
 	
 	public void actionListenerAdminLogin(ActionListener escuchador) {
 		adminLoginDialog.getBtnLogIn().addActionListener(escuchador);
+	}
+	
+	public void getHourFromClientJTable(){
+		try{
+			System.out.println("Ahora has entrado al selection listener de la tabla apply for.");
+			
+			int selectedRow = clientFrame.getTable_applyFor().getSelectedRow();
+			System.out.println(selectedRow);
+	
+			Object day = clientFrame.getTable_applyFor().getValueAt(selectedRow, 0);
+			Object hour = clientFrame.getTable_applyFor().getValueAt(selectedRow, 1);
+			Object center = clientFrame.getTable_applyFor().getValueAt(selectedRow, 2);
+			
+			clientFrame.getLblNotSelectedYet().setText("Day: " + day.toString() + ", hour: " + hour.toString() + 
+					", center: " + center.toString() + "." );		
+			
+			//Client client = new Client(name.toString(), surnames.toString(), id.toString(), birthDate.toString(), 
+			//email.toString(), password.toString());
+			//returnsClientWithRowParams(client);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	
@@ -857,6 +900,17 @@ public class Controller implements ActionListener {
 		adminFrame.getBtnMCDelete().setEnabled(booleano);
 		adminFrame.getBtnMCUpdate().setEnabled(booleano);
 		adminFrame.getBtnMCSave().setEnabled(!booleano);
+		
+	}
+	/** TERMINAR CODIGO */
+	private void getActionSendApplyClient(){
+		int selectedRow = clientFrame.getTable_applyFor().getSelectedRow();
+		System.out.println(selectedRow);
+
+		Object day = clientFrame.getTable_applyFor().getValueAt(selectedRow, 0);
+		Object hour = clientFrame.getTable_applyFor().getValueAt(selectedRow, 1);
+		Object center = clientFrame.getTable_applyFor().getValueAt(selectedRow, 2);
+		
 		
 	}
 
