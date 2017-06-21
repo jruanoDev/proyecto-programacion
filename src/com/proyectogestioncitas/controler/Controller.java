@@ -8,12 +8,14 @@ import java.sql.Connection;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
+import com.proyectogestioncitas.app.App;
 import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.DataBaseController;
 import com.proyectogestioncitas.model.XMLFile;
 import com.proyectogestioncitas.model.dao.AppointmentDAO;
 import com.proyectogestioncitas.model.dao.ClientDAO;
 import com.proyectogestioncitas.model.dao.MedicalCenterDAO;
+import com.proyectogestioncitas.view.AdminLoginDialog;
 import com.proyectogestioncitas.view.AdministrationFrame;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
 import com.proyectogestioncitas.view.CreateAdminFrame;
@@ -36,6 +38,7 @@ public class Controller implements ActionListener {
 	private AppointmentDAO appDao;
 	private MedicalCenterDAO centerDao;
 	private JTable tableCCClient;
+	private AdminLoginDialog adminLoginDialog;
 	
 	public Controller(DataBaseConfigFrame dbConfigFrame) {
 		this.dbConfigFrame = dbConfigFrame;
@@ -55,13 +58,12 @@ public class Controller implements ActionListener {
 		actionListenerCreateAdminFrame(this);
 	}
 
-	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, AppointmentDAO appDao, MedicalCenterDAO centerDao, JTable tableCCClient){
+	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, AppointmentDAO appDao, MedicalCenterDAO centerDao) {
 
 		this.adminFrame = adminFrame;
 		this.clientDao = clientDao;
 		this.appDao = appDao;
 		this.centerDao = centerDao;
-		this.tableCCClient = tableCCClient;
 		
 		actionListenerAdministrationFrame(this);
 	}
@@ -76,6 +78,12 @@ public class Controller implements ActionListener {
 		this.loginFrame = loginFrame;
 		this.dbConnection = dbConnection;
 		actionListenerLoginFrame(this);
+	}
+	
+	public Controller(AdminLoginDialog adminLoginDialog, Connection dbConnection) {
+		this.adminLoginDialog = adminLoginDialog;
+		this.dbConnection = dbConnection;
+		actionListenerAdminLogin(this);
 	}
 
 	@Override
@@ -216,6 +224,8 @@ public class Controller implements ActionListener {
 						
 			if(dbController.logUser(login, password)) {
 				System.out.println("Abrir aqui el frame de cliente.");
+			} else {
+				JOptionPane.showMessageDialog(null, "Usuario/Contraseña incorrectos", "Error inicio sesión", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		
@@ -230,12 +240,24 @@ public class Controller implements ActionListener {
 			
 			DataBaseController dbController = new DataBaseController(dbConnection);
 			
+			dbController.checkUserEmail(email);
+			
 			String emailRegExp = "[a-zA-Z0-9_-]*@[a-zA-Z0-9_-]*.[a-z]{1,3}+";
 			
-			if(email != "" && name != "" && surname != "" && id != "" && password != "" && repPassword != "" && birthDate != "") {
+			if(!email.equals("") || !name.equals("") || !surname.equals("") || !id.equals("") || !password.equals("") ||
+					!repPassword.equals("") || !birthDate.equals("")) {
 				if(password.equals(repPassword)) {
 					if(email.matches(emailRegExp)) {
-						dbController.registerUser(emailRegExp, name, surname, id, repPassword, birthDate);
+						if(dbController.checkUserEmail(email)) {
+							if(dbController.checkUserID(id)) {
+								dbController.registerUser(email, name, surname, id, repPassword, birthDate);
+							} else {
+								JOptionPane.showMessageDialog(null, "El ID introducido ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
+							}
+							
+						} else {
+							JOptionPane.showMessageDialog(null, "El email introducido ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
+						}
 						
 					}
 					
@@ -244,10 +266,32 @@ public class Controller implements ActionListener {
 				}
 				
 			} else {
-				JOptionPane.showMessageDialog(null, "Los campos no son correctos, no pueden estar vacíos.", "Null",
+				JOptionPane.showMessageDialog(null, "Los campos no son correctos, no pueden estar vacíos.", "Error",
 						JOptionPane.ERROR_MESSAGE);
 			}
 			
+		}
+		
+		if(e.getActionCommand().equals("Admin Login")) {
+			AdminLoginDialog aLoginDialog = new AdminLoginDialog();
+			new Controller(aLoginDialog, App.getConnection());
+			aLoginDialog.setVisible(true);
+		}
+		
+		if(e.getActionCommand().equals("Log In")) {
+			String login = adminLoginDialog.getTextFieldAdminUser().getText();
+			@SuppressWarnings("deprecation")
+			String password = adminLoginDialog.getTextFieldAdminPassword().getText();
+			
+			DataBaseController dbController = new DataBaseController(dbConnection);
+			
+			if(dbController.logAdmin(login, password)) {
+				adminLoginDialog.dispose();
+				App.closeLoginFrame();
+				AdministrationFrame adminFrame = new AdministrationFrame();
+				new Controller(adminFrame, new ClientDAO(), new AppointmentDAO(), new MedicalCenterDAO());
+				adminFrame.setVisible(true);
+			}
 		}
 
 	}
@@ -329,6 +373,10 @@ public class Controller implements ActionListener {
 			setTextMCenterAdministrationFrame();
 		});
 		
+	}
+	
+	public void actionListenerAdminLogin(ActionListener escuchador) {
+		adminLoginDialog.getBtnLogIn().addActionListener(escuchador);
 	}
 	
 	

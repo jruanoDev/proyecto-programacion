@@ -291,12 +291,12 @@ public class LoginFrame extends JFrame {
 
 
 	public JTextField getTextField_RID() {
-		return textField_RSurnames;
+		return textField_RIDnumber;
 	}
 
 
 	public JTextField getTextField_RBirthDate() {
-		return textField_RIDnumber;
+		return textField_RBirthdate;
 	}
 
 

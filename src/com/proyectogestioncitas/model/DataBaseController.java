@@ -258,7 +258,6 @@ public class DataBaseController {
 			
 			pStatement.execute();
 			
-			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error al crear el centro, por favor, compruébe los campos introducidos.", "Error", 
 					JOptionPane.ERROR_MESSAGE);
@@ -279,9 +278,13 @@ public class DataBaseController {
 			while(loginRSet.next()) {
 				String dbLogin = loginRSet.getString("id");
 				String dbPassword = loginRSet.getString("password");
-												
-				if(login.equals(dbLogin) && password.equals(dbPassword))
-					check = true;
+				
+				if(!dbLogin.equals("") || !dbPassword.equals("")) {
+					if(login.equals(dbLogin) && password.equals(dbPassword))
+						check = true;
+				} else {
+					JOptionPane.showMessageDialog(null, "Los campos no pueden estar vacíos", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 			
 		} catch (SQLException e) {
@@ -294,7 +297,7 @@ public class DataBaseController {
 	public boolean registerUser(String email, String name, String surname, String id, String password, String birthDate) {
 		boolean check = false;
 		
-		String registerSql = "INSERT INTO clients VALUES (?,?,?,?,?,?)";
+		String registerSql = "INSERT INTO clients VALUES (?,?,?,?,?,?,?)";
 		
 		try {
 			PreparedStatement registerStatement = dbConnection.prepareStatement(registerSql);
@@ -305,6 +308,7 @@ public class DataBaseController {
 			registerStatement.setString(4, id);
 			registerStatement.setString(5, password);
 			registerStatement.setString(6, "1998-07-02");
+			registerStatement.setString(7, "123");
 			
 			check = registerStatement.execute();
 			
@@ -314,5 +318,90 @@ public class DataBaseController {
 		}
 		
 		return check;
+	}
+	
+	public boolean checkUserEmail(String email) {
+		boolean check = false;
+		
+		String emailCheck = "SELECT email FROM clients WHERE email=?";
+		
+		try {
+			PreparedStatement checkStatement = dbConnection.prepareStatement(emailCheck);
+			checkStatement.setString(1, email);
+			
+			ResultSet emailRSet = checkStatement.executeQuery();
+			
+			while(emailRSet.next()) {
+				if(!emailRSet.getString("email").equals(email))
+					check = true;
+					
+			}
+			
+			if(!emailRSet.next())
+				check = true;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return check;
+	}
+	
+	public boolean checkUserID(String id) {
+		boolean check = false;
+		
+		String idCheck = "SELECT id FROM clients WHERE id=?";
+
+		try {
+			PreparedStatement checkIDStatement = dbConnection.prepareStatement(idCheck);
+			checkIDStatement.setString(1, id);
+			
+			ResultSet idRSet = checkIDStatement.executeQuery();
+			
+			if(!idRSet.next())
+				check = true;
+			
+			while(idRSet.next()) {
+				if(!idRSet.getString("id").equals(id))
+					check = true;
+					
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return check;
+	}
+	
+	public boolean logAdmin(String login, String password) {
+		boolean check = false;
+		String adminLogin = "SELECT login, password FROM admins WHERE login=?";
+		
+		try {
+			PreparedStatement adminLoginStatement = dbConnection.prepareStatement(adminLogin);
+			adminLoginStatement.setString(1, login);
+			
+			ResultSet adminLoginRSet = adminLoginStatement.executeQuery();
+			
+			if(!adminLoginRSet.next())
+				JOptionPane.showMessageDialog(null, "Usuario/Contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+			
+			System.out.println(adminLoginRSet.getString("login") + adminLoginRSet.getString("password"));
+			
+			String dbLogin = adminLoginRSet.getString("login");
+			String dbPassword = adminLoginRSet.getString("password");
+			
+			if(login.equals(dbLogin) && password.equals(dbPassword))
+				check = true;
+				
+		} catch (SQLException e) {
+			
+		}
+		System.out.println(check);
+		return check;
+		
 	}
 }

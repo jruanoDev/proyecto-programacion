@@ -18,6 +18,7 @@ public class App {
 	private DataBaseConfigFrame dbConfigFrame = new DataBaseConfigFrame();
 	private Controller dbConfigController = null;
 	private DataBaseController dbController = null;
+	private static LoginFrame loginFrame = null;
 	
 	public static void main(String[] args) {
 		new App();
@@ -39,7 +40,7 @@ public class App {
 				dbController.checkAdminOnDB();
 				dbController.checkMedicalCenters();
 				
-				LoginFrame loginFrame = new LoginFrame();
+				loginFrame = new LoginFrame();
 				new Controller(loginFrame, dbConnection);
 				loginFrame.setVisible(true);
 				
@@ -96,4 +97,11 @@ public class App {
 		
 	}
 	
+	public static Connection getConnection() {
+		return dbConnection;
+	}
+	
+	public static void closeLoginFrame() {
+		loginFrame.dispose();
+	}
 }

@@ -67,7 +67,7 @@ public class AdministrationFrame extends JFrame {
 			public void run() {
 				try {
 					AdministrationFrame frame = new AdministrationFrame();
-					new Controller(frame, new ClientDAO(), new AppointmentDAO(), new MedicalCenterDAO(), tableCCClient);
+					new Controller(frame, new ClientDAO(), new AppointmentDAO(), new MedicalCenterDAO());
 					frame.setVisible(true);
 					
 				} catch (Exception e) {
