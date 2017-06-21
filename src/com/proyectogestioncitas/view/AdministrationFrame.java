@@ -71,7 +71,7 @@ public class AdministrationFrame extends JFrame {
 			public void run() {
 				try {
 					AdministrationFrame frame = new AdministrationFrame();
-					new Controller(frame, new ClientDAO(), new AppointmentDAO(), new MedicalCenterDAO());
+					new Controller(frame, new ClientDAO(), new MedicalCenterDAO());
 					frame.setVisible(true);
 					
 				} catch (Exception e) {
@@ -145,7 +145,7 @@ public class AdministrationFrame extends JFrame {
 		
 		ClientTableModel ccTableModel = new ClientTableModel();
 		
-		AppointmentTableModel appTableModel = new AppointmentTableModel();
+		//AppointmentTableModel appTableModel = new AppointmentTableModel();
 		
 		MedicalCenterTableModel medicalTM = new MedicalCenterTableModel();
 		
@@ -168,7 +168,7 @@ public class AdministrationFrame extends JFrame {
 		textField_CCName.setColumns(10);
 		
 		JLabel lblCCBirthdate = new JLabel("Birth date:");
-		tableCCAAppointment = new JTable(appTableModel);
+		//tableCCAAppointment = new JTable(appTableModel);
 		
 		textField_CCBirthDate = new JTextField();
 		textField_CCBirthDate.setEditable(false);

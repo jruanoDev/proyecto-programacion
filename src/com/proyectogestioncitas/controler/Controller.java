@@ -38,7 +38,7 @@ public class Controller implements ActionListener {
 	private AdministrationFrame adminFrame;
 	private CreateCenterDialog cCenterDialog;
 	private ClientFrame clientFrame;
-	private Client client;
+	private static Client client;
 	private ClientDAO clientDao;
 	private AppointmentDAO appDao;
 	private MedicalCenterDAO centerDao;
@@ -65,11 +65,10 @@ public class Controller implements ActionListener {
 		actionListenerCreateAdminFrame(this);
 	}
 
-	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, AppointmentDAO appDao, MedicalCenterDAO centerDao){
+	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, MedicalCenterDAO centerDao){
 
 		this.adminFrame = adminFrame;
 		this.clientDao = clientDao;
-		this.appDao = appDao;
 		this.centerDao = centerDao;
 		
 		actionListenerAdministrationFrame(this);
@@ -327,7 +326,7 @@ public class Controller implements ActionListener {
 				adminLoginDialog.dispose();
 				App.closeLoginFrame();
 				AdministrationFrame adminFrame = new AdministrationFrame();
-				new Controller(adminFrame, new ClientDAO(), new AppointmentDAO(), new MedicalCenterDAO());
+				new Controller(adminFrame, new ClientDAO(), new MedicalCenterDAO());
 				adminFrame.setVisible(true);
 			}
 		}
@@ -415,8 +414,6 @@ public class Controller implements ActionListener {
 			adminFrame.getBtnCCDelete().setEnabled(true);
 			setTextCCAdministrationFrame();
 			
-			new AppointmentTableModel().addAppointmentsToTableData(new AppointmentDAO(), returnsClientWithRowParams(client));
-			
 		});
 		
 		adminFrame.getTableCCAAppointment().getSelectionModel().addListSelectionListener(e -> {
@@ -489,7 +486,7 @@ public class Controller implements ActionListener {
 			
 			Client client = new Client(name.toString(), surnames.toString(), id.toString(), birthDate.toString(),
 			email.toString(), password.toString(), assCenter.toString());
-			returnsClientWithRowParams(client);
+			setClientWithRowParams(client);
 			
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -911,8 +908,11 @@ public class Controller implements ActionListener {
 		
 	}
 
-	public Client returnsClientWithRowParams(Client client){
-	  	this.client = client;
+	public void setClientWithRowParams(Client client){
+		this.client = client;
+	}
+	
+	public static Client getClientWithRowParams(){
 		return client;
 	}
 	 

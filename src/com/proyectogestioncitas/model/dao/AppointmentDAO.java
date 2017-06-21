@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.proyectogestioncitas.app.App;
 import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.interfaces.IAppointmentDAO;
 import com.proyectogestioncitas.model.pojo.Appointment;
@@ -15,14 +16,14 @@ import com.proyectogestioncitas.model.pojo.Client;
 
 public class AppointmentDAO implements IAppointmentDAO {
 
-	Connection connection = Conexion.getInstanceConnection("urlexample", "userexample", "passwordexample");
+	Connection connection = App.getConnection();
 	Statement statement = null;
 	PreparedStatement preparedStatement = null;
 	String sql = "";
 	int rows = 0;
 	ResultSet resultSet = null;
 	boolean success;	
-	Appointment appoint;
+	Appointment appoint = new Appointment("", "", "");
 	List<Appointment> appointmentsList = new ArrayList<>();
 	List<Appointment> clientAppointmentsList = new ArrayList<>();
 	
@@ -95,18 +96,19 @@ public class AppointmentDAO implements IAppointmentDAO {
 	}
 	
 	@Override
-	public List<Appointment> getAppointmentsForClient(Client client){
-		sql = "SELECT day, hour, center FROM dates WHERE client_id=?;";
+	public List<Appointment> getAppointmentsForClient(String clientId){
+		sql = " SELECT day, hour, center FROM dates WHERE client_id=?;";
 		
 		try {
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1, client.getId());
+			preparedStatement.setString(1, clientId);
 			resultSet = preparedStatement.executeQuery();
+			System.out.println(resultSet.toString());
 			
 			while(resultSet.next()){
-				appoint.setDay(resultSet.getString(1));
-				appoint.setTime(resultSet.getString(2));
-				appoint.setAssociatedCenter(resultSet.getString(3));
+				appoint.setDay(resultSet.getString("day"));
+				appoint.setTime(resultSet.getString("hour"));
+				appoint.setAssociatedCenter(resultSet.getString("center"));
 				//appoint.setDoctorName(resultSet.getString(4));
 				//appoint.setId(resultSet.getString(5));
 				
@@ -116,7 +118,7 @@ public class AppointmentDAO implements IAppointmentDAO {
 			System.err.println("Error en la consulta al intentar obtener las citas del cliente.");
 		}
 		
-		return clientAppointmentsList;
+		return appointmentsList;
 	}
 
 	@Override

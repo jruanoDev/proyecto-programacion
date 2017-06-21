@@ -14,7 +14,7 @@ public interface IAppointmentDAO {
 	 * ----------------DESCOMENTAR ÚLTIMO METODO TRAS RELACION ENTRE CLIENTE Y CITA
 	 */
 	boolean createNewAppointment(Appointment appointment);
-	List<Appointment> getAppointmentsForClient(Client client);
+	List<Appointment> getAppointmentsForClient(String clientId);
 	List<Appointment> getAllAppointments();
 	boolean deleteAppointmentByID(Appointment appointment);
 	boolean updateAppointment(Appointment appointment);

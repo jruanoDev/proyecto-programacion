@@ -10,8 +10,10 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
 import com.proyectogestioncitas.model.dao.AppointmentDAO;
+import com.proyectogestioncitas.model.dao.ClientDAO;
 import com.proyectogestioncitas.model.pojo.Appointment;
 import com.proyectogestioncitas.model.pojo.Client;
+import com.proyectogestioncitas.view.AdministrationFrame;
 
 @SuppressWarnings("serial")
 public class AppointmentTableModel extends AbstractTableModel implements TableModelListener, ListSelectionListener{
@@ -22,9 +24,9 @@ public class AppointmentTableModel extends AbstractTableModel implements TableMo
 			"Hour",
 			"Associated center"
 	};
-	private static Client client = null;
+	private static String clientId = "";
 	
-	private static Object[][] tableData = new AppointmentTableModel().addAppointmentsToTableData(new AppointmentDAO(), client);
+	private static Object[][] tableData = new AppointmentTableModel().addAppointmentsToTableData(new AppointmentDAO(), new ClientDAO());
 	
 	//new ClientTableModel().addClientsToTableData(new ClientDAO());
 	
@@ -77,18 +79,11 @@ public class AppointmentTableModel extends AbstractTableModel implements TableMo
 		
 	}
 	
-	public Object[][] addAppointmentsToTableData(AppointmentDAO appDao, Client client) {
-		this.client = client;
+	public Object[][] addAppointmentsToTableData(AppointmentDAO appDao, ClientDAO clientDao) {
+		clientId = Controller.getClientWithRowParams().getId();		
 		
-		List<Appointment> appList = appDao.getAppointmentsForClient(client);
-		
-		List<Appointment> clientAppList = new ArrayList<>();
-		
-		for (Appointment appointment : appList) {
-			clientAppList.add(appointment);
-			
-		}
-		
+		List<Appointment> appList = appDao.getAppointmentsForClient(clientId);
+
 		int rows = appList.size();
 		int columns = columnNames.length;
 		
@@ -101,5 +96,6 @@ public class AppointmentTableModel extends AbstractTableModel implements TableMo
 		
 		return dataTable; 
 	}
+
 
 }
