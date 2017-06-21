@@ -1,7 +1,7 @@
 package com.proyectogestioncitas.view;
 
 
-import javax.swing.JFrame;
+//import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
@@ -23,6 +23,7 @@ public class CreateAdminFrame extends JDialog {
 	private JButton btnCreate;
 	private JLabel lblCARepeat;
 	private JLabel lblCALogin;
+	private JButton btnExit;
 
 	/**
 	 * Launch the application.
@@ -49,14 +50,13 @@ public class CreateAdminFrame extends JDialog {
 	}
 	
 	public void inicialize(){
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 399, 264);
+		setBounds(100, 100, 408, 274);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		setModalityType();
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-	
+		setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		
 		
 		JLabel lblCreatingAdminUser = new JLabel("CREATING ADMIN USER");
 		
@@ -74,14 +74,18 @@ public class CreateAdminFrame extends JDialog {
 		passwordField_CAPassword = new JPasswordField();
 		
 		passwordField_CARepeat = new JPasswordField();
+		
+		btnExit = new JButton("Exit");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(295, Short.MAX_VALUE)
+					.addContainerGap(241, Short.MAX_VALUE)
 					.addComponent(btnCreate)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnExit)
 					.addContainerGap())
-				.addGroup(gl_contentPane.createSequentialGroup()
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 					.addGap(37)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lblCARepeat)
@@ -92,11 +96,11 @@ public class CreateAdminFrame extends JDialog {
 						.addComponent(passwordField_CARepeat)
 						.addComponent(passwordField_CAPassword)
 						.addComponent(textField_CALogin, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
-					.addContainerGap(56, Short.MAX_VALUE))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(104)
+					.addContainerGap(99, Short.MAX_VALUE))
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addGap(119)
 					.addComponent(lblCreatingAdminUser)
-					.addContainerGap(129, Short.MAX_VALUE))
+					.addContainerGap(147, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -114,13 +118,19 @@ public class CreateAdminFrame extends JDialog {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCARepeat)
 						.addComponent(passwordField_CARepeat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-					.addComponent(btnCreate)
-					.addContainerGap())
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnExit)
+						.addComponent(btnCreate))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
 	
+	public JButton getBtnExit() {
+		return btnExit;
+	}
+
 	//Getters and setters
 	public JTextField getTextField_CALogin() {
 		return textField_CALogin;
@@ -137,5 +147,4 @@ public class CreateAdminFrame extends JDialog {
 	public JButton getBtnCreate() {
 		return btnCreate;
 	}
-
 }

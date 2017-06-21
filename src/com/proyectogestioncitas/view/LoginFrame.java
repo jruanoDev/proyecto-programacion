@@ -38,6 +38,7 @@ public class LoginFrame extends JFrame {
 	private JLabel lblRRepeat;
 	private JLabel lblREmail;
 	private JTextField textField_RBirthdate;
+	private JButton btnAdminLogin;
 
 	/**
 	 * Launch the application.
@@ -66,7 +67,7 @@ public class LoginFrame extends JFrame {
 	
 	public void inicialize(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 515, 440);
+		setBounds(100, 100, 515, 449);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -99,6 +100,8 @@ public class LoginFrame extends JFrame {
 		btnLAccept = new JButton("Accept");
 		
 		passwordField_LPassword = new JPasswordField();
+		
+		btnAdminLogin = new JButton("Admin Login");
 		GroupLayout gl_leftPanel = new GroupLayout(leftPanel);
 		gl_leftPanel.setHorizontalGroup(
 			gl_leftPanel.createParallelGroup(Alignment.LEADING)
@@ -111,7 +114,8 @@ public class LoginFrame extends JFrame {
 						.addGroup(gl_leftPanel.createParallelGroup(Alignment.TRAILING, false)
 							.addComponent(passwordField_LPassword, Alignment.LEADING)
 							.addComponent(textField_LUsername, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
-						.addComponent(lblLogin))
+						.addComponent(lblLogin)
+						.addComponent(btnAdminLogin))
 					.addContainerGap(23, Short.MAX_VALUE))
 		);
 		gl_leftPanel.setVerticalGroup(
@@ -129,7 +133,9 @@ public class LoginFrame extends JFrame {
 					.addComponent(passwordField_LPassword, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(15)
 					.addComponent(btnLAccept)
-					.addContainerGap(184, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
+					.addComponent(btnAdminLogin)
+					.addContainerGap())
 		);
 		leftPanel.setLayout(gl_leftPanel);
 		
@@ -261,6 +267,14 @@ public class LoginFrame extends JFrame {
 	
 	//Getters and setters
 	
+	public JTextField getTextField_RSurnames() {
+		return textField_RSurnames;
+	}
+
+	public JButton getBtnAdminLogin() {
+		return btnAdminLogin;
+	}
+
 	public JTextField getTextField_LUsername() {
 		return textField_LUsername;
 	}

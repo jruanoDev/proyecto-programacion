@@ -2,16 +2,12 @@ package com.proyectogestioncitas.app;
 
 import java.io.File;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.model.DataBaseController;
-import com.proyectogestioncitas.model.TimeController;
 import com.proyectogestioncitas.model.XMLFile;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
+import com.proyectogestioncitas.view.LoginFrame;
 
 public class App {
 	// Al iniciar la app primero comprobamos el archivo XML, lo almacenaremos en una carpeta llamada config
@@ -25,20 +21,6 @@ public class App {
 	
 	public static void main(String[] args) {
 		new App();
-		
-		/*try {
-			Statement statement = dbConnection.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT * FROM users");
-			
-			while(resultSet.next()) {
-				System.out.println(resultSet.getString("name"));
-			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			
-		}*/
-		
 	}
 	
 	public App() {
@@ -56,6 +38,10 @@ public class App {
 				
 				dbController.checkAdminOnDB();
 				dbController.checkMedicalCenters();
+				
+				LoginFrame loginFrame = new LoginFrame();
+				new Controller(loginFrame, dbConnection);
+				loginFrame.setVisible(true);
 				
 			}
 			

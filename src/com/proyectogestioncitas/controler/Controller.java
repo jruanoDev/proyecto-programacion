@@ -2,23 +2,10 @@ package com.proyectogestioncitas.controler;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.io.File;
 import java.sql.Connection;
-import java.time.LocalDate;
 
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableModel;
-
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.DataBaseController;
@@ -32,7 +19,6 @@ import com.proyectogestioncitas.view.CreateAdminFrame;
 import com.proyectogestioncitas.view.CreateCenterDialog;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
 import com.proyectogestioncitas.view.LoginFrame;
-import com.proyectogestioncitas.model.pojo.Appointment;
 import com.proyectogestioncitas.model.pojo.Client;
 
 public class Controller implements ActionListener {
@@ -67,7 +53,7 @@ public class Controller implements ActionListener {
 		actionListenerCreateAdminFrame(this);
 	}
 
-	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, AppointmentDAO appDao, MedicalCenterDAO centerDao){
+	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, AppointmentDAO appDao, MedicalCenterDAO centerDao) {
 		this.adminFrame = adminFrame;
 		this.clientDao = clientDao;
 		this.appDao = appDao;
@@ -75,9 +61,16 @@ public class Controller implements ActionListener {
 		actionListenerAdministrationFrame(this);
 	}
 	
-	public Controller(CreateCenterDialog cCenterDialog) {
+	public Controller(CreateCenterDialog cCenterDialog, Connection dbConnection) {
 		this.cCenterDialog = cCenterDialog;
+		this.dbConnection = dbConnection;
 		actionListenerCenterDialog(this);
+	}
+	
+	public Controller(LoginFrame loginFrame, Connection dbConnection) {
+		this.loginFrame = loginFrame;
+		this.dbConnection = dbConnection;
+		actionListenerLoginFrame(this);
 	}
 
 	@Override
@@ -184,6 +177,73 @@ public class Controller implements ActionListener {
 				
 			}
 		}
+		
+		if(e.getActionCommand().equals("Exit")) {
+			System.exit(1);
+		}
+		
+		if(e.getActionCommand().equals("Create center")) {
+			String id = cCenterDialog.getTextFieldID().getText();
+			String name = cCenterDialog.getTextFieldName().getText();
+			String address = cCenterDialog.getTextFieldAddress().getText();
+			String pCode = cCenterDialog.getTextFieldPCode().getText();
+			String phoneNumber = cCenterDialog.getTextFieldPNumber().getText();
+						
+			if(id != "" || name != "" || address != "" || pCode != "" || phoneNumber != "") {
+				DataBaseController dbController = new DataBaseController(dbConnection);
+				dbController.createNewCenter(id, name, address, pCode, phoneNumber);
+				
+				cCenterDialog.dispose();
+				
+			} else {
+				JOptionPane.showMessageDialog(null, "Los campos no pueden estar vacíos.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		}
+		
+		if(e.getActionCommand().equals("Accept")) {
+			DataBaseController dbController = new DataBaseController(dbConnection);
+			
+			String login = loginFrame.getTextField_LUsername().getText();
+			
+			@SuppressWarnings("deprecation")
+			String password = loginFrame.getPasswordField_LPassword().getText();
+						
+			if(dbController.logUser(login, password)) {
+				System.out.println("Abrir aqui el frame de cliente.");
+			}
+		}
+		
+		if(e.getActionCommand().equals("Send")) {
+			String email = loginFrame.getTextField_REmail().getText();
+			String name = loginFrame.getTextField_RName().getText();
+			String surname = loginFrame.getTextField_RSurnames().getText();
+			String id = loginFrame.getTextField_RID().getText();
+			String password = loginFrame.getPasswordField_RPassword().getText();
+			String repPassword = loginFrame.getPasswordField_RRepeat().getText();
+			String birthDate = loginFrame.getTextField_RBirthDate().getText();
+			
+			DataBaseController dbController = new DataBaseController(dbConnection);
+			
+			String emailRegExp = "[a-zA-Z0-9_-]*@[a-zA-Z0-9_-]*.[a-z]{1,3}+";
+			
+			if(email != "" && name != "" && surname != "" && id != "" && password != "" && repPassword != "" && birthDate != "") {
+				if(password.equals(repPassword)) {
+					if(email.matches(emailRegExp)) {
+						dbController.registerUser(emailRegExp, name, surname, id, repPassword, birthDate);
+						
+					}
+					
+				} else {
+					JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
+			} else {
+				JOptionPane.showMessageDialog(null, "Los campos no son correctos, no pueden estar vacíos.", "Null",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
+		}
 
 	}
 	
@@ -193,8 +253,10 @@ public class Controller implements ActionListener {
 		dbConfigFrame.getTextField_DbPassword().addActionListener(escuchador);
 		dbConfigFrame.getTextField_DbUrl().addActionListener(escuchador);
 		
-		//Create LoginFrameComponents
-		/*loginFrame.getBtnLAccept().addActionListener(escuchador);
+	}
+	
+	public void actionListenerLoginFrame(ActionListener escuchador) {
+		loginFrame.getBtnLAccept().addActionListener(escuchador);
 		loginFrame.getBtnRSend().addActionListener(escuchador);
 		loginFrame.getTextField_LUsername().addActionListener(escuchador);
 		loginFrame.getTextField_RBirthDate().addActionListener(escuchador);
@@ -203,8 +265,8 @@ public class Controller implements ActionListener {
 		loginFrame.getTextField_RName().addActionListener(escuchador);
 		loginFrame.getPasswordField_LPassword().addActionListener(escuchador);
 		loginFrame.getPasswordField_RPassword().addActionListener(escuchador);
-		loginFrame.getPasswordField_RRepeat().addActionListener(escuchador);*/
-		
+		loginFrame.getPasswordField_RRepeat().addActionListener(escuchador);
+		loginFrame.getBtnAdminLogin().addActionListener(escuchador);
 	}
 	
 	public void actionListenerTableErrorDialog(ActionListener escuchador) {
@@ -218,6 +280,7 @@ public class Controller implements ActionListener {
 		createAdminFrame.getTextField_CALogin().addActionListener(escuchador);
 		createAdminFrame.getPasswordField_CAPassword().addActionListener(escuchador);
 		createAdminFrame.getPasswordField_CARepeat().addActionListener(escuchador);
+		createAdminFrame.getBtnExit().addActionListener(escuchador);
 		
 	}
 	
@@ -405,7 +468,8 @@ public class Controller implements ActionListener {
 			//clientDao.createNewClient(client);
 			JOptionPane.showConfirmDialog(null, "The user with ID: '" + client.getId() + "' was created.", 
 					"An user was created", JOptionPane.DEFAULT_OPTION);
-		}else{
+			
+		} else {
 			client = new Client(adminFrame.getTextField_CCName().getText(), 
 					adminFrame.getTextField_CCSurname().getText(), 
 					adminFrame.getTextField_CCdni().getText(),

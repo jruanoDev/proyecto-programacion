@@ -6,9 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.imageio.spi.RegisterableService;
+import javax.swing.JOptionPane;
+
 import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
 import com.proyectogestioncitas.view.CreateAdminFrame;
+import com.proyectogestioncitas.view.CreateCenterDialog;
 
 public class DataBaseController {
 	private Statement statement = null;
@@ -156,8 +160,8 @@ public class DataBaseController {
 			
 			if(!adminResultSet.next()) {
 				CreateAdminFrame newAdmin = new CreateAdminFrame();
-				newAdmin.setVisible(true);
 				new Controller(newAdmin, dbConnection);
+				newAdmin.setVisible(true);
 				
 			}
 			
@@ -226,9 +230,10 @@ public class DataBaseController {
 			ResultSet medicalCenters = statement.executeQuery("SELECT * FROM centers;");
 			
 			if(!medicalCenters.next()) {
-				System.out.println("Esta vacia");
-			} else {
-				System.out.println("Tiene algo");
+				CreateCenterDialog cCenterDialog = new CreateCenterDialog();
+				new Controller(cCenterDialog, dbConnection);
+				cCenterDialog.setVisible(true);
+				
 			}
 			
 		} catch (SQLException e) {
@@ -236,7 +241,78 @@ public class DataBaseController {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void createNewCenter(String id, String name, String address, String pCode, String pNumber) {
+		
+		try {
+			String sql = "INSERT INTO centers VALUES (?,?,?,?,?,?);";
+			PreparedStatement pStatement = dbConnection.prepareStatement(sql);
+			
+			pStatement.setString(1, id);
+			pStatement.setString(2, name);
+			pStatement.setString(3, address);
+			pStatement.setString(4, pCode);
+			pStatement.setString(5, pNumber);
+			pStatement.setString(6, "123");
+			
+			pStatement.execute();
+			
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error al crear el centro, por favor, compruébe los campos introducidos.", "Error", 
+					JOptionPane.ERROR_MESSAGE);
+		}
 		
 	}
-
+	
+	public boolean logUser(String login, String password) {
+		boolean check = false;
+		String loginSql = "SELECT id, password FROM clients WHERE id = ?;";
+		
+		try {
+			PreparedStatement loginStatement = dbConnection.prepareStatement(loginSql);
+			loginStatement.setString(1, login);
+			
+			ResultSet loginRSet = loginStatement.executeQuery();
+			
+			while(loginRSet.next()) {
+				String dbLogin = loginRSet.getString("id");
+				String dbPassword = loginRSet.getString("password");
+												
+				if(login.equals(dbLogin) && password.equals(dbPassword))
+					check = true;
+			}
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "El usuario/contraseña no son correctos.", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		return check;
+	}
+	
+	public boolean registerUser(String email, String name, String surname, String id, String password, String birthDate) {
+		boolean check = false;
+		
+		String registerSql = "INSERT INTO clients VALUES (?,?,?,?,?,?)";
+		
+		try {
+			PreparedStatement registerStatement = dbConnection.prepareStatement(registerSql);
+			
+			registerStatement.setString(1, email);
+			registerStatement.setString(2, name);
+			registerStatement.setString(3, surname);
+			registerStatement.setString(4, id);
+			registerStatement.setString(5, password);
+			registerStatement.setString(6, birthDate);
+			
+			check = registerStatement.execute();
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error en el registro, compruebe los datos.", "Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+		
+		return check;
+	}
 }

@@ -1,7 +1,6 @@
 package com.proyectogestioncitas.view;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -42,10 +41,12 @@ public class CreateCenterDialog extends JDialog {
 	 * Create the dialog.
 	 */
 	public CreateCenterDialog() {
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 457, 310);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setModalityType(JDialog.DEFAULT_MODALITY_TYPE);
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		
 		JLabel lblNoSeHa = new JLabel("<html>No se ha detectado ningún centro médico <br>en su base de datos, para poder usar la aplicación, <br>introduzca al menos los datos de un centro.</html>");
 		
@@ -76,39 +77,36 @@ public class CreateCenterDialog extends JDialog {
 		textFieldPNumber = new JTextField();
 		textFieldPNumber.setColumns(10);
 		
-		btnCreate = new JButton("Create");
+		btnCreate = new JButton("Create center");
 		
 		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblNoSeHa, GroupLayout.PREFERRED_SIZE, 779, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(lblPhoneNumber)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textFieldPNumber))
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblId)
-										.addComponent(lblName)
-										.addComponent(lblAddress)
-										.addComponent(lblPostalCode))
-									.addGap(28)
-									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(textFieldPCode)
-										.addComponent(textFieldID)
-										.addComponent(textFieldAddress)
-										.addComponent(textFieldName, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)))))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblNoSeHa, GroupLayout.PREFERRED_SIZE, 779, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(262)
-							.addComponent(btnCreate)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnCreate)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+									.addGroup(gl_contentPanel.createSequentialGroup()
+										.addComponent(lblPhoneNumber)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(textFieldPNumber))
+									.addGroup(gl_contentPanel.createSequentialGroup()
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+											.addComponent(lblId)
+											.addComponent(lblName)
+											.addComponent(lblAddress)
+											.addComponent(lblPostalCode))
+										.addGap(28)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+											.addComponent(textFieldPCode)
+											.addComponent(textFieldID)
+											.addComponent(textFieldAddress)
+											.addComponent(textFieldName, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)))))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnCancel)))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -137,10 +135,10 @@ public class CreateCenterDialog extends JDialog {
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPhoneNumber)
 						.addComponent(textFieldPNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnCancel)
-						.addComponent(btnCreate)))
+						.addComponent(btnCreate)
+						.addComponent(btnCancel)))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 	}
