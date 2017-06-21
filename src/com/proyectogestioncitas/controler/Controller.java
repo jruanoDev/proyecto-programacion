@@ -21,6 +21,7 @@ import com.proyectogestioncitas.view.CreateCenterDialog;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
 import com.proyectogestioncitas.view.LoginFrame;
 import com.proyectogestioncitas.model.pojo.Client;
+import com.proyectogestioncitas.model.pojo.MedicalCenter;
 
 public class Controller implements ActionListener {
 
@@ -35,7 +36,7 @@ public class Controller implements ActionListener {
 	private ClientDAO clientDao;
 	private AppointmentDAO appDao;
 	private MedicalCenterDAO centerDao;
-	private JTable tableCCClient;
+
 	
 	public Controller(DataBaseConfigFrame dbConfigFrame) {
 		this.dbConfigFrame = dbConfigFrame;
@@ -55,13 +56,12 @@ public class Controller implements ActionListener {
 		actionListenerCreateAdminFrame(this);
 	}
 
-	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, AppointmentDAO appDao, MedicalCenterDAO centerDao, JTable tableCCClient){
+	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, AppointmentDAO appDao, MedicalCenterDAO centerDao){
 
 		this.adminFrame = adminFrame;
 		this.clientDao = clientDao;
 		this.appDao = appDao;
 		this.centerDao = centerDao;
-		this.tableCCClient = tableCCClient;
 		
 		actionListenerAdministrationFrame(this);
 	}
@@ -110,6 +110,20 @@ public class Controller implements ActionListener {
 			break;
 		case "Save app":
 			getActionSaveAppBtn();
+			break;
+
+		//Center
+		case "Add center":
+			getActionAddCenterBtn();
+			break;
+		case "Delete center":
+			getActionDeleteCenterBtn();
+			break;
+		case "Update center":
+			getActionUpdateCenterBtn();
+			break;
+		case "Save center":
+			getActionSaveCenterBtn();
 			break;
 
 		default:
@@ -308,8 +322,16 @@ public class Controller implements ActionListener {
 		adminFrame.getBtnCCADelete().addActionListener(escuchador);
 		adminFrame.getBtnCCASave().addActionListener(escuchador);
 		
+		//Medical center table
+		adminFrame.getBtnMCAddNew().addActionListener(escuchador);
+		adminFrame.getBtnMCDelete().addActionListener(escuchador);
+		adminFrame.getBtnMCSave().addActionListener(escuchador);
+		adminFrame.getBtnMCUpdate().addActionListener(escuchador);
+		
+		
 		adminFrame.getTableCCClient().getSelectionModel().addListSelectionListener(e -> {
 			adminFrame.getBtnCCUpdate().setEnabled(true);
+			adminFrame.getBtnCCDelete().setEnabled(true);
 			setTextCCAdministrationFrame();
 			/**
 			 * new AppointmentTableModel().addAppointmetsToTableData(new AppointmentDAO(), this.returnsClientWithRowParams());
@@ -322,10 +344,14 @@ public class Controller implements ActionListener {
 		});
 		
 		adminFrame.getTableCCAAppointment().getSelectionModel().addListSelectionListener(e -> {
+			adminFrame.getBtnCCAUpdate().setEnabled(true);
+			adminFrame.getBtnCCADelete().setEnabled(true);
 			setTextCCAppAdministrationFrame();
 		});
 		
 		adminFrame.getTableMedicalCenter().getSelectionModel().addListSelectionListener(e -> {
+			adminFrame.getBtnMCUpdate().setEnabled(true);
+			adminFrame.getBtnMCDelete().setEnabled(true);
 			setTextMCenterAdministrationFrame();
 		});
 		
@@ -426,7 +452,7 @@ public class Controller implements ActionListener {
 		//Other btns
 		setCCBtnConfiguration(false);
 		//JTable
-		tableCCClient.setEnabled(false);
+		adminFrame.getTableCCClient().setEnabled(false);
 
 	}
 	private void getActionDeleteClientBtn(){
@@ -444,7 +470,7 @@ public class Controller implements ActionListener {
 	}
 	private void getActionUpdateClientBtn(){
 		//JTable
-		tableCCClient.setEnabled(false);
+		adminFrame.getTableCCClient().setEnabled(false);
 		
 		//TextField
 		setCCTextFields(true, "update");
@@ -491,8 +517,9 @@ public class Controller implements ActionListener {
 		}
 		setCCTextFields(false, "all");
 		setCCBtnConfiguration(true);
-		tableCCClient.setEnabled(true);
+		adminFrame.getTableCCClient().setEnabled(true);
 		adminFrame.getBtnCCUpdate().setEnabled(false);
+		adminFrame.getBtnCCDelete().setEnabled(false);
 	}
 	
 	//Appointment table btn
@@ -506,6 +533,73 @@ public class Controller implements ActionListener {
 		
 	}
 	private void getActionSaveAppBtn(){
+		adminFrame.getBtnCCAUpdate().setEnabled(false);
+		adminFrame.getBtnCCADelete().setEnabled(false);
+	}
+	
+	//Medical center table btn actions
+	private void getActionAddCenterBtn(){
+		System.out.println("Click en add center");
+		adminFrame.getTableMedicalCenter().setEnabled(false);
+		setMCTextFields(true, "all");
+		setMCBtnConfiguration(false);
+	}
+	
+	private void getActionDeleteCenterBtn(){
+		String id = adminFrame.getTextField_MCCenterID().getText();		
+		//centerDao.deleteCenterByID(id);
+		
+		JOptionPane.showMessageDialog(null, "The center with ID:'" + id + "' was deleted.", 
+				"Deleted center", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	private void getActionUpdateCenterBtn(){
+		System.out.println("Click en update center");
+		adminFrame.getTableMedicalCenter().setEnabled(false);
+		setMCTextFields(true, "update");
+		setMCBtnConfiguration(false);
+	}
+	
+	private void getActionSaveCenterBtn(){
+		adminFrame.getBtnMCUpdate().setEnabled(false);
+		adminFrame.getBtnMCDelete().setEnabled(false);
+		if(adminFrame.getTextField_MCCenterID().getText().equals("") || adminFrame.getTextField_MCCenterName().getText().equals("")
+				|| adminFrame.getTextField_MCLocation().getText().equals("") || adminFrame.getTextField_MCPhone().getText().equals("")
+				|| adminFrame.getTextField_MCPostalCode().getText().equals("")){
+			JOptionPane.showMessageDialog(null, "You cannot create or update a center without all the fields correctly filled.", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		if(adminFrame.getTextField_MCCenterID().isEditable()){
+			MedicalCenter center = new MedicalCenter(adminFrame.getTextField_MCCenterID().getText(), 
+					adminFrame.getTextField_MCLocation().getText(), 
+					adminFrame.getTextField_MCCenterName().getText(), 
+					adminFrame.getTextField_MCPostalCode().getText(), 
+					adminFrame.getTextField_MCPhone().getText());
+			
+			//centerDao.createNewCenter(center);
+			System.out.println(center);
+			
+			JOptionPane.showMessageDialog(null, "A center was added.", 
+					"Created center", JOptionPane.INFORMATION_MESSAGE);
+		}else{
+			MedicalCenter center = new MedicalCenter(adminFrame.getTextField_MCCenterID().getText(), 
+					adminFrame.getTextField_MCLocation().getText(), 
+					adminFrame.getTextField_MCCenterName().getText(), 
+					adminFrame.getTextField_MCPostalCode().getText(), 
+					adminFrame.getTextField_MCPhone().getText());
+			
+			//centerDao.updateCenter(center);
+			System.out.println(center);
+			
+			JOptionPane.showMessageDialog(null, "A center was updated.", 
+					"Updated center", JOptionPane.INFORMATION_MESSAGE);
+		}
+		//code
+		
+		adminFrame.getTableMedicalCenter().setEnabled(true);
+		setMCTextFields(false, "save");
+		setMCBtnConfiguration(true);
 		
 	}
 	
@@ -549,6 +643,34 @@ public class Controller implements ActionListener {
 				adminFrame.getTextField_CCAssCenter().getText().equals(""))
 			success = true;
 		return success;
+	}
+	
+	private void setMCTextFields(Boolean booleano, String status){
+		if(status.equals("all")){
+			adminFrame.getTextField_MCCenterID().setEditable(booleano);
+			adminFrame.getTextField_MCCenterID().setText("");
+			adminFrame.getTextField_MCCenterName().setText("");
+			adminFrame.getTextField_MCLocation().setText("");
+			adminFrame.getTextField_MCPhone().setText("");
+			adminFrame.getTextField_MCPostalCode().setText("");
+		}
+		if(status.equals("save")){
+			adminFrame.getTextField_MCCenterID().setEditable(booleano);
+		}
+		
+		adminFrame.getTextField_MCCenterName().setEditable(booleano);		
+		adminFrame.getTextField_MCLocation().setEditable(booleano);		
+		adminFrame.getTextField_MCPhone().setEditable(booleano);		
+		adminFrame.getTextField_MCPostalCode().setEditable(booleano);
+		
+	}
+	
+	private void setMCBtnConfiguration(Boolean booleano){
+		adminFrame.getBtnMCAddNew().setEnabled(booleano);
+		adminFrame.getBtnMCDelete().setEnabled(booleano);
+		adminFrame.getBtnMCUpdate().setEnabled(booleano);
+		adminFrame.getBtnMCSave().setEnabled(!booleano);
+		
 	}
 
 	/**

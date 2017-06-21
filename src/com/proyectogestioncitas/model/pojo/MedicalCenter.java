@@ -46,6 +46,14 @@ public class MedicalCenter {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+
+	@Override
+	public String toString() {
+		return "MedicalCenter [centerId=" + centerId + ", Location=" + Location + ", centerName=" + centerName
+				+ ", postalCode=" + postalCode + ", phoneNumber=" + phoneNumber + "]";
+	}
+	
+	
 	
 	
 }

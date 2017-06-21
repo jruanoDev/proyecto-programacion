@@ -58,6 +58,10 @@ public class AdministrationFrame extends JFrame {
 	private JTextField textField_CCADoctorName;
 	private JButton btnCCSave;
 	private JButton btnCCASave;
+	private JButton btnMCAddNew;
+	private JButton btnMCDelete;
+	private JButton btnMCUpdate;
+	private JButton btnMCSave;
 
 	/**
 	 * Launch the application.
@@ -67,7 +71,7 @@ public class AdministrationFrame extends JFrame {
 			public void run() {
 				try {
 					AdministrationFrame frame = new AdministrationFrame();
-					new Controller(frame, new ClientDAO(), new AppointmentDAO(), new MedicalCenterDAO(), tableCCClient);
+					new Controller(frame, new ClientDAO(), new AppointmentDAO(), new MedicalCenterDAO());
 					frame.setVisible(true);
 					
 				} catch (Exception e) {
@@ -86,7 +90,7 @@ public class AdministrationFrame extends JFrame {
 	
 	public void inicialize(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1028, 720);
+		setBounds(100, 100, 1028, 786);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -208,6 +212,7 @@ public class AdministrationFrame extends JFrame {
 		btnCCAddNew = new JButton("Add client");
 		
 		btnCCDelete = new JButton("Delete client");
+		btnCCDelete.setEnabled(false);
 		
 		btnCCUpdate = new JButton("Update client");
 		btnCCUpdate.setEnabled(false);
@@ -216,6 +221,7 @@ public class AdministrationFrame extends JFrame {
 		btnCCAUpdate.setEnabled(false);
 		
 		btnCCADelete = new JButton("Delete app");
+		btnCCADelete.setEnabled(false);
 		
 		btnCCAAddNew = new JButton("Add app");
 		
@@ -442,14 +448,15 @@ public class AdministrationFrame extends JFrame {
 		textField_MCPhone.setEditable(false);
 		textField_MCPhone.setColumns(10);
 		
-		JButton btnMCAddNew = new JButton("Add new");
+		btnMCAddNew = new JButton("Add center");
 		
-		JButton btnMCUpdate = new JButton("Update");
+		btnMCUpdate = new JButton("Update center");
 		btnMCUpdate.setEnabled(false);
 		
-		JButton btnDelete = new JButton("Delete");
+		btnMCDelete = new JButton("Delete center");
+		btnMCDelete.setEnabled(false);
 		
-		JButton btnMCSave = new JButton("Save");
+		btnMCSave = new JButton("Save center");
 		btnMCSave.setEnabled(false);
 		GroupLayout gl_MedicalCenterConfig = new GroupLayout(MedicalCenterConfig);
 		gl_MedicalCenterConfig.setHorizontalGroup(
@@ -457,8 +464,8 @@ public class AdministrationFrame extends JFrame {
 				.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.LEADING)
-						.addComponent(separator, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 989, Short.MAX_VALUE)
-						.addComponent(medicalTableCRUD, GroupLayout.DEFAULT_SIZE, 989, Short.MAX_VALUE)
+						.addComponent(separator, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 971, Short.MAX_VALUE)
+						.addComponent(medicalTableCRUD, GroupLayout.DEFAULT_SIZE, 971, Short.MAX_VALUE)
 						.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
 							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
@@ -477,21 +484,22 @@ public class AdministrationFrame extends JFrame {
 									.addComponent(lblMCCenterId)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addComponent(textField_MCCenterID, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
+							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.TRAILING)
+								.addGroup(Alignment.LEADING, gl_MedicalCenterConfig.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addComponent(lblMCPhoneNumber)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField_MCPhone, GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE))
-								.addGroup(Alignment.TRAILING, gl_MedicalCenterConfig.createSequentialGroup()
+									.addComponent(textField_MCPhone, GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE))
+								.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
+									.addGap(64)
 									.addComponent(btnMCAddNew)
-									.addGap(69)
-									.addComponent(btnDelete)
-									.addGap(69)
+									.addPreferredGap(ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+									.addComponent(btnMCDelete)
+									.addGap(58)
 									.addComponent(btnMCUpdate)
-									.addGap(66)
+									.addGap(54)
 									.addComponent(btnMCSave)
-									.addGap(107)))))
+									.addGap(66)))))
 					.addContainerGap())
 		);
 		gl_MedicalCenterConfig.setVerticalGroup(
@@ -524,14 +532,30 @@ public class AdministrationFrame extends JFrame {
 						.addGroup(gl_MedicalCenterConfig.createSequentialGroup()
 							.addGap(66)
 							.addGroup(gl_MedicalCenterConfig.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnMCUpdate)
-								.addComponent(btnDelete)
+								.addComponent(btnMCSave)
 								.addComponent(btnMCAddNew)
-								.addComponent(btnMCSave))))
-					.addContainerGap(397, Short.MAX_VALUE))
+								.addComponent(btnMCDelete)
+								.addComponent(btnMCUpdate))))
+					.addContainerGap(399, Short.MAX_VALUE))
 		);
 		MedicalCenterConfig.setLayout(gl_MedicalCenterConfig);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	public JButton getBtnMCAddNew() {
+		return btnMCAddNew;
+	}
+
+	public JButton getBtnMCDelete() {
+		return btnMCDelete;
+	}
+
+	public JButton getBtnMCUpdate() {
+		return btnMCUpdate;
+	}
+
+	public JButton getBtnMCSave() {
+		return btnMCSave;
 	}
 
 	public JButton getBtnCCSave() {

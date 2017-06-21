@@ -11,6 +11,7 @@ import javax.swing.table.AbstractTableModel;
 
 import com.proyectogestioncitas.model.dao.MedicalCenterDAO;
 import com.proyectogestioncitas.model.pojo.MedicalCenter;
+import com.proyectogestioncitas.view.AdministrationFrame;
 
 @SuppressWarnings("serial")
 public class MedicalCenterTableModel extends AbstractTableModel implements TableModelListener, ListSelectionListener{
@@ -25,6 +26,10 @@ public class MedicalCenterTableModel extends AbstractTableModel implements Table
 	};
 	
 	private static Object[][] tableData = new MedicalCenterTableModel().addCentersToTableData(new MedicalCenterDAO());
+
+	public MedicalCenterTableModel() {
+		addTableModelListener(this);
+	}
 	
 	@Override
 	public int getRowCount() {
