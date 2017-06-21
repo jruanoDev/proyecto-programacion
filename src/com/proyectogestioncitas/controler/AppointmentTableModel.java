@@ -20,8 +20,7 @@ public class AppointmentTableModel extends AbstractTableModel implements TableMo
 	private static String[] columnNames = {
 			"Day",
 			"Hour",
-			"Associated center",
-			"Doctor name"
+			"Associated center"
 	};
 	
 	private static Object[][] tableData = new AppointmentTableModel().addAppointmentsToTableData(new AppointmentDAO());
@@ -81,8 +80,8 @@ public class AppointmentTableModel extends AbstractTableModel implements TableMo
 		//List<Appointment> appList = appDao.getAppointmentsForClient(client);
 		
 		List<Appointment> appList = new ArrayList<>();
-		appList.add(new Appointment("day", "hour", "1", "Antonio"));
-		appList.add(new Appointment("dia", "hora", "2", "Maria Jose"));
+		appList.add(new Appointment("day", "hour", "1"));
+		appList.add(new Appointment("dia", "hora", "2"));
 		
 		int rows = appList.size();
 		int columns = columnNames.length;
@@ -91,7 +90,7 @@ public class AppointmentTableModel extends AbstractTableModel implements TableMo
 		
 		for(int i = 0; i < rows ; i++){
 			Appointment appointment = appList.get(i);
-			dataTable[i] = new Object[]{appointment.getDay(), appointment.getTime(), appointment.getAssociatedCenter(), appointment.getDoctorName()};
+			dataTable[i] = new Object[]{appointment.getDay(), appointment.getTime(), appointment.getAssociatedCenter()};
 		}
 		
 		return dataTable; 

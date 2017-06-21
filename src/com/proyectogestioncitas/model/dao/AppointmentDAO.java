@@ -32,14 +32,13 @@ public class AppointmentDAO implements IAppointmentDAO {
 		boolean success = false;
 		//Appointment a = new Appointment(day, time, associatedCenter, doctorName) FALTA RELACION CON CLIENTE
 		//NECESARIO MODIFICAR LA SENTENCIA Y AÑADIR SET STRING
-		sql = "INSERT INTO appointments(day, time, associatedCenter, doctorName) VALUES(?,?,?,?);";
+		sql = "INSERT INTO appointments(day, time, associatedCenter) VALUES(?,?,?,?);";
 		
 		try {
 			preparedStatement = connection.prepareStatement(sql);
 			//preparedStatement.setString(1, appointment.getDay());
 			//preparedStatement.setString(2, appointment.getTime());
 			preparedStatement.setString(3, appointment.getAssociatedCenter());
-			preparedStatement.setString(4, appointment.getDoctorName());
 			rows = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			System.err.println("Error en la consulta al intentar crear una nueva cita.");
@@ -53,7 +52,7 @@ public class AppointmentDAO implements IAppointmentDAO {
 
 	@Override
 	public List<Appointment> getAllAppointments() {
-		sql = "SELECT day, time, associatedCenter, doctorName FROM appointments;";
+		sql = "SELECT day, time, associatedCenter FROM appointments;";
 		
 		try {
 			statement = connection.createStatement();
@@ -62,7 +61,6 @@ public class AppointmentDAO implements IAppointmentDAO {
 				//appoint.setDay(resultSet.getString(1));
 				//appoint.setTime(resultSet.getString(2));
 				appoint.setAssociatedCenter(resultSet.getString(3));
-				appoint.setDoctorName(resultSet.getString(4));
 				
 				appointmentsList.add(appoint);
 			}
@@ -79,13 +77,12 @@ public class AppointmentDAO implements IAppointmentDAO {
 		/**
 		 * IMPORTANTE Observar el posible cambio en sentencia.
 		 */
-		sql = "UPDATE appointments SET day=?, time=?, associatedCenter=?, doctorName=? WHERE day=? AND time=?;";
+		sql = "UPDATE appointments SET day=?, time=?, associatedCenter=? WHERE day=? AND time=?;";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
 			//preparedStatement.setString(1, appointment.getDay());
 			//preparedStatement.setString(2, appointment.getTime());
 			preparedStatement.setString(3, appointment.getAssociatedCenter());
-			preparedStatement.setString(4, appointment.getDoctorName());
 			//preparedStatement.setString(5, appointment.getDay());
 			//preparedStatement.setString(6, appointment.getTime());
 			rows = preparedStatement.executeUpdate();
@@ -122,4 +119,23 @@ public class AppointmentDAO implements IAppointmentDAO {
 		return clientAppointmentsList;
 	}
 	*/
+
+	@Override
+	public boolean deleteAppointmentByID(Appointment appointment) {
+		success = false;
+		
+		sql = "DELETE FROM appointment WHERE date=?, hour=?, associatedCenter=?";
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, appointment.getDay());
+			preparedStatement.setString(2, appointment.getTime());
+			preparedStatement.setString(3, appointment.getAssociatedCenter());
+			rows = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Error trying to delete an appointment.");
+		}
+		if(rows != 0)
+			success = true;
+		return success;
+	}
 }

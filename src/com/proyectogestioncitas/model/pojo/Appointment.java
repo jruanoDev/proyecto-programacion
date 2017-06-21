@@ -1,20 +1,17 @@
 package com.proyectogestioncitas.model.pojo;
 
-import java.time.LocalDate;
 
 public class Appointment {
 	private String day;
 	private String time;
 	private String associatedCenter;
-	private String doctorName;
 	//id
 	
-	public Appointment(String day, String time, String associatedCenter, String doctorName) {
+	public Appointment(String day, String time, String associatedCenter) {
 		super();
 		this.day = day;
 		this.time = time;
 		this.associatedCenter = associatedCenter;
-		this.doctorName = doctorName;
 	}
 
 	public String getDay() {
@@ -39,15 +36,6 @@ public class Appointment {
 
 	public void setAssociatedCenter(String associatedCenter) {
 		this.associatedCenter = associatedCenter;
-	}
-
-	public String getDoctorName() {
-		return doctorName;
-	}
-
-	public void setDoctorName(String doctorName) {
-		this.doctorName = doctorName;
-	}
-	
+	}	
 	
 }

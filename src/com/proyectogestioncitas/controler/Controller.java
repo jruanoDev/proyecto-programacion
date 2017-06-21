@@ -7,6 +7,7 @@ import java.sql.Connection;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
 
 import com.proyectogestioncitas.app.App;
 import com.proyectogestioncitas.model.Conexion;
@@ -419,12 +420,11 @@ public class Controller implements ActionListener {
 			Object day = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 0);
 			Object hour = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 1);
 			Object assCenter = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 2);
-			Object doctorsName = adminFrame.getTableCCAAppointment().getValueAt(selectedRow, 3);
+			
 			
 			adminFrame.getTextCCAField_Date().setText(day.toString());
 			adminFrame.getTextCCAField_Hour().setText(hour.toString());
 			adminFrame.getTextField_CCAAssCenter().setText(assCenter.toString());
-			adminFrame.getTextField_CCADoctorName().setText(doctorsName.toString());
 			
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -556,7 +556,16 @@ public class Controller implements ActionListener {
 
 	}
 	private void getActionDeleteAppBtn(){
+		Appointment app = new Appointment(adminFrame.getTextCCAField_Date().getText(), 
+				adminFrame.getTextCCAField_Hour().getText(), 
+				adminFrame.getTextField_CCAAssCenter().getText());
 		
+		//appDao.deleteAppointmentByID(app);
+		
+		JOptionPane.showMessageDialog(null, "An appointment was deleted.", "Appointment deleted", JOptionPane.INFORMATION_MESSAGE);
+		setCCATextFields(false, "add");
+		setCBtnConfiguration(true);
+		return;
 	}
 	private void getActionUpdateAppBtn(){
 		//Cancel btn
@@ -573,16 +582,14 @@ public class Controller implements ActionListener {
 	private void getActionSaveAppBtn(){
 		if(adminFrame.getTextCCAField_Date().getText().equals("") || 
 					adminFrame.getTextCCAField_Hour().getText().equals("") || 
-					adminFrame.getTextField_CCAAssCenter().getText().equals("") || 
-					adminFrame.getTextField_CCADoctorName().getText().equals("") ){
+					adminFrame.getTextField_CCAAssCenter().getText().equals("")){
 			JOptionPane.showMessageDialog(null, "Cannot create/update an appointment with fields not filled.", "Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if(btnStatus.equals("add")){
 			Appointment app = new Appointment(adminFrame.getTextCCAField_Date().getText(), 
 					adminFrame.getTextCCAField_Hour().getText(), 
-					adminFrame.getTextField_CCAAssCenter().getText(), 
-					adminFrame.getTextField_CCADoctorName().getText());
+					adminFrame.getTextField_CCAAssCenter().getText());
 			
 			//appDao.createNewAppointment(app);
 			JOptionPane.showMessageDialog(null, "An appointment was created.", "Appointment created.", JOptionPane.INFORMATION_MESSAGE);
@@ -592,8 +599,7 @@ public class Controller implements ActionListener {
 		if(btnStatus.equals("update")){
 			Appointment app = new Appointment(adminFrame.getTextCCAField_Date().getText(), 
 					adminFrame.getTextCCAField_Hour().getText(), 
-					adminFrame.getTextField_CCAAssCenter().getText(), 
-					adminFrame.getTextField_CCADoctorName().getText());
+					adminFrame.getTextField_CCAAssCenter().getText());
 			//appDao.updateAppointment(app);
 			JOptionPane.showMessageDialog(null, "An appointment was updated.", "Appointment updated.", JOptionPane.INFORMATION_MESSAGE);
 			setCCATextFields(false, "add");
@@ -609,14 +615,12 @@ public class Controller implements ActionListener {
 		if(status.equals("add")){			
 			adminFrame.getTextCCAField_Date().setText("");			
 			adminFrame.getTextCCAField_Hour().setText("");			
-			adminFrame.getTextField_CCAAssCenter().setText("");			
-			adminFrame.getTextField_CCADoctorName().setText("");
+			adminFrame.getTextField_CCAAssCenter().setText("");	
 			
 		}
 		adminFrame.getTextCCAField_Date().setEditable(booleano);
 		adminFrame.getTextCCAField_Hour().setEditable(booleano);
 		adminFrame.getTextField_CCAAssCenter().setEditable(booleano);
-		adminFrame.getTextField_CCADoctorName().setEditable(booleano);
 	}
 	
 	private void setCCABtnConfiguration(Boolean booleano){
@@ -691,7 +695,6 @@ public class Controller implements ActionListener {
 			JOptionPane.showMessageDialog(null, "A center was updated.", 
 					"Updated center", JOptionPane.INFORMATION_MESSAGE);
 		}
-		//code
 		adminFrame.getTableCCAAppointment().setEnabled(true);
 		setMCTextFields(false, "save");
 		setMCBtnConfiguration(true);

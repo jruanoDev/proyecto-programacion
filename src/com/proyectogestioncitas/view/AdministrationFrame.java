@@ -55,7 +55,6 @@ public class AdministrationFrame extends JFrame {
 	private JTextField textField_CCPassword;
 	private JTextField textField_CCAssCenter;
 	private JTextField textField_CCAAssCenter;
-	private JTextField textField_CCADoctorName;
 	private JButton btnCCSave;
 	private JButton btnCCASave;
 	private JButton btnMCAddNew;
@@ -247,15 +246,9 @@ public class AdministrationFrame extends JFrame {
 		
 		JLabel lblCCAAssCenter = new JLabel("Ass. center");
 		
-		JLabel lblCCADoctorsName = new JLabel("Doctor's name:");
-		
 		textField_CCAAssCenter = new JTextField();
 		textField_CCAAssCenter.setEditable(false);
 		textField_CCAAssCenter.setColumns(10);
-		
-		textField_CCADoctorName = new JTextField();
-		textField_CCADoctorName.setEditable(false);
-		textField_CCADoctorName.setColumns(10);
 		
 		btnCCSave = new JButton("Save client");
 		btnCCSave.setEnabled(false);
@@ -316,14 +309,10 @@ public class AdministrationFrame extends JFrame {
 											.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING, false)
 												.addComponent(textCCAField_Hour)
 												.addComponent(textCCAField_Date, GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)))
-										.addComponent(lblCCADoctorsName)
-										.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.LEADING)
-											.addComponent(textField_CCADoctorName, GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
-											.addGroup(gl_ClientConfiguration.createSequentialGroup()
-												.addComponent(lblCCAAssCenter)
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addComponent(textField_CCAAssCenter, 253, 253, 253))))
-									.addPreferredGap(ComponentPlacement.RELATED, 360, Short.MAX_VALUE))
+										.addGroup(gl_ClientConfiguration.createSequentialGroup()
+											.addComponent(lblCCAAssCenter)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(textField_CCAAssCenter, 253, 253, 253))))
 								.addGroup(gl_ClientConfiguration.createSequentialGroup()
 									.addGap(83)
 									.addComponent(btnCCAAddNew)
@@ -332,7 +321,8 @@ public class AdministrationFrame extends JFrame {
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btnCCAUpdate)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnCCASave))))
+									.addComponent(btnCCASave)))
+							.addPreferredGap(ComponentPlacement.RELATED, 356, Short.MAX_VALUE))
 						.addGroup(gl_ClientConfiguration.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 1321, Short.MAX_VALUE))
@@ -351,8 +341,8 @@ public class AdministrationFrame extends JFrame {
 				.addGroup(gl_ClientConfiguration.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
-						.addComponent(tableCCClient, GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
-						.addComponent(tableCCAAppointment, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE))
+						.addComponent(tableCCClient, GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+						.addComponent(tableCCAAppointment, GroupLayout.PREFERRED_SIZE, 309, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
 					.addGap(28)
@@ -396,11 +386,7 @@ public class AdministrationFrame extends JFrame {
 								.addComponent(lblCCAssCenter)
 								.addComponent(textField_CCAssCenter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_ClientConfiguration.createSequentialGroup()
-							.addGap(24)
-							.addComponent(lblCCADoctorsName)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField_CCADoctorName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
+							.addGap(87)
 							.addGroup(gl_ClientConfiguration.createParallelGroup(Alignment.BASELINE)
 								.addComponent(btnCCAAddNew)
 								.addComponent(btnCCADelete)
@@ -654,9 +640,6 @@ public class AdministrationFrame extends JFrame {
 		return textField_CCAAssCenter;
 	}
 
-	public JTextField getTextField_CCADoctorName() {
-		return textField_CCADoctorName;
-	}
 
 	public JTextField getTextField_CCEmail() {
 		return textField_CCEmail;
