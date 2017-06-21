@@ -2,10 +2,8 @@ package com.proyectogestioncitas.model.interfaces;
 
 import java.util.List;
 
-import com.proyectogestioncitas.model.pojo.Administrator;
 import com.proyectogestioncitas.model.pojo.Appointment;
 import com.proyectogestioncitas.model.pojo.Client;
-import com.proyectogestioncitas.model.pojo.Doctor;
 
 public interface IAppointmentDAO {
 	/**
@@ -16,10 +14,11 @@ public interface IAppointmentDAO {
 	 * ----------------DESCOMENTAR ÚLTIMO METODO TRAS RELACION ENTRE CLIENTE Y CITA
 	 */
 	boolean createNewAppointment(Appointment appointment);
-	//Appointment getAppointmentByID(int id);
+	List<Appointment> getAppointmentsForClient(Client client);
 	List<Appointment> getAllAppointments();
 	boolean deleteAppointmentByID(Appointment appointment);
 	boolean updateAppointment(Appointment appointment);
+	List<Appointment> getUnusedAppointments();
 	
 	//List<Appointment> getAppointmentsForClient(Client client);
 	

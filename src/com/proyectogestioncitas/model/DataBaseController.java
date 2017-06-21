@@ -261,7 +261,7 @@ public class DataBaseController {
 			registerStatement.setString(4, id);
 			registerStatement.setString(5, password);
 			registerStatement.setString(6, birthDate);
-			registerStatement.setString(7, "123"); //OBTENER EL CENTRO DE LA BBDD
+			registerStatement.setString(7, MedicalCenterDAO.getMedicalCenterId()); //OBTENER EL CENTRO DE LA BBDD
 			
 			check = registerStatement.execute();
 			

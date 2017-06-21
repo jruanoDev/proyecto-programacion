@@ -75,20 +75,17 @@ public class ClientDAO implements IClientDAO {
 
 	@Override
 	public List<Client> getAllClients() {
-		sql = "SELECT name, surnames, id, birthDate, email, password, associatedCenter FROM clients";
+		sql = "SELECT name, surname, id, birth_date, email, password, associated_centre FROM clients";
 		
 		try {			
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sql);
+			
 			while(resultSet.next()){	
 				
-				client.setName(resultSet.getString(1));
-				client.setSurnames(resultSet.getString(2));
-				client.setId(resultSet.getString(3));
-				//client.setBirthDate(resultSet.getString(4));
-				client.setEmail(resultSet.getString(5));
-				client.setPassword(resultSet.getString(6));
-				client.setAssociatedCenter(resultSet.getString(7));
+				client = new Client(resultSet.getString("name"), resultSet.getString("surname"), resultSet.getString("id"),
+						resultSet.getString("birth_date"), resultSet.getString("email"), resultSet.getString("password"),
+							resultSet.getString("associated_centre"));
 				
 				clientsList.add(client);
 				

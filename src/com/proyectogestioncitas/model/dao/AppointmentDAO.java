@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.proyectogestioncitas.app.App;
 import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.interfaces.IAppointmentDAO;
 import com.proyectogestioncitas.model.pojo.Appointment;
@@ -52,7 +51,7 @@ public class AppointmentDAO implements IAppointmentDAO {
 
 	@Override
 	public List<Appointment> getAllAppointments() {
-		sql = "SELECT day, time, associatedCenter FROM appointments;";
+		sql = "SELECT day, time, associatedCenter FROM dates WHERE client_id=;";
 		
 		try {
 			statement = connection.createStatement();
@@ -94,7 +93,7 @@ public class AppointmentDAO implements IAppointmentDAO {
 		
 		return success;
 	}
-	/** -----------------NO BORRAR
+	
 	@Override
 	public List<Appointment> getAppointmentsForClient(Client client){
 		sql = "SELECT day, time, associatedCenter, doctorName, id FROM appointments WHERE id=?;";
@@ -103,12 +102,13 @@ public class AppointmentDAO implements IAppointmentDAO {
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, client.getId());
 			resultSet = preparedStatement.executeQuery();
+			
 			while(resultSet.next()){
 				appoint.setDay(resultSet.getString(1));
 				appoint.setTime(resultSet.getString(2));
-				appoint.setAssociatedCenter(resultSet.getInt(3));
-				appoint.setDoctorName(resultSet.getString(4));
-				appoint.setId(resultSet.getString(5));
+				appoint.setAssociatedCenter(resultSet.getString(3));
+				//appoint.setDoctorName(resultSet.getString(4));
+				//appoint.setId(resultSet.getString(5));
 				
 				appointmentsList.add(appoint);
 			}
@@ -118,7 +118,6 @@ public class AppointmentDAO implements IAppointmentDAO {
 		
 		return clientAppointmentsList;
 	}
-	*/
 
 	@Override
 	public boolean deleteAppointmentByID(Appointment appointment) {
@@ -137,5 +136,26 @@ public class AppointmentDAO implements IAppointmentDAO {
 		if(rows != 0)
 			success = true;
 		return success;
+	}
+
+	@Override
+	public List<Appointment> getUnusedAppointments() {
+		List<Appointment> unusedAppointments = new ArrayList<>();
+		
+		try {
+			statement = connection.createStatement();
+			ResultSet uASet = statement.executeQuery("SELECT day, hour, centre FROM dates WHERE client_id=\"\"");
+			
+			while(uASet.next()) {
+				Appointment appointment = new Appointment(uASet.getString("day"), uASet.getString("hour"), uASet.getString("centre"));
+				unusedAppointments.add(appointment);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return unusedAppointments;
 	}
 }
