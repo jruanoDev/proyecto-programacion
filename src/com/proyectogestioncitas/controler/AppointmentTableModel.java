@@ -1,6 +1,5 @@
 package com.proyectogestioncitas.controler;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +11,7 @@ import javax.swing.table.AbstractTableModel;
 
 import com.proyectogestioncitas.model.dao.AppointmentDAO;
 import com.proyectogestioncitas.model.pojo.Appointment;
+import com.proyectogestioncitas.model.pojo.Client;
 
 @SuppressWarnings("serial")
 public class AppointmentTableModel extends AbstractTableModel implements TableModelListener, ListSelectionListener{
@@ -22,8 +22,10 @@ public class AppointmentTableModel extends AbstractTableModel implements TableMo
 			"Hour",
 			"Associated center"
 	};
+	private static Client client = null;
 	
-	private static Object[][] tableData = new AppointmentTableModel().addAppointmentsToTableData(new AppointmentDAO());
+	private static Object[][] tableData = new AppointmentTableModel().addAppointmentsToTableData(new AppointmentDAO(), client);
+	
 	//new ClientTableModel().addClientsToTableData(new ClientDAO());
 	
 	public AppointmentTableModel() {
@@ -75,13 +77,17 @@ public class AppointmentTableModel extends AbstractTableModel implements TableMo
 		
 	}
 	
-	public Object[][] addAppointmentsToTableData(AppointmentDAO appDao){
-	//public Object[][] addAppointmentsToTableData(AppointmentDAO appDao, Client client){
-		//List<Appointment> appList = appDao.getAppointmentsForClient(client);
+	public Object[][] addAppointmentsToTableData(AppointmentDAO appDao, Client client) {
+		this.client = client;
 		
-		List<Appointment> appList = new ArrayList<>();
-		appList.add(new Appointment("day", "hour", "1"));
-		appList.add(new Appointment("dia", "hora", "2"));
+		List<Appointment> appList = appDao.getAppointmentsForClient(client);
+		
+		List<Appointment> clientAppList = new ArrayList<>();
+		
+		for (Appointment appointment : appList) {
+			clientAppList.add(appointment);
+			
+		}
 		
 		int rows = appList.size();
 		int columns = columnNames.length;

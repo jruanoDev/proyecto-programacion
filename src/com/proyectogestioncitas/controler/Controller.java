@@ -393,13 +393,8 @@ public class Controller implements ActionListener {
 			adminFrame.getBtnCCUpdate().setEnabled(true);
 			adminFrame.getBtnCCDelete().setEnabled(true);
 			setTextCCAdministrationFrame();
-			/**
-			 * new AppointmentTableModel().addAppointmetsToTableData(new AppointmentDAO(), this.returnsClientWithRowParams());
-			 * 
-			 * Para poder obtener en la tabla de citas las citas de un cliente en concreto.
-			 * Necesitamos relacion entre cliente y cita a parte de pasarle al table model esa 
-			 * relacion(dni) para poder mostrar sus citas.
-			 */
+			
+			new AppointmentTableModel().addAppointmentsToTableData(new AppointmentDAO(), returnsClientWithRowParams(client));
 			
 		});
 		
@@ -449,9 +444,10 @@ public class Controller implements ActionListener {
 			adminFrame.getTextField_CCPassword().setText(password.toString());
 			adminFrame.getTextField_CCAssCenter().setText(assCenter.toString());
 			
-			//Client client = new Client(name.toString(), surnames.toString(), id.toString(), birthDate.toString(), 
-			//email.toString(), password.toString());
-			//returnsClientWithRowParams(client);
+			Client client = new Client(name.toString(), surnames.toString(), id.toString(), birthDate.toString(),
+			email.toString(), password.toString(), assCenter.toString());
+			returnsClientWithRowParams(client);
+			
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
@@ -841,6 +837,7 @@ public class Controller implements ActionListener {
 			adminFrame.getTextField_MCPhone().setText("");
 			adminFrame.getTextField_MCPostalCode().setText("");
 		}
+		
 		if(status.equals("save")){
 			adminFrame.getTextField_MCCenterID().setEditable(booleano);
 		}
@@ -860,11 +857,10 @@ public class Controller implements ActionListener {
 		
 	}
 
-	/**
-	 * NO BORRAAAAAAAAR
-	 * public Client returnsClientWithRowParams(Client client){
-	 * 		return client;
-	 * }
-	 */
+	public Client returnsClientWithRowParams(Client client){
+	  	this.client = client;
+		return client;
+	}
+	 
 
 }

@@ -1,7 +1,5 @@
 package com.proyectogestioncitas.model.pojo;
 
-import java.time.LocalDate;
-
 public class Client extends Person{
 	private String email;
 	private String password;
