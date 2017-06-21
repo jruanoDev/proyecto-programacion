@@ -75,18 +75,20 @@ public class MedicalCenterTableModel extends AbstractTableModel implements Table
 	public void tableChanged(TableModelEvent e) {
 		// TODO Auto-generated method stub
 		
+		
 	}
 	/**
 	 * MODIFICAR CÓDIGO
 	 * @param appDao
 	 * @return
 	 */
-	public Object[][] addCentersToTableData(MedicalCenterDAO centerDAO){
+	public static Object[][] addCentersToTableData(MedicalCenterDAO centerDAO){
 			
 			//List<MedicalCenter> centerList = centerDAO.getAllMedicalCenters();
 			
 			//new MedicalCenter(centerId, location, centerName, postalCode, phoneNumber)
 			List<MedicalCenter> centerList = new ArrayList<>();
+			System.out.println("Pintando tabla");
 			centerList.add(new MedicalCenter("IdExample", "Locatio", "NombreCentro", "CodigoPostal", "PhoneNumber"));
 			centerList.add(new MedicalCenter("id", "loc", "centerName", "cp", "phoneNumber"));
 			
@@ -102,7 +104,6 @@ public class MedicalCenterTableModel extends AbstractTableModel implements Table
 			}
 			
 			return dataTable; 
-		}
-		
+		}		
 
 }

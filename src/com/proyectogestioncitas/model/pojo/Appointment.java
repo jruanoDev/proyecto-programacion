@@ -1,53 +1,41 @@
 package com.proyectogestioncitas.model.pojo;
 
-import java.time.LocalDate;
 
 public class Appointment {
-	private LocalDate day;
-	private LocalDate time;
-	private int associatedCenter;
-	private String doctorName;
+	private String day;
+	private String time;
+	private String associatedCenter;
 	//id
 	
-	public Appointment(LocalDate day, LocalDate time, int associatedCenter, String doctorName) {
+	public Appointment(String day, String time, String associatedCenter) {
 		super();
 		this.day = day;
 		this.time = time;
 		this.associatedCenter = associatedCenter;
-		this.doctorName = doctorName;
 	}
 
-	public LocalDate getDay() {
+	public String getDay() {
 		return day;
 	}
 
-	public void setDay(LocalDate day) {
+	public void setDay(String day) {
 		this.day = day;
 	}
 
-	public LocalDate getTime() {
+	public String getTime() {
 		return time;
 	}
 
-	public void setTime(LocalDate time) {
+	public void setTime(String time) {
 		this.time = time;
 	}
 
-	public int getAssociatedCenter() {
+	public String getAssociatedCenter() {
 		return associatedCenter;
 	}
 
-	public void setAssociatedCenter(int associatedCenter) {
+	public void setAssociatedCenter(String associatedCenter) {
 		this.associatedCenter = associatedCenter;
-	}
-
-	public String getDoctorName() {
-		return doctorName;
-	}
-
-	public void setDoctorName(String doctorName) {
-		this.doctorName = doctorName;
-	}
-	
+	}	
 	
 }

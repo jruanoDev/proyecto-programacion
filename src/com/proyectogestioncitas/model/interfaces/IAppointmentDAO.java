@@ -18,7 +18,7 @@ public interface IAppointmentDAO {
 	boolean createNewAppointment(Appointment appointment);
 	//Appointment getAppointmentByID(int id);
 	List<Appointment> getAllAppointments();
-	//boolean deleteAppointmentByID(int id);
+	boolean deleteAppointmentByID(Appointment appointment);
 	boolean updateAppointment(Appointment appointment);
 	
 	//List<Appointment> getAppointmentsForClient(Client client);
