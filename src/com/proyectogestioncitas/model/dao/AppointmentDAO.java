@@ -96,7 +96,7 @@ public class AppointmentDAO implements IAppointmentDAO {
 	
 	@Override
 	public List<Appointment> getAppointmentsForClient(Client client){
-		sql = "SELECT day, time, associatedCenter, doctorName, id FROM appointments WHERE id=?;";
+		sql = "SELECT day, hour, center FROM dates WHERE client_id=?;";
 		
 		try {
 			preparedStatement = connection.prepareStatement(sql);

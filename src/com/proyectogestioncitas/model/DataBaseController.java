@@ -7,12 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 
-import javax.imageio.spi.RegisterableService;
 import javax.swing.JOptionPane;
 
 import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.model.dao.MedicalCenterDAO;
-import com.proyectogestioncitas.model.pojo.MedicalCenter;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
 import com.proyectogestioncitas.view.CreateAdminFrame;
 import com.proyectogestioncitas.view.CreateCenterDialog;
