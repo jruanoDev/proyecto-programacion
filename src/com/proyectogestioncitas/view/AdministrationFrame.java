@@ -30,7 +30,6 @@ public class AdministrationFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField_MPLog;
-	private JTextField textField_MPLastLog;
 	private JTable medicalTableCRUD;
 	private JTextField textField_MCCenterID;
 	private JTextField textField_MCLocation;
@@ -115,29 +114,20 @@ public class AdministrationFrame extends JFrame {
 		
 		JLabel lblMPLoguedAs = new JLabel("Logued as:");
 		
-		JLabel lblMPLastLog = new JLabel("Last log:");
-		
 		textField_MPLog = new JTextField();
 		textField_MPLog.setEditable(false);
 		textField_MPLog.setColumns(10);
-		
-		textField_MPLastLog = new JTextField();
-		textField_MPLastLog.setEditable(false);
-		textField_MPLastLog.setColumns(10);
 		GroupLayout gl_MainPanel = new GroupLayout(MainPanel);
 		gl_MainPanel.setHorizontalGroup(
 			gl_MainPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_MainPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_MainPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblMPLastLog)
 						.addComponent(lblMPLoguedAs)
 						.addComponent(lblMPUserInformation))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_MainPanel.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(textField_MPLastLog)
-						.addComponent(textField_MPLog, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
-					.addContainerGap(295, Short.MAX_VALUE))
+					.addComponent(textField_MPLog, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(731, Short.MAX_VALUE))
 		);
 		gl_MainPanel.setVerticalGroup(
 			gl_MainPanel.createParallelGroup(Alignment.LEADING)
@@ -148,11 +138,7 @@ public class AdministrationFrame extends JFrame {
 					.addGroup(gl_MainPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblMPLoguedAs)
 						.addComponent(textField_MPLog, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_MainPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMPLastLog)
-						.addComponent(textField_MPLastLog, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(178, Short.MAX_VALUE))
+					.addContainerGap(605, Short.MAX_VALUE))
 		);
 		MainPanel.setLayout(gl_MainPanel);
 		
@@ -592,10 +578,6 @@ public class AdministrationFrame extends JFrame {
 
 	public JTextField getTextField_MPLog() {
 		return textField_MPLog;
-	}
-
-	public JTextField getTextField_MPLastLog() {
-		return textField_MPLastLog;
 	}
 
 	public JTextField getTextField_MCCenterID() {

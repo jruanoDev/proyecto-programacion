@@ -2,9 +2,14 @@ package com.proyectogestioncitas.app;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.proyectogestioncitas.controler.Controller;
 import com.proyectogestioncitas.model.DataBaseController;
+import com.proyectogestioncitas.model.TimeController;
 import com.proyectogestioncitas.model.XMLFile;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
 import com.proyectogestioncitas.view.LoginFrame;
@@ -44,57 +49,48 @@ public class App {
 				new Controller(loginFrame, dbConnection);
 				loginFrame.setVisible(true);
 				
+				try {
+					Statement statement = dbConnection.createStatement();
+					ResultSet timeResultSet = statement.executeQuery("SELECT * FROM currentday;");
+					
+					String setTime = "INSERT INTO currentday VALUES(?);";
+					PreparedStatement preparedStatement = dbConnection.prepareStatement(setTime);
+					
+					preparedStatement.setString(1, TimeController.getCurrentTime().toString());
+					
+					if(!timeResultSet.next()) {
+						preparedStatement.execute();
+						dbController.createDatesSctructure();
+					}
+
+					ResultSet updateRSet = statement.executeQuery("SELECT * FROM currentday;");
+					updateRSet.next();
+
+					String currentDay = updateRSet.getString("day");
+					
+					if(!currentDay.equals(TimeController.getCurrentTime().toString())) {
+						
+						int deletedRows = statement.executeUpdate("DELETE FROM currentday;");
+						preparedStatement.execute();
+						
+						dbController = new DataBaseController(dbConnection);
+						dbController.createDatesSctructure();
+						
+					}
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+				
 			}
-			
 
 		} else {
 			if(xmlFile.createConfigXMLFile())
 				xmlFile.getConnectionWithXML(dbConfigFrame);
 			
-		}
-		
-		//VAMOS A DEJAR ESTO PARA LUEGO, PRIMERO CREAMOS UN ADMINISTRADOR Y CONFIGURAMOS CENTROS
-		
-		/*try {
-			Statement statement = dbConnection.createStatement();
-			ResultSet timeResultSet = statement.executeQuery("SELECT * FROM currentday;");
+		}		
 			
-			String setTime = "INSERT INTO currentday VALUES(?);";
-			PreparedStatement preparedStatement = dbConnection.prepareStatement(setTime);
-			
-			preparedStatement.setString(1, TimeController.getCurrentTime().toString());
-			
-			if(!timeResultSet.next())
-				preparedStatement.execute();
-			
-			while(timeResultSet.next()) {
-				String currentDay = timeResultSet.getString("day");
-				
-				if(!currentDay.equals(TimeController.getCurrentTime().toString())) {
-					// HACER UN BORRADO DE LAS FILAS DE LA TABLA CURRENT DAY
-					// Y INSERTAR UNA NUEVA CON LA FECHA ACTUAL, DE ESTA MANERA PODEMOS
-					// ACTUALIZAR LA FECHA Y COMPROBAR SI LAS CITAS SON VÃ�LIDAS, MIRAR
-					// SI LO HACEMOS DIRECTAMENTE AQUÃ� (NO RECOMENDABLE), O EN DATABASECONTROLLER
-					// O EN TIMECONTROLLER
-					
-					int deletedRows = statement.executeUpdate("DELETE FROM currentday;");
-					preparedStatement.execute();
-					
-					dbController = new DataBaseController(dbConnection);
-					
-					
-					
-				}
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		
-		
-		//if(TimeController.getCurrentTime().equals(obj));
-		
 	}
 	
 	public static Connection getConnection() {

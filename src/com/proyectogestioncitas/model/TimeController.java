@@ -11,7 +11,7 @@ import org.apache.commons.net.ntp.NTPUDPClient;
 import org.apache.commons.net.ntp.TimeInfo;
 
 public class TimeController {
-	
+
 	private static LocalDate currentDate = null;
 	
 	public static LocalDate getCurrentTime() {

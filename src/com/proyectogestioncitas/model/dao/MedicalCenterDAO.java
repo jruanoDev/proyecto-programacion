@@ -8,14 +8,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.proyectogestioncitas.model.Conexion;
+import javax.swing.JOptionPane;
+
+import com.proyectogestioncitas.app.App;
 import com.proyectogestioncitas.model.interfaces.IMedicalCenterDAO;
-import com.proyectogestioncitas.model.pojo.Doctor;
 import com.proyectogestioncitas.model.pojo.MedicalCenter;
 
 public class MedicalCenterDAO implements IMedicalCenterDAO {
 
-	Connection connection = Conexion.getInstanceConnection("urlexample", "userexample", "passwordexample");
+	private static Connection dbConnection = App.getConnection();
 	Statement statement = null;
 	PreparedStatement preparedStatement = null;
 	String sql = "";
@@ -30,19 +31,19 @@ public class MedicalCenterDAO implements IMedicalCenterDAO {
 		success = false;
 		
 		//new MedicalCenter(centerId, location, centerName, postalCode, phoneNumber);
-		sql = "INSERT INTO centers(centerId, location, centerName, postalCode, phoneNumber) VALUES(?,?,?,?,?)";
+		sql = "INSERT INTO centers VALUES (?,?,?,?,?);";
 		try {
-			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement = dbConnection.prepareStatement(sql);
 			preparedStatement.setString(1, center.getCenterId());
-			preparedStatement.setString(2, center.getLocation());
-			preparedStatement.setString(3, center.getCenterName());
+			preparedStatement.setString(2, center.getCenterName());
+			preparedStatement.setString(3, center.getLocation());
 			preparedStatement.setString(4, center.getPostalCode());
 			preparedStatement.setString(5, center.getPhoneNumber());
 			rows = preparedStatement.executeUpdate();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error al crear el centro, por favor, compruébe los campos introducidos.", "Error", 
+					JOptionPane.ERROR_MESSAGE);
 		}
 		
 		if(rows != 0)
@@ -55,7 +56,7 @@ public class MedicalCenterDAO implements IMedicalCenterDAO {
 		sql = "SELECT centerId, location, centerName, postalCode, phoneNumber FROM centers WHERE centerId = ?";
 		
 		try {
-			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement = dbConnection.prepareStatement(sql);
 			preparedStatement.setString(1, id);
 			resultSet = preparedStatement.executeQuery();
 			while(resultSet.next()){
@@ -75,9 +76,9 @@ public class MedicalCenterDAO implements IMedicalCenterDAO {
 
 	@Override
 	public List<MedicalCenter> getAllMedicalCenters() {
-		sql = "SELECT centerId, location, centerName, postalCode, phoneNumber FROM center";
+		sql = "SELECT centerId, location, centerName, postalCode, phoneNumber FROM centers";
 		try {
-			statement = connection.createStatement();
+			statement = dbConnection.createStatement();
 			resultSet = statement.executeQuery(sql);
 			while(resultSet.next()){
 				center.setCenterId(resultSet.getString(1));
@@ -101,7 +102,7 @@ public class MedicalCenterDAO implements IMedicalCenterDAO {
 
 		sql = "DELETE FROM centers WHERE id=?";
 		try {
-			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement = dbConnection.prepareStatement(sql);
 			preparedStatement.setString(1, id);
 			rows = preparedStatement.executeUpdate();
 			
@@ -121,7 +122,7 @@ public class MedicalCenterDAO implements IMedicalCenterDAO {
 
 		sql = "UPDATE centers SET centerId=?, location=?, centerName=?, postalCode=?, phoneNumber=? WHERE id=?";
 		try {
-			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement = dbConnection.prepareStatement(sql);
 			preparedStatement.setString(1, center.getCenterId());
 			preparedStatement.setString(2, center.getLocation());
 			preparedStatement.setString(3, center.getCenterName());
@@ -137,6 +138,25 @@ public class MedicalCenterDAO implements IMedicalCenterDAO {
 		if(rows != 0)
 			success = true;
 		return success;
+	}
+	
+	public static String getMedicalCenterId() {
+		String centerId = "";
+		
+		try {
+			Statement statement = dbConnection.createStatement();
+			ResultSet mCenterRSet = statement.executeQuery("SELECT * FROM centers");
+			
+			mCenterRSet.next();
+			centerId = mCenterRSet.getString("id");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return centerId;
+		
 	}
 
 }

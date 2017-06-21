@@ -38,12 +38,9 @@ public class Controller implements ActionListener {
 	private ClientDAO clientDao;
 	private AppointmentDAO appDao;
 	private MedicalCenterDAO centerDao;
-<<<<<<< HEAD
+
 	private JTable tableCCClient;
 	private AdminLoginDialog adminLoginDialog;
-=======
-
->>>>>>> 328e42bdf5c19e2433eea80bc109d649955825b4
 	
 	public Controller(DataBaseConfigFrame dbConfigFrame) {
 		this.dbConfigFrame = dbConfigFrame;
@@ -63,11 +60,7 @@ public class Controller implements ActionListener {
 		actionListenerCreateAdminFrame(this);
 	}
 
-<<<<<<< HEAD
-	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, AppointmentDAO appDao, MedicalCenterDAO centerDao) {
-=======
 	public Controller(AdministrationFrame adminFrame, ClientDAO clientDao, AppointmentDAO appDao, MedicalCenterDAO centerDao){
->>>>>>> 328e42bdf5c19e2433eea80bc109d649955825b4
 
 		this.adminFrame = adminFrame;
 		this.clientDao = clientDao;
@@ -226,8 +219,9 @@ public class Controller implements ActionListener {
 			String phoneNumber = cCenterDialog.getTextFieldPNumber().getText();
 						
 			if(id != "" || name != "" || address != "" || pCode != "" || phoneNumber != "") {
-				DataBaseController dbController = new DataBaseController(dbConnection);
-				dbController.createNewCenter(id, name, address, pCode, phoneNumber);
+				MedicalCenter mCenter = new MedicalCenter(id, address, name, pCode, phoneNumber);
+				MedicalCenterDAO mCenterDao = new MedicalCenterDAO();
+				mCenterDao.createNewCenter(mCenter);
 				
 				cCenterDialog.dispose();
 				

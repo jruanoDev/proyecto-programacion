@@ -5,11 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 import javax.imageio.spi.RegisterableService;
 import javax.swing.JOptionPane;
 
 import com.proyectogestioncitas.controler.Controller;
+import com.proyectogestioncitas.model.dao.MedicalCenterDAO;
+import com.proyectogestioncitas.model.pojo.MedicalCenter;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
 import com.proyectogestioncitas.view.CreateAdminFrame;
 import com.proyectogestioncitas.view.CreateCenterDialog;
@@ -29,12 +32,10 @@ public class DataBaseController {
 			int checkClients = statement.executeUpdate("SHOW TABLES LIKE 'clients'");
 			int checkAdmins = statement.executeUpdate("SHOW TABLES LIKE 'admins'");
 			int checkCenters = statement.executeUpdate("SHOW TABLES LIKE 'centers'");
-			int checkMedicians = statement.executeUpdate("SHOW TABLES LIKE 'medicians'");
 			int checkDates = statement.executeUpdate("SHOW TABLES LIKE 'dates'");
 			int checkCurrentDay = statement.executeUpdate("SHOW TABLES LIKE 'currentday'");
 			
-			if(checkClients == 0 || checkAdmins == 0 || checkCenters == 0 || checkMedicians == 0 || checkDates == 0
-					|| checkCurrentDay == 0) {
+			if(checkClients == 0 || checkAdmins == 0 || checkCenters == 0 || checkDates == 0 || checkCurrentDay == 0) {
 				
 				chkTableDialog = new CheckTableErrorDialog();
 				new Controller(chkTableDialog, dbConnection);
@@ -99,26 +100,13 @@ public class DataBaseController {
 			
 			int createClientsCheck = statement.executeUpdate(createClients);
 			
-			
-			String createMedicians = "CREATE TABLE medicians (" + 
-									"associated_centre VARCHAR(10) NOT NULL," + 
-									"name VARCHAR(15) NOT NULL," + 
-									"surname VARCHAR(20) NOT NULL," + 
-									"id VARCHAR(9) NOT NULL UNIQUE," +
-									"birthdate DATE NOT NULL," + 
-									"CONSTRAINT fk_medicians FOREIGN KEY medicians(associated_centre)" + 
-									"REFERENCES centers(id) ON DELETE CASCADE," + 
-									"PRIMARY KEY (id)" + 
-									");";
-			
-			int createMediciansCheck = statement.executeUpdate(createMedicians);
-			
-			
 			String createDates = "CREATE TABLE dates (" + 
-								"day DATE NOT NULL," + 
-								"hour TIME NOT NULL UNIQUE," + 
-								"center VARCHAR(10) NOT NULL UNIQUE," + 
-								"id_date MEDIUMINT NOT NULL UNIQUE AUTO_INCREMENT," + 
+								"day MEDIUMINT NOT NULL," + 
+								"hour VARCHAR(5) NOT NULL UNIQUE," + 
+								"center VARCHAR(10) NOT NULL," + 
+								"id_date MEDIUMINT NOT NULL UNIQUE AUTO_INCREMENT," +
+								"client_name VARCHAR(15) DEFAULT \"\"," + 
+								"client_id VARCHAR(9) DEFAULT \"\"," + 
 								"CONSTRAINT fk_dates FOREIGN KEY dates(center) REFERENCES centers(id) ON " + 
 								"DELETE CASCADE," + 
 								"PRIMARY KEY (id_date)" + 
@@ -126,24 +114,11 @@ public class DataBaseController {
 			
 			int createDatesCheck = statement.executeUpdate(createDates);
 			
-			/* FALTAN POR CREAR LA TABLA DE LAS CITAS CONCEDIDAS, QUE SE LIMPIARÃ� EN CASO DE
-			 * QUE EL DÃ�A HAYA CAMBIADO Y SE AÃ‘ADIRAN NUEVOS CAMPOS CON LOS HORARIOS ESCOGIDOS.
-			 */
-			
-			
 			String createCurrentDay = "CREATE TABLE currentday (" + 
 									"day VARCHAR(10) NOT NULL" + 
 									");";
 			
 			int createCurrentDayCheck = statement.executeUpdate(createCurrentDay);
-			
-			/*String setTime = "INSERT INTO currentday VALUES(?);";
-			PreparedStatement statementTime = dbConnection.prepareStatement(setTime);
-			LocalDate currentDate = TimeController.getCurrentTime();
-			
-			statementTime.setString(1, currentDate.toString());
-			statementTime.executeUpdate();*/
-			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -243,28 +218,6 @@ public class DataBaseController {
 		
 	}
 	
-	public void createNewCenter(String id, String name, String address, String pCode, String pNumber) {
-		
-		try {
-			String sql = "INSERT INTO centers VALUES (?,?,?,?,?,?);";
-			PreparedStatement pStatement = dbConnection.prepareStatement(sql);
-			
-			pStatement.setString(1, id);
-			pStatement.setString(2, name);
-			pStatement.setString(3, address);
-			pStatement.setString(4, pCode);
-			pStatement.setString(5, pNumber);
-			pStatement.setString(7, "123");
-			
-			pStatement.execute();
-			
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error al crear el centro, por favor, compruébe los campos introducidos.", "Error", 
-					JOptionPane.ERROR_MESSAGE);
-		}
-		
-	}
-	
 	public boolean logUser(String login, String password) {
 		boolean check = false;
 		String loginSql = "SELECT id, password FROM clients WHERE id = ?;";
@@ -307,8 +260,8 @@ public class DataBaseController {
 			registerStatement.setString(3, surname);
 			registerStatement.setString(4, id);
 			registerStatement.setString(5, password);
-			registerStatement.setString(6, "1998-07-02");
-			registerStatement.setString(7, "123");
+			registerStatement.setString(6, birthDate);
+			registerStatement.setString(7, "123"); //OBTENER EL CENTRO DE LA BBDD
 			
 			check = registerStatement.execute();
 			
@@ -389,8 +342,6 @@ public class DataBaseController {
 			if(!adminLoginRSet.next())
 				JOptionPane.showMessageDialog(null, "Usuario/Contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
 			
-			System.out.println(adminLoginRSet.getString("login") + adminLoginRSet.getString("password"));
-			
 			String dbLogin = adminLoginRSet.getString("login");
 			String dbPassword = adminLoginRSet.getString("password");
 			
@@ -398,10 +349,52 @@ public class DataBaseController {
 				check = true;
 				
 		} catch (SQLException e) {
-			
+			// Error de consulta si no hay nada, ya está controlado en el controller y con el condicional
 		}
-		System.out.println(check);
+		
 		return check;
+		
+	}
+	
+	public void createDatesSctructure() {
+		LocalDate currentDay = TimeController.getCurrentTime();
+		
+		try {
+			Statement deleteStatement = dbConnection.createStatement();
+			int deletedRows = deleteStatement.executeUpdate("DELETE FROM dates;");
+			
+			String createDates = "INSERT INTO dates(day, hour, center) VALUES(?,?,?);";
+			
+			PreparedStatement cDates = dbConnection.prepareStatement(createDates);
+			cDates.setInt(1, currentDay.getDayOfMonth());
+			cDates.setString(2, "11:00");
+			cDates.setString(3, MedicalCenterDAO.getMedicalCenterId());
+			
+			cDates.executeUpdate();
+			
+			cDates.setInt(1, currentDay.getDayOfMonth());
+			cDates.setString(2, "12:00");
+			cDates.setString(3, MedicalCenterDAO.getMedicalCenterId());
+			
+			cDates.executeUpdate();
+			
+			cDates.setInt(1, currentDay.getDayOfMonth());
+			cDates.setString(2, "16:00");
+			cDates.setString(3, MedicalCenterDAO.getMedicalCenterId());
+			
+			cDates.executeUpdate();
+			
+			cDates.setInt(1, currentDay.getDayOfMonth());
+			cDates.setString(2, "18:00");
+			cDates.setString(3, MedicalCenterDAO.getMedicalCenterId());
+			
+			cDates.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 }
