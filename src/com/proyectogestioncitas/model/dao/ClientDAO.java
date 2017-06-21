@@ -76,7 +76,15 @@ public class ClientDAO implements IClientDAO {
 	@Override
 	public List<Client> getAllClients() {
 		sql = "SELECT name, surname, id, birth_date, email, password, associated_centre FROM clients";
-		
+		/**
+		 * "email VARCHAR(20) NOT NULL UNIQUE," + 
+			"name VARCHAR(15) NOT NULL," + 
+			"surname VARCHAR(20) NOT NULL," + 
+			"id VARCHAR(9) NOT NULL UNIQUE," + 
+			"password VARCHAR(20) NOT NULL," + 
+			"birth_date DATE NOT NULL," + 
+			"associated_centre VARCHAR(10) NOT NULL,
+		 */
 		try {			
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(sql);
