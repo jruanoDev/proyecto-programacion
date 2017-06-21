@@ -38,7 +38,7 @@ public class AppointmentDAO implements IAppointmentDAO {
 			preparedStatement = connection.prepareStatement(sql);
 			//preparedStatement.setString(1, appointment.getDay());
 			//preparedStatement.setString(2, appointment.getTime());
-			preparedStatement.setInt(3, appointment.getAssociatedCenter());
+			preparedStatement.setString(3, appointment.getAssociatedCenter());
 			preparedStatement.setString(4, appointment.getDoctorName());
 			rows = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -61,7 +61,7 @@ public class AppointmentDAO implements IAppointmentDAO {
 			while(resultSet.next()){
 				//appoint.setDay(resultSet.getString(1));
 				//appoint.setTime(resultSet.getString(2));
-				appoint.setAssociatedCenter(resultSet.getInt(3));
+				appoint.setAssociatedCenter(resultSet.getString(3));
 				appoint.setDoctorName(resultSet.getString(4));
 				
 				appointmentsList.add(appoint);
@@ -84,7 +84,7 @@ public class AppointmentDAO implements IAppointmentDAO {
 			preparedStatement = connection.prepareStatement(sql);
 			//preparedStatement.setString(1, appointment.getDay());
 			//preparedStatement.setString(2, appointment.getTime());
-			preparedStatement.setInt(3, appointment.getAssociatedCenter());
+			preparedStatement.setString(3, appointment.getAssociatedCenter());
 			preparedStatement.setString(4, appointment.getDoctorName());
 			//preparedStatement.setString(5, appointment.getDay());
 			//preparedStatement.setString(6, appointment.getTime());

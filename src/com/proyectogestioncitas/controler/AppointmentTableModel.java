@@ -81,8 +81,8 @@ public class AppointmentTableModel extends AbstractTableModel implements TableMo
 		//List<Appointment> appList = appDao.getAppointmentsForClient(client);
 		
 		List<Appointment> appList = new ArrayList<>();
-		appList.add(new Appointment(LocalDate.now(), LocalDate.now(), 1, "Antonio"));
-		appList.add(new Appointment(LocalDate.now(), LocalDate.now(), 2, "Maria Jose"));
+		appList.add(new Appointment("day", "hour", "1", "Antonio"));
+		appList.add(new Appointment("dia", "hora", "2", "Maria Jose"));
 		
 		int rows = appList.size();
 		int columns = columnNames.length;

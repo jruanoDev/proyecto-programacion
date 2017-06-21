@@ -8,6 +8,7 @@ import java.sql.Connection;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
+import com.proyectogestioncitas.app.App;
 import com.proyectogestioncitas.model.Conexion;
 import com.proyectogestioncitas.model.DataBaseController;
 import com.proyectogestioncitas.model.XMLFile;
@@ -20,6 +21,7 @@ import com.proyectogestioncitas.view.CreateAdminFrame;
 import com.proyectogestioncitas.view.CreateCenterDialog;
 import com.proyectogestioncitas.view.DataBaseConfigFrame;
 import com.proyectogestioncitas.view.LoginFrame;
+import com.proyectogestioncitas.model.pojo.Appointment;
 import com.proyectogestioncitas.model.pojo.Client;
 import com.proyectogestioncitas.model.pojo.MedicalCenter;
 
@@ -36,6 +38,7 @@ public class Controller implements ActionListener {
 	private ClientDAO clientDao;
 	private AppointmentDAO appDao;
 	private MedicalCenterDAO centerDao;
+	private String btnStatus = "";
 
 	
 	public Controller(DataBaseConfigFrame dbConfigFrame) {
@@ -124,6 +127,13 @@ public class Controller implements ActionListener {
 			break;
 		case "Save center":
 			getActionSaveCenterBtn();
+			break;
+			//Cancel btns
+		case "Cancel Client/App action":
+			getActionCancelClientBtn();
+			break;
+		case "Cancel Medical center action":
+			getActionCancelCenterBtn();
 			break;
 
 		default:
@@ -316,6 +326,8 @@ public class Controller implements ActionListener {
 		adminFrame.getBtnCCDelete().addActionListener(escuchador);
 		adminFrame.getBtnCCSave().addActionListener(escuchador);
 		
+		adminFrame.getBtnCCancelAction().addActionListener(escuchador);
+		
 		//Appointment table
 		adminFrame.getBtnCCAAddNew().addActionListener(escuchador);
 		adminFrame.getBtnCCAUpdate().addActionListener(escuchador);
@@ -327,6 +339,7 @@ public class Controller implements ActionListener {
 		adminFrame.getBtnMCDelete().addActionListener(escuchador);
 		adminFrame.getBtnMCSave().addActionListener(escuchador);
 		adminFrame.getBtnMCUpdate().addActionListener(escuchador);
+		adminFrame.getBtnMCCancelMedicalCenter().addActionListener(escuchador);
 		
 		
 		adminFrame.getTableCCClient().getSelectionModel().addListSelectionListener(e -> {
@@ -446,6 +459,8 @@ public class Controller implements ActionListener {
 	
 	//Client table btn
 	private void getActionAddClientBtn(){
+		adminFrame.getBtnCCancelAction().setEnabled(true);
+		
 		System.out.println("Has entrado a getActionAddClientBtn()");
 		//TextField
 		setCCTextFields(true, "all");
@@ -455,7 +470,7 @@ public class Controller implements ActionListener {
 		adminFrame.getTableCCClient().setEnabled(false);
 
 	}
-	private void getActionDeleteClientBtn(){
+	private void getActionDeleteClientBtn(){		
 		client = new Client(adminFrame.getTextField_CCName().getText(), 
 									adminFrame.getTextField_CCSurname().getText(), 
 									adminFrame.getTextField_CCdni().getText(),
@@ -467,8 +482,10 @@ public class Controller implements ActionListener {
 		//clientDao.deleteClientByID(client.getId());
 		JOptionPane.showConfirmDialog(null, "The user with ID: '" + client.getId() + "' was deleted.", 
 				"An user was deleted", JOptionPane.DEFAULT_OPTION);
+		setCCTextFields(false, "all");
 	}
 	private void getActionUpdateClientBtn(){
+		adminFrame.getBtnCCancelAction().setEnabled(true);
 		//JTable
 		adminFrame.getTableCCClient().setEnabled(false);
 		
@@ -480,6 +497,7 @@ public class Controller implements ActionListener {
 	}
 	
 	private void getActionSaveClientBtn(){
+		
 		//System.out.println("Editable? "+adminFrame.getTextField_CCdni().isEditable());
 		if(areCCTextFieldsCorrectlyWrited()){
 			JOptionPane.showMessageDialog(null, "You need to fill all the fields to create or update a client.", 
@@ -524,21 +542,93 @@ public class Controller implements ActionListener {
 	
 	//Appointment table btn
 	private void getActionAddAppBtn(){
-		
+		System.out.println("Has entrado en add app");
+		//Cancel btn
+		adminFrame.getBtnCCancelAction().setEnabled(true);	
+		//TextField
+		setCCATextFields(true, "add");
+		//Other btns
+		setCCABtnConfiguration(false);
+		//JTable
+		adminFrame.getTableCCAAppointment().setEnabled(false);
+		//Save help
+		btnStatus = "add";
+
 	}
 	private void getActionDeleteAppBtn(){
 		
 	}
 	private void getActionUpdateAppBtn(){
-		
+		//Cancel btn
+		adminFrame.getBtnCCancelAction().setEnabled(true);
+		//TextFields
+		setCCATextFields(true, "update");
+		//Other Btns
+		setCCABtnConfiguration(false);
+		//JTable
+		adminFrame.getTableCCAAppointment().setEnabled(false);
+		//Save help
+		btnStatus = "update";
 	}
 	private void getActionSaveAppBtn(){
-		adminFrame.getBtnCCAUpdate().setEnabled(false);
-		adminFrame.getBtnCCADelete().setEnabled(false);
+		if(adminFrame.getTextCCAField_Date().getText().equals("") || 
+					adminFrame.getTextCCAField_Hour().getText().equals("") || 
+					adminFrame.getTextField_CCAAssCenter().getText().equals("") || 
+					adminFrame.getTextField_CCADoctorName().getText().equals("") ){
+			JOptionPane.showMessageDialog(null, "Cannot create/update an appointment with fields not filled.", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		if(btnStatus.equals("add")){
+			Appointment app = new Appointment(adminFrame.getTextCCAField_Date().getText(), 
+					adminFrame.getTextCCAField_Hour().getText(), 
+					adminFrame.getTextField_CCAAssCenter().getText(), 
+					adminFrame.getTextField_CCADoctorName().getText());
+			
+			//appDao.createNewAppointment(app);
+			JOptionPane.showMessageDialog(null, "An appointment was created.", "Appointment created.", JOptionPane.INFORMATION_MESSAGE);
+			setCCATextFields(false, "add");
+			setCBtnConfiguration(true);
+		}
+		if(btnStatus.equals("update")){
+			Appointment app = new Appointment(adminFrame.getTextCCAField_Date().getText(), 
+					adminFrame.getTextCCAField_Hour().getText(), 
+					adminFrame.getTextField_CCAAssCenter().getText(), 
+					adminFrame.getTextField_CCADoctorName().getText());
+			//appDao.updateAppointment(app);
+			JOptionPane.showMessageDialog(null, "An appointment was updated.", "Appointment updated.", JOptionPane.INFORMATION_MESSAGE);
+			setCCATextFields(false, "add");
+			setCBtnConfiguration(true);
+		}
+		/**
+		 * 		
+		
+		 */
+	}
+	
+	private void setCCATextFields(Boolean booleano, String status){
+		if(status.equals("add")){			
+			adminFrame.getTextCCAField_Date().setText("");			
+			adminFrame.getTextCCAField_Hour().setText("");			
+			adminFrame.getTextField_CCAAssCenter().setText("");			
+			adminFrame.getTextField_CCADoctorName().setText("");
+			
+		}
+		adminFrame.getTextCCAField_Date().setEditable(booleano);
+		adminFrame.getTextCCAField_Hour().setEditable(booleano);
+		adminFrame.getTextField_CCAAssCenter().setEditable(booleano);
+		adminFrame.getTextField_CCADoctorName().setEditable(booleano);
+	}
+	
+	private void setCCABtnConfiguration(Boolean booleano){
+		adminFrame.getBtnCCAAddNew().setEnabled(booleano);
+		adminFrame.getBtnCCADelete().setEnabled(booleano);
+		adminFrame.getBtnCCASave().setEnabled(!booleano);
+		adminFrame.getBtnCCAUpdate().setEnabled(booleano);
 	}
 	
 	//Medical center table btn actions
 	private void getActionAddCenterBtn(){
+		adminFrame.getBtnMCCancelMedicalCenter().setEnabled(true);
 		System.out.println("Click en add center");
 		adminFrame.getTableMedicalCenter().setEnabled(false);
 		setMCTextFields(true, "all");
@@ -551,13 +641,19 @@ public class Controller implements ActionListener {
 		
 		JOptionPane.showMessageDialog(null, "The center with ID:'" + id + "' was deleted.", 
 				"Deleted center", JOptionPane.INFORMATION_MESSAGE);
+		
+		setMCTextFields(false, "all");
+		adminFrame.getBtnMCUpdate().setEnabled(false);
+		adminFrame.getBtnMCDelete().setEnabled(false);
 	}
 	
 	private void getActionUpdateCenterBtn(){
+		adminFrame.getBtnMCCancelMedicalCenter().setEnabled(true);
 		System.out.println("Click en update center");
 		adminFrame.getTableMedicalCenter().setEnabled(false);
 		setMCTextFields(true, "update");
 		setMCBtnConfiguration(false);
+		
 	}
 	
 	private void getActionSaveCenterBtn(){
@@ -596,10 +692,34 @@ public class Controller implements ActionListener {
 					"Updated center", JOptionPane.INFORMATION_MESSAGE);
 		}
 		//code
-		
-		adminFrame.getTableMedicalCenter().setEnabled(true);
+		adminFrame.getTableCCAAppointment().setEnabled(true);
 		setMCTextFields(false, "save");
 		setMCBtnConfiguration(true);
+		
+	}
+	//Cancel buttons
+	private void getActionCancelClientBtn(){
+		adminFrame.getTableCCAAppointment().setEnabled(true);
+		adminFrame.getTableCCClient().setEnabled(true);
+		adminFrame.getBtnCCUpdate().setEnabled(false);
+		adminFrame.getBtnCCDelete().setEnabled(false);
+		adminFrame.getBtnCCAUpdate().setEnabled(false);
+		adminFrame.getBtnCCADelete().setEnabled(false);
+		setCCTextFields(false, "all");
+		setCBtnConfiguration(true);	
+		setCCATextFields(false, "add");
+		adminFrame.getBtnCCancelAction().setEnabled(false);
+	}
+	
+	private void getActionCancelCenterBtn(){
+		adminFrame.getTableMedicalCenter().setEnabled(true);
+		adminFrame.getBtnMCUpdate().setEnabled(false);
+		adminFrame.getBtnMCDelete().setEnabled(false);
+		adminFrame.getBtnMCAddNew().setEnabled(true);
+		adminFrame.getBtnMCSave().setEnabled(false);
+		setMCTextFields(false, "all");
+		
+		adminFrame.getBtnMCCancelMedicalCenter().setEnabled(false);
 		
 	}
 	
@@ -608,11 +728,25 @@ public class Controller implements ActionListener {
 		adminFrame.getBtnCCAddNew().setEnabled(booleano);
 		adminFrame.getBtnCCADelete().setEnabled(booleano);
 		adminFrame.getBtnCCSave().setEnabled(!booleano);
+		adminFrame.getBtnCCASave().setEnabled(booleano);
 		adminFrame.getBtnCCAUpdate().setEnabled(booleano);
 		adminFrame.getBtnCCDelete().setEnabled(booleano);
 		adminFrame.getBtnCCAUpdate().setEnabled(booleano);
 		adminFrame.getBtnCCUpdate().setEnabled(booleano);
 	}
+	
+	private void setCBtnConfiguration(Boolean booleano){
+		adminFrame.getBtnCCAAddNew().setEnabled(booleano);
+		adminFrame.getBtnCCAddNew().setEnabled(booleano);
+		adminFrame.getBtnCCADelete().setEnabled(!booleano);
+		adminFrame.getBtnCCSave().setEnabled(!booleano);
+		adminFrame.getBtnCCASave().setEnabled(!booleano);
+		adminFrame.getBtnCCAUpdate().setEnabled(!booleano);
+		adminFrame.getBtnCCDelete().setEnabled(!booleano);
+		adminFrame.getBtnCCAUpdate().setEnabled(!booleano);
+		adminFrame.getBtnCCUpdate().setEnabled(!booleano);
+	}
+	
 	
 	private void setCCTextFields(Boolean booleano, String status){
 		if(status.equals("all")){
