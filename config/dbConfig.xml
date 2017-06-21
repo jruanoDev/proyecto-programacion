@@ -2,4 +2,5 @@
   <dbUrl>localhost:3306/proyecto</dbUrl>
   <dbUser>root</dbUser>
   <dbPassword>ProyectoProgramacion</dbPassword>
+  <userID>1112</userID>
 </dbConfig>
