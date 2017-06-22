@@ -44,6 +44,7 @@ public class MedicalCenterDAO implements IMedicalCenterDAO {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error al crear el centro, por favor, compruébe los campos introducidos.", "Error", 
 					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
 		
 		if(rows != 0)
@@ -76,16 +77,16 @@ public class MedicalCenterDAO implements IMedicalCenterDAO {
 
 	@Override
 	public List<MedicalCenter> getAllMedicalCenters() {
-		sql = "SELECT centerId, location, centerName, postalCode, phoneNumber FROM centers";
+		sql = "SELECT id, address, name, postal_code, phone_number FROM centers";
 		try {
 			statement = dbConnection.createStatement();
 			resultSet = statement.executeQuery(sql);
+			
 			while(resultSet.next()){
-				center.setCenterId(resultSet.getString(1));
-				center.setLocation(resultSet.getString(2));
-				center.setCenterName(resultSet.getString(3));
-				center.setPostalCode(resultSet.getString(4));
-				center.setPhoneNumber(resultSet.getString(5));
+				
+				center = new MedicalCenter(resultSet.getString("id"), resultSet.getString("address"), resultSet.getString("name"),
+						resultSet.getString("postal_code"), resultSet.getString("phone_number"));
+				
 				centersList.add(center);
 			}
 		} catch (SQLException e) {
@@ -107,8 +108,7 @@ public class MedicalCenterDAO implements IMedicalCenterDAO {
 			rows = preparedStatement.executeUpdate();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Error a la hora de eliminar un centro por id.");
+			JOptionPane.showMessageDialog(null, "Error al eliminar el Centro", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		
 		if(rows != 0)
@@ -120,7 +120,7 @@ public class MedicalCenterDAO implements IMedicalCenterDAO {
 	public boolean updateCenter(MedicalCenter center) {
 		success = false;
 
-		sql = "UPDATE centers SET centerId=?, location=?, centerName=?, postalCode=?, phoneNumber=? WHERE id=?";
+		sql = "UPDATE centers SET id=?, address=?, name=?, postal_code=?, phone_number=? WHERE id=?";
 		try {
 			preparedStatement = dbConnection.prepareStatement(sql);
 			preparedStatement.setString(1, center.getCenterId());
@@ -132,7 +132,7 @@ public class MedicalCenterDAO implements IMedicalCenterDAO {
 			rows = preparedStatement.executeUpdate();
 			
 		} catch (SQLException e) {
-			System.out.println("Error a la hora de actualizar un centro.");
+			JOptionPane.showMessageDialog(null, "Error al actualizar el centro, compruebe los datos", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		
 		if(rows != 0)

@@ -11,8 +11,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import com.proyectogestioncitas.app.App;
-import com.proyectogestioncitas.model.Conexion;
-import com.proyectogestioncitas.model.DataBaseController;
 import com.proyectogestioncitas.model.interfaces.IClientDAO;
 import com.proyectogestioncitas.model.pojo.Client;
 
@@ -95,9 +93,6 @@ public class ClientDAO implements IClientDAO {
 		 */
 		try {
 			Statement updateStatement = connection.createStatement();
-			
-			if(updateStatement == null)
-				System.out.println("eS NULO");
 
 			resultSet = updateStatement.executeQuery(sql);
 			

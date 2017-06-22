@@ -3,7 +3,6 @@ package com.proyectogestioncitas.model.interfaces;
 import java.util.List;
 
 import com.proyectogestioncitas.model.pojo.Appointment;
-import com.proyectogestioncitas.model.pojo.Client;
 
 public interface IAppointmentDAO {
 	/**
@@ -13,11 +12,11 @@ public interface IAppointmentDAO {
 	 * 
 	 * ----------------DESCOMENTAR ÚLTIMO METODO TRAS RELACION ENTRE CLIENTE Y CITA
 	 */
-	boolean createNewAppointment(Appointment appointment);
+	boolean createNewAppointment(Appointment appointment, String id, String name);
 	List<Appointment> getAppointmentsForClient(String clientId);
 	List<Appointment> getAllAppointments();
 	boolean deleteAppointmentByID(Appointment appointment);
-	boolean updateAppointment(Appointment appointment);
+	boolean updateAppointment(Appointment appointment, String checkDay, String checkHour);
 	List<Appointment> getUnusedAppointments();
 	
 	//List<Appointment> getAppointmentsForClient(Client client);

@@ -1,6 +1,5 @@
 package com.proyectogestioncitas.controler;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.event.ListSelectionEvent;
@@ -11,7 +10,6 @@ import javax.swing.table.AbstractTableModel;
 
 import com.proyectogestioncitas.model.dao.MedicalCenterDAO;
 import com.proyectogestioncitas.model.pojo.MedicalCenter;
-import com.proyectogestioncitas.view.AdministrationFrame;
 
 @SuppressWarnings("serial")
 public class MedicalCenterTableModel extends AbstractTableModel implements TableModelListener, ListSelectionListener{
@@ -25,6 +23,7 @@ public class MedicalCenterTableModel extends AbstractTableModel implements Table
 			"Phone number"
 	};
 	
+	@SuppressWarnings("static-access")
 	private static Object[][] tableData = new MedicalCenterTableModel().addCentersToTableData(new MedicalCenterDAO());
 
 	public MedicalCenterTableModel() {
@@ -77,33 +76,23 @@ public class MedicalCenterTableModel extends AbstractTableModel implements Table
 		
 		
 	}
-	/**
-	 * MODIFICAR CÓDIGO
-	 * @param appDao
-	 * @return
-	 */
+	
 	public static Object[][] addCentersToTableData(MedicalCenterDAO centerDAO){
 			
-			//List<MedicalCenter> centerList = centerDAO.getAllMedicalCenters();
-			
-			//new MedicalCenter(centerId, location, centerName, postalCode, phoneNumber)
-			List<MedicalCenter> centerList = new ArrayList<>();
-			System.out.println("Pintando tabla");
-			centerList.add(new MedicalCenter("IdExample", "Locatio", "NombreCentro", "CodigoPostal", "PhoneNumber"));
-			centerList.add(new MedicalCenter("id", "loc", "centerName", "cp", "phoneNumber"));
-			
-			int rows = centerList.size();
-			int columns = columnNames.length;
-			
-			Object dataTable[][] = new Object[rows][columns];
-			
-			for(int i = 0; i < rows ; i++){
-				MedicalCenter center = centerList.get(i);
-				dataTable[i] = new Object[]{center.getCenterId(), center.getLocation(), center.getCenterName(),
-						center.getPostalCode(), center.getPhoneNumber()};
-			}
-			
-			return dataTable; 
-		}		
+		List<MedicalCenter> centerList = centerDAO.getAllMedicalCenters();
+		
+		int rows = centerList.size();
+		int columns = columnNames.length;
+		
+		Object dataTable[][] = new Object[rows][columns];
+		
+		for(int i = 0; i < rows ; i++){
+			MedicalCenter center = centerList.get(i);
+			dataTable[i] = new Object[]{center.getCenterId(), center.getLocation(), center.getCenterName(),
+					center.getPostalCode(), center.getPhoneNumber()};
+		}
+		
+		return dataTable; 
+	}		
 
 }

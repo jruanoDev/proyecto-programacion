@@ -5,7 +5,6 @@ public class Appointment {
 	private String day;
 	private String time;
 	private String associatedCenter;
-	//id
 	
 	public Appointment(String day, String time, String associatedCenter) {
 		super();

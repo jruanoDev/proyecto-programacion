@@ -1,7 +1,5 @@
 package com.proyectogestioncitas.controler;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.event.ListSelectionEvent;
@@ -9,14 +7,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 
 import com.proyectogestioncitas.model.dao.ClientDAO;
 import com.proyectogestioncitas.model.pojo.Client;
-import com.proyectogestioncitas.view.AdministrationFrame;
-
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 
 @SuppressWarnings("serial")
 public class ClientTableModel extends AbstractTableModel implements TableModelListener, ListSelectionListener{
