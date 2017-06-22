@@ -158,4 +158,26 @@ public class AppointmentDAO implements IAppointmentDAO {
 		
 		return unusedAppointments;
 	}
+
+	@Override
+	public boolean fillAnAppointment(Appointment appointment, String clientId, String clientName) {
+		success = false;
+		
+		sql = "UPDATE dates SET client_name=?, client_id=? WHERE day=? AND hour=? AND center=?";
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, clientId);
+			preparedStatement.setString(2, clientName);
+			preparedStatement.setString(3, appointment.getDay());
+			preparedStatement.setString(4, appointment.getTime());
+			preparedStatement.setString(5, appointment.getAssociatedCenter());
+			rows = preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Error filling an appointment in the table 'dates'.", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		if(rows != 0)
+			success = true;
+		return success;
+	}
 }

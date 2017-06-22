@@ -19,6 +19,7 @@ public interface IAppointmentDAO {
 	boolean deleteAppointmentByID(Appointment appointment);
 	boolean updateAppointment(Appointment appointment);
 	List<Appointment> getUnusedAppointments();
+	boolean fillAnAppointment(Appointment appointment, String clientId, String clientName);
 	
 	//List<Appointment> getAppointmentsForClient(Client client);
 	

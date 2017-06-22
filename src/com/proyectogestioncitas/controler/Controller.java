@@ -282,6 +282,7 @@ public class Controller implements ActionListener {
 		}
 		
 		if(e.getActionCommand().equals("Send")) {
+			System.out.println("Send");
 			String email = loginFrame.getTextField_REmail().getText();
 			String name = loginFrame.getTextField_RName().getText();
 			String surname = loginFrame.getTextField_RSurnames().getText();
@@ -294,34 +295,61 @@ public class Controller implements ActionListener {
 			
 			dbController.checkUserEmail(email);
 			
-			String emailRegExp = "[a-zA-Z0-9_-]*@[a-zA-Z0-9_-]*.[a-z]{1,3}+";
+			String emailRegExp = "\\b[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}\\b";
+			String birthDateRegExp = "[0-9]{4}-[0-12]{2}-[0-31]{2}"; //\\d{4}-\\d{2}-\\d{2}
 			
-			if(!email.equals("") || !name.equals("") || !surname.equals("") || !id.equals("") || !password.equals("") ||
-					!repPassword.equals("") || !birthDate.equals("")) {
+			
+			if(email.equals("") || name.equals("") || surname.equals("") || id.equals("") || password.equals("") ||
+					repPassword.equals("") || birthDate.equals("")) {				
+				JOptionPane.showMessageDialog(null, "Los campos no son correctos, no pueden estar vacíos.", "Error",
+						JOptionPane.ERROR_MESSAGE);			
+			} else{
 				if(password.equals(repPassword)) {
 					if(email.matches(emailRegExp)) {
-						if(dbController.checkUserEmail(email)) {
-							if(dbController.checkUserID(id)) {
-								dbController.registerUser(email, name, surname, id, repPassword, birthDate);
+						if(birthDate.matches(birthDateRegExp)){
+							if(dbController.checkUserEmail(email)) {
+								if(dbController.checkUserID(id)) {
+									dbController.registerUser(email, name, surname, id, repPassword, birthDate);
+									//Hacer login
+									dbController = new DataBaseController(dbConnection);
+									
+									String loginR = loginFrame.getTextField_RID().getText();
+									@SuppressWarnings("deprecation")
+									String passwordR = loginFrame.getPasswordField_RPassword().getText();
+												
+									if(dbController.logUser(loginR, passwordR)) {
+										ClientFrame cFrame = new ClientFrame();
+										new Controller(cFrame, clientDao);
+										cFrame.setVisible(true);
+										
+										App.closeLoginFrame();
+										
+										XMLFile xmlFile = new XMLFile(new File("config/dbConfig.xml"));
+										xmlFile.writeUserID(loginR);
+										
+										dbController.writeUserDataOnGUI(cFrame);
+										
+									} else {
+										JOptionPane.showMessageDialog(null, "Usuario/Contraseña incorrectos", "Error inicio sesión", JOptionPane.ERROR_MESSAGE);
+									}
+								} else {
+									JOptionPane.showMessageDialog(null, "El ID introducido ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
+								}
+								
 							} else {
-								JOptionPane.showMessageDialog(null, "El ID introducido ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, "El email introducido ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
 							}
-							
-						} else {
-							JOptionPane.showMessageDialog(null, "El email introducido ya existe.", "Error", JOptionPane.ERROR_MESSAGE);
+						}else{
+							JOptionPane.showMessageDialog(null, "Lo introducido no es una fecha válido. \n" + "Formato: 1990-01-01", "Error", JOptionPane.ERROR_MESSAGE);
 						}
-						
+					}else{
+						JOptionPane.showMessageDialog(null, "Lo introducido no es un e-mail válido.", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 					
 				} else {
 					JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-				
-			} else {
-				JOptionPane.showMessageDialog(null, "Los campos no son correctos, no pueden estar vacíos.", "Error",
-						JOptionPane.ERROR_MESSAGE);
 			}
-			
 		}
 		
 		if(e.getActionCommand().equals("Admin Login")) {
@@ -343,6 +371,8 @@ public class Controller implements ActionListener {
 				AdministrationFrame adminFrame = new AdministrationFrame();
 				new Controller(adminFrame, new ClientDAO(), new MedicalCenterDAO(), new AppointmentDAO());
 				adminFrame.setVisible(true);
+			}else{
+				JOptionPane.showMessageDialog(null, "The administrator user is not in the Database or the password is incorrect.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
@@ -918,10 +948,14 @@ public class Controller implements ActionListener {
 		String associatedCenter = clientFrame.getTextField_assCenter().getText();
 		String email = clientFrame.getTextField_email().getText();
 		
-		ApplyForAnAppointmentConfiguration apply = new ApplyForAnAppointmentConfiguration(name, surname, birthDate, id, associatedCenter, email, 
-				day.toString(), hour.toString(), associatedCenter2.toString());
-		apply.downloadPdfToDesktop();
-		apply.sendEmailToClient();
+		if(new AppointmentDAO().fillAnAppointment(new Appointment(day.toString(), hour.toString(), associatedCenter2.toString()), id, name)){
+			ApplyForAnAppointmentConfiguration apply = new ApplyForAnAppointmentConfiguration(name, surname, birthDate, id, associatedCenter, email, 
+					day.toString(), hour.toString(), associatedCenter2.toString());
+			apply.downloadPdfToDesktop();
+			apply.sendEmailToClient();
+		}else{
+			JOptionPane.showMessageDialog(null, "The appointment was not filled in the dates table.", "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	public void setClientWithRowParams(Client client){
