@@ -172,8 +172,8 @@ public class AppointmentDAO implements IAppointmentDAO {
 		sql = "UPDATE dates SET client_name=?, client_id=? WHERE day=? AND hour=? AND center=?";
 		try {
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1, clientId);
-			preparedStatement.setString(2, clientName);
+			preparedStatement.setString(1, clientName);
+			preparedStatement.setString(2, clientId);
 			preparedStatement.setString(3, appointment.getDay());
 			preparedStatement.setString(4, appointment.getTime());
 			preparedStatement.setString(5, appointment.getAssociatedCenter());
