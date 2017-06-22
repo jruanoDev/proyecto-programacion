@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import com.proyectogestioncitas.app.App;
 import com.proyectogestioncitas.controler.Controller;
+import com.proyectogestioncitas.model.dao.ClientDAO;
 import com.proyectogestioncitas.model.dao.MedicalCenterDAO;
 import com.proyectogestioncitas.model.pojo.Client;
 import com.proyectogestioncitas.view.CheckTableErrorDialog;
@@ -88,7 +89,7 @@ public class DataBaseController {
 			
 			
 			String createClients = "CREATE TABLE clients (" + 
-								"email VARCHAR(20) NOT NULL UNIQUE," + 
+								"email VARCHAR(40) NOT NULL UNIQUE," + 
 								"name VARCHAR(15) NOT NULL," + 
 								"surname VARCHAR(20) NOT NULL," + 
 								"id VARCHAR(9) NOT NULL UNIQUE," + 
@@ -252,22 +253,12 @@ public class DataBaseController {
 	public boolean registerUser(String email, String name, String surname, String id, String password, String birthDate) {
 		boolean check = false;
 		
-		String registerSql = "INSERT INTO clients VALUES (?,?,?,?,?,?,?)";
+		Client client = new Client(name, surname, id, birthDate, email, password, "1");
 		
 		try {
-			PreparedStatement registerStatement = dbConnection.prepareStatement(registerSql);
+			new ClientDAO().createNewClient(client);
 			
-			registerStatement.setString(1, email);
-			registerStatement.setString(2, name);
-			registerStatement.setString(3, surname);
-			registerStatement.setString(4, id);
-			registerStatement.setString(5, password);
-			registerStatement.setString(6, birthDate);
-			registerStatement.setString(7, MedicalCenterDAO.getMedicalCenterId()); //OBTENER EL CENTRO DE LA BBDD
-			
-			check = registerStatement.execute();
-			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Error en el registro, compruebe los datos.", "Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
@@ -286,14 +277,16 @@ public class DataBaseController {
 			
 			ResultSet emailRSet = checkStatement.executeQuery();
 			
+			if(!emailRSet.next())
+				check = true;
+			
 			while(emailRSet.next()) {
 				if(!emailRSet.getString("email").equals(email))
 					check = true;
 					
 			}
 			
-			if(!emailRSet.next())
-				check = true;
+			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
