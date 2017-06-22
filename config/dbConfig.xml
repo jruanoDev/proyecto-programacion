@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><dbConfig>
-  <dbUrl>localhost:3306/proyecto</dbUrl>
-  <dbUser>root</dbUser>
-  <dbPassword>ProyectoProgramacion</dbPassword>
-  <userID>44556684Z</userID>
+  <dbUrl>none</dbUrl>
+  <dbUser>none</dbUser>
+  <dbPassword>none</dbPassword>
+  <userID>none</userID>
 </dbConfig>
