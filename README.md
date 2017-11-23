@@ -4,7 +4,7 @@ Created by **Jose María Ruano** and **Óscar Caparrós**
 
 This is a small proyect for Programación 1º DAM, is a small program that allows you to make appointments on a Center and manage users, hours, dates, etc.
 
-# Set-Up the enviroment
+# Set-Up the environment
 
 You need MySql as DataBase, to install it, follow this simple steps:
 
